@@ -1,0 +1,18 @@
+{
+  "name": "blockade-box-server",
+  "version": "4.0.1",
+  "description": "Multiplayer + leaderboard server for Blockade Board",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
