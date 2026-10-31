@@ -257,8 +257,9 @@ app.get('/api/leaderboard', (req, res) => {
   res.json({ top, rank: idx >= 0 ? idx + 1 : all.length + 1 });
 });
 
-/* ---------- Health ---------- */
-app.get('/', (req, res) => res.send('Blockade Board server is running.'));
+/* ---------- Game page + Health ---------- */
+/* The game page itself (only index.html is exposed, never server.js / package.json) */
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/health', (req, res) => res.json({ ok: true, rooms: rooms.size }));
 
 server.listen(PORT, () => console.log('Blockade Board server listening on ' + PORT));
