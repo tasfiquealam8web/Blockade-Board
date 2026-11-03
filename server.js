@@ -1,7 +1,8 @@
 /* Blockade Board server (Socket.io relay + rooms + leaderboard)
    Run on Render:  Build: npm install   Start: npm start
-   Optional env:   PORT (set by Render), DATA_DIR (default ./data),
-                   SUPABASE_URL + SUPABASE_ANON_KEY (verify logged-in users for the leaderboard) */
+   Env:   PORT (set by Render), DATA_DIR (default ./data, fallback only)
+          SUPABASE_URL + SUPABASE_ANON_KEY   (verify logged-in users)
+          SUPABASE_SERVICE_KEY               (service_role key: stores the leaderboard permanently; NEVER put it in index.html) */
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -11,10 +12,13 @@ const { Server } = require('socket.io');
 
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
-const SB_URL = process.env.SUPABASE_URL || '';
+const SB_URL = (process.env.SUPABASE_URL || '').replace(/\/+$/, '');
 const SB_KEY = process.env.SUPABASE_ANON_KEY || '';
+const SB_SVC = process.env.SUPABASE_SERVICE_KEY || '';
+const useDB = !!(SB_URL && SB_SVC);
 
 const app = express();
+app.set('trust proxy', 1); // Render sits behind a proxy: use the real client IP for rate limiting
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 
@@ -203,15 +207,27 @@ app.get('/api/rooms', (req, res) => {
   res.json({ rooms: list.slice(0, 30) });
 });
 
-/* ---------- Leaderboard (JSON file; Render's free disk is wiped on redeploy) ---------- */
+/* ---------- Leaderboard ----------
+   Permanent storage = Supabase table public.leaderboard (see leaderboard.sql), written with the service key.
+   Render's free disk is wiped on every restart / redeploy / spin-down, so the JSON file is only a fallback
+   (used when SUPABASE_SERVICE_KEY is not set, or Supabase is briefly unreachable). */
 const LB_FILE = path.join(DATA_DIR, 'leaderboard.json');
-let LB = {}; // key -> {n,p,gid,t}
+let LB = {}; // key -> {n,p,gid,uid,t}   (fallback store)
 try { fs.mkdirSync(DATA_DIR, { recursive: true }); LB = JSON.parse(fs.readFileSync(LB_FILE, 'utf8')); } catch (e) { LB = {}; }
 let saveT = null;
 const saveLB = () => {
   clearTimeout(saveT);
   saveT = setTimeout(() => fs.writeFile(LB_FILE, JSON.stringify(LB), () => {}), 3000);
 };
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const enc = encodeURIComponent;
+const svcHeaders = extra => Object.assign({ apikey: SB_SVC, Authorization: 'Bearer ' + SB_SVC, 'Content-Type': 'application/json' }, extra || {});
+async function sbRest(method, pathq, body, extra) {
+  const r = await fetch(SB_URL + '/rest/v1/' + pathq, { method, headers: svcHeaders(extra), body: body ? JSON.stringify(body) : undefined });
+  if (!r.ok) throw new Error('supabase ' + r.status + ' ' + (await r.text()).slice(0, 200));
+  return r;
+}
 
 const tokCache = new Map(); // token -> {uid, exp}
 async function verifyUser(userId, token) {
@@ -241,25 +257,73 @@ app.post('/api/leaderboard', async (req, res) => {
   const name = clean(b.name, 14);
   const points = Math.max(0, Math.min(1000000, Math.round(+b.points) || 0));
   if (!gid || !name) return res.status(400).json({ ok: false });
-  const verified = await verifyUser(clean(b.userId, 64), String(b.token || ''));
-  const key = verified ? 'u:' + clean(b.userId, 64) : 'g:' + gid;
+  const userId = clean(b.userId, 64);
+  const verified = UUID_RE.test(userId) && await verifyUser(userId, String(b.token || ''));
+  const key = verified ? 'u:' + userId : 'g:' + gid;
+
+  /* fallback copy (always kept, cheap) */
   if (verified) delete LB['g:' + gid]; // upgrade a guest entry to the account
-  LB[key] = { n: name, p: points, gid, t: Date.now() };
+  LB[key] = { n: name, p: points, gid, uid: verified ? userId : null, t: Date.now() };
   saveLB();
+
+  if (useDB) {
+    try {
+      await sbRest('POST', 'leaderboard?on_conflict=key', { key, name, points, gid, uid: verified ? userId : null, updated_at: new Date().toISOString() },
+        { Prefer: 'resolution=merge-duplicates,return=minimal' });
+      if (verified) {
+        await sbRest('DELETE', 'leaderboard?key=eq.' + enc('g:' + gid), null, { Prefer: 'return=minimal' }).catch(() => {});
+        /* so the client's acctSync() can restore the points on any device after sign-in */
+        await sbRest('PATCH', 'profiles?id=eq.' + userId, { points }, { Prefer: 'return=minimal' }).catch(e => console.warn('[profiles.points]', e.message));
+      }
+      lbCacheT = 0; // next GET reloads
+    } catch (e) { console.warn('[leaderboard save]', e.message); }
+  }
   res.json({ ok: true });
 });
 
-app.get('/api/leaderboard', (req, res) => {
+let lbCache = null, lbCacheT = 0;
+async function dbTop() {
+  if (lbCache && Date.now() - lbCacheT < 8000) return lbCache;
+  const r = await sbRest('GET', 'leaderboard?select=name,points,gid,uid&order=points.desc,updated_at.asc&limit=100');
+  lbCache = await r.json(); lbCacheT = Date.now();
+  return lbCache;
+}
+async function dbRank(id, uid) {
+  let filter = null;
+  if (uid && UUID_RE.test(uid)) filter = 'uid=eq.' + uid; else if (id) filter = 'gid=eq.' + enc(id);
+  if (!filter) return null;
+  const me = await (await sbRest('GET', 'leaderboard?select=points&' + filter + '&limit=1')).json();
+  if (!me.length) return null;
+  const r = await sbRest('GET', 'leaderboard?select=key&points=gt.' + me[0].points + '&limit=1', null, { Prefer: 'count=exact' });
+  const total = +(String(r.headers.get('content-range') || '').split('/')[1]) || 0;
+  return total + 1;
+}
+
+app.get('/api/leaderboard', async (req, res) => {
   const id = clean(req.query.id, 24);
+  const uid = clean(req.query.userId, 64);
+  if (useDB) {
+    try {
+      const rows = await dbTop();
+      const top = rows.map(x => ({ n: x.name, p: x.points, me: (!!id && x.gid === id) || (!!uid && x.uid === uid) }));
+      let rank = top.findIndex(x => x.me) + 1;
+      if (!rank) rank = (await dbRank(id, uid)) || (await dbCount()) + 1;
+      return res.json({ top, rank });
+    } catch (e) { console.warn('[leaderboard read]', e.message); /* fall through to the fallback copy */ }
+  }
   const all = Object.values(LB).sort((a, b) => b.p - a.p || a.t - b.t);
-  const top = all.slice(0, 100).map(x => ({ n: x.n, p: x.p, me: !!id && x.gid === id }));
-  const idx = all.findIndex(x => x.gid === id);
+  const top = all.slice(0, 100).map(x => ({ n: x.n, p: x.p, me: (!!id && x.gid === id) || (!!uid && x.uid === uid) }));
+  const idx = all.findIndex(x => (!!id && x.gid === id) || (!!uid && x.uid === uid));
   res.json({ top, rank: idx >= 0 ? idx + 1 : all.length + 1 });
 });
+async function dbCount() {
+  const r = await sbRest('GET', 'leaderboard?select=key&limit=1', null, { Prefer: 'count=exact' });
+  return +(String(r.headers.get('content-range') || '').split('/')[1]) || 0;
+}
 
 /* ---------- Game page + Health ---------- */
 /* The game page itself (only index.html is exposed, never server.js / package.json) */
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/health', (req, res) => res.json({ ok: true, rooms: rooms.size }));
+app.get('/health', (req, res) => res.json({ ok: true, rooms: rooms.size, lbStore: useDB ? 'supabase' : 'file (temporary)' }));
 
-server.listen(PORT, () => console.log('Blockade Board server listening on ' + PORT));
+server.listen(PORT, () => console.log('Blockade Board server listening on ' + PORT + ' — leaderboard store: ' + (useDB ? 'supabase' : 'file (temporary)')));
