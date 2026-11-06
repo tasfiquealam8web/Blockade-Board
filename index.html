@@ -17,10 +17,12 @@
 <meta property="og:description" content="A free online strategy board game. Race across the grid and block your opponent with walls.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blockade-board.netlify.app/">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="apple-touch-icon" href="favicon-192.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
 <!-- WEB-ONLY:START (stripped from the native APK/iOS build by scripts/build-native.mjs) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ND798R03T7"></script>
@@ -911,9 +913,11 @@ body.mnv #pdm{bottom:var(--nh)}
 .bmg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}
 .bmc{border:1px solid var(--line);background:linear-gradient(120deg,#08122a,#05070d);padding:18px}.bmc p{color:var(--mut);font-size:14px;line-height:1.5;margin:8px 0 12px}
 .bmt{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.bms{margin:0 0 12px}
-#stp{background:#0a0a0b;backdrop-filter:none;align-items:flex-start;overflow-y:auto;padding:48px 16px 32px;z-index:102}
-@media(min-width:901px){body:not(.mob) #menu:not(.hidden)~#stp{left:236px}}
-#menu.hidden~#stp{display:none!important}
+#stp,
+#dvp{background:#0a0a0b;backdrop-filter:none;align-items:flex-start;overflow-y:auto;padding:48px 16px 32px;z-index:102}
+@media(min-width:901px){body:not(.mob) #menu:not(.hidden)~#stp,body:not(.mob) #menu:not(.hidden)~#dvp{left:236px}}
+#menu.hidden~#stp,
+#menu.hidden~#dvp{display:none!important}
 .stb{max-width:880px}.stb h2{font-size:34px;margin:0 0 18px}.sth{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--mut);margin:18px 4px 8px}
 .stc{border:1px solid var(--line);background:#0e0e10;border-radius:12px}.str{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;border-top:1px solid #1b1b1d}.str:first-child{border-top:0}
 .str b{font-size:15px}.str small{display:block;margin-top:4px;font-size:13px;font-weight:500}
@@ -1018,8 +1022,8 @@ body.mnv .mqa{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 body.mnv .live{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;padding:12px;border-radius:12px}
 body.mnv .live .jr{margin:8px 0}body.mnv .live .jr .inp{padding:8px 10px;font-size:16px}
 body.mnv .rl{flex:1;max-height:none;min-height:60px}
-body.mnv #prof,body.mnv #lbp,body.mnv #bmp,body.mnv #stp,body.mnv #fr,body.mnv #pdm,body.mnv #shop,body.mnv #lgl{bottom:var(--nh)}
-body.mnv #prof,body.mnv #lbp,body.mnv #bmp,body.mnv #stp{left:0!important}
+body.mnv #prof,body.mnv #lbp,body.mnv #bmp,body.mnv #stp,body.mnv #fr,body.mnv #pdm,body.mnv #shop,body.mnv #lgl,body.mnv #dvp{bottom:var(--nh)}
+body.mnv #prof,body.mnv #lbp,body.mnv #bmp,body.mnv #stp,body.mnv #dvp{left:0!important}
 body.mnv #mmore{position:fixed;left:0;right:0;top:0;bottom:var(--nh);z-index:104;background:#0a0a0b;overflow-y:auto;padding:max(16px,env(safe-area-inset-top,0px)) 14px 16px}
 body.mnv #mmore:not(.hidden){display:block}
 #mmore h3{margin:4px 4px 12px;font-size:22px;font-weight:900;color:#fff}
@@ -1241,7 +1245,7 @@ body.mnv .live small{font-size:11px}
 body.mnv .rl{flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain}
 body.mnv #mmore{background:#080505}
 body.mnv #mmore .mmg{background:#120a0a;border-color:#2c1717}
-body.mnv #prof,body.mnv #lbp,body.mnv #bmp,body.mnv #stp,body.mnv #fr,body.mnv #pdm,body.mnv #shop,body.mnv #lgl{bottom:var(--nh)}
+body.mnv #prof,body.mnv #lbp,body.mnv #bmp,body.mnv #stp,body.mnv #fr,body.mnv #pdm,body.mnv #shop,body.mnv #lgl,body.mnv #dvp{bottom:var(--nh)}
 body.noon.mnv .opt-quick{display:none}
 
 /* short phones: tighten so the lobby still has room */
@@ -1442,14 +1446,14 @@ body.mnv #mmore .sbi{min-height:var(--m-tap)}
   /* every overlay that is a "page" becomes a true full-screen page.
      The desktop rules use `#menu:not(.hidden)~#id`, so we mirror that specificity. */
   #menu:not(.hidden)~#shop,#menu:not(.hidden)~#lbp,#menu:not(.hidden)~#fr,#menu:not(.hidden)~#bmp,#menu:not(.hidden)~#stp,
-  #shop,#prof,#fr,#lbp,#bmp,#stp,#lgl,#ctl,#dlg,#pkl,#anl,#mvl{
+  #shop,#prof,#fr,#lbp,#bmp,#stp,#lgl,#ctl,#dlg,#pkl,#anl,#mvl,#menu:not(.hidden)~#dvp,#dvp{
     padding:0;align-items:stretch;justify-content:stretch;
     background:#080505;-webkit-backdrop-filter:none;backdrop-filter:none;
   }
   /* the website footer (Rules / Terms / Version...) is copied into every page by JS;
      on a phone it only pushes the real content away, so it is hidden here (Terms and
      Privacy are still in More). */
-  #shop .ftr,#fr .ftr,#lbp .ftr,#bmp .ftr,#stp .ftr{display:none!important}
+  #shop .ftr,#fr .ftr,#lbp .ftr,#bmp .ftr,#stp .ftr,#dvp .ftr{display:none!important}
 }
 
 /* --- Store --- */
@@ -1516,18 +1520,18 @@ body.mnv #mmore .sbi{min-height:var(--m-tap)}
 
 /* --- Friends / Leaderboard / Bot modes / Settings / legal --- */
 @media (max-width:768px){
-  #fr,#lbp,#bmp,#stp,#lgl{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-  #fr .frbx,#lbp .lpb,#bmp .lpb,#stp .lpb,#lgl .lgb{
+  #fr,#lbp,#bmp,#stp,#lgl,#dvp{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  #fr .frbx,#lbp .lpb,#bmp .lpb,#stp .lpb,#lgl .lgb,#dvp .lpb{
     max-width:none;width:100%;margin:0;min-height:100%;
     padding:calc(max(14px,var(--safe-t)) + 54px) var(--m-pad) calc(var(--nh,0px) + 20px);
   }
   /* floating close button, always reachable in the top-right corner */
-  #fr .frx,#lbp .lpx,#bmp .lpx,#stp .lpx,#lgl .lgx{
+  #fr .frx,#lbp .lpx,#bmp .lpx,#stp .lpx,#lgl .lgx,#dvp .lpx{
     position:fixed;top:max(10px,var(--safe-t));right:12px;left:auto;z-index:8;
     width:var(--m-tap);height:var(--m-tap);display:grid;place-items:center;padding:0;border-radius:50%;
     background:#1b1111;border:1px solid #3a1c1c;color:#fff;font-size:16px;
   }
-  #fr .frbx h2,#lbp .lpb h2,#bmp .lpb h2,#stp .lpb h2{font-size:24px;margin-bottom:4px}
+  #fr .frbx h2,#lbp .lpb h2,#bmp .lpb h2,#stp .lpb h2,#dvp .lpb h2{font-size:24px;margin-bottom:4px}
   #fr .fradd{display:flex;gap:8px}
   #fr .fradd .pin{flex:1;min-width:0}
   #fr .fradd .btn{flex:none}
@@ -1539,11 +1543,17 @@ body.mnv #mmore .sbi{min-height:var(--m-tap)}
   .bmc{padding:14px;border-radius:var(--m-r)}
   .bmc .row .btn{min-width:120px}
   /* settings rows: label above, control below when tight */
-  #stp .str{flex-wrap:wrap;gap:10px}
-  #stp .str>div:first-child{flex:1 1 200px}
-  #stp .stsel{min-height:var(--m-tap);max-width:100%}
-  #stp .stseg{width:100%}
-  #stp .stseg .btn{flex:1}
+  #stp .str,
+  
+  #dvp .str{flex-wrap:wrap;gap:10px}
+  #stp .str>div:first-child,
+  #dvp .str>div:first-child{flex:1 1 200px}
+  #stp .stsel,
+  #dvp .stsel{min-height:var(--m-tap);max-width:100%}
+  #stp .stseg,
+  #dvp .stseg{width:100%}
+  #stp .stseg .btn,
+  #dvp .stseg .btn{flex:1}
 }
 
 /* ---------- 5. Bottom sheets + dialogs ---------- */
@@ -1691,6 +1701,21 @@ body:not(.mob):not(.mnv) .hero .hzs{position:absolute;display:block;width:var(--
 body:not(.mob):not(.mnv) .hero::after{content:"";position:absolute;top:-30%;left:0;width:38%;height:160%;pointer-events:none;z-index:0;background:radial-gradient(ellipse,rgba(239,68,68,.16),transparent 65%);animation:bbDrift 20s ease-in-out infinite alternate}
 body:not(.mob):not(.mnv) .hero .rk{animation:bbBorder 5s ease-in-out infinite}
 body:not(.mob):not(.mnv) .hero .rk b{animation:bbNum 5s ease-in-out infinite}
+
+/* ===== PC: big glowing curved laurel wings tucked BEHIND the banner, full banner height (gentle sway) ===== */
+.hzo{display:none}
+@media(min-width:1000px){
+body:not(.mob):not(.mnv) .herow{position:relative}
+body:not(.mob):not(.mnv) .herow>.hero{z-index:1}
+body:not(.mob):not(.mnv) .herow:not(.nofit) .hzo{display:block;position:absolute;top:-8px;height:calc(100% + 16px);aspect-ratio:1/2;pointer-events:none;z-index:0;filter:drop-shadow(0 0 9px rgba(255,70,70,.8)) drop-shadow(0 0 24px rgba(239,68,68,.5));animation:bbOutGlow 4.5s ease-in-out infinite}
+body:not(.mob):not(.mnv) .herow .hzo-l{right:calc(100% - 56px)}
+body:not(.mob):not(.mnv) .herow .hzo-r{left:calc(100% - 56px);transform:scaleX(-1);animation-delay:-2.2s}
+body:not(.mob):not(.mnv) .herow .hzo svg{display:block;width:100%;height:100%;overflow:visible;transform-origin:70% 90%;animation:bbOutSway 6.5s ease-in-out infinite}
+body:not(.mob):not(.mnv) .herow .hzo-r svg{animation-delay:-3.2s}
+}
+@keyframes bbOutSway{0%,100%{transform:rotate(-1.8deg)}50%{transform:rotate(2.2deg) translateY(-3px)}}
+@keyframes bbOutGlow{0%,100%{opacity:.85}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.hzo,.hzo svg{animation:none!important}}
 @keyframes bbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes bbSwayL{0%,100%{transform:rotate(0)}50%{transform:rotate(-3.2deg)}}
 @keyframes bbSwayO{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
@@ -2543,6 +2568,148 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
 #prof .pin:focus{border-color:#ff1a1a;box-shadow:0 0 0 3px rgba(255,26,26,.20),0 0 18px rgba(255,26,26,.30)}
 #prof .pavc{background:rgba(40,6,6,.72);border:1px solid rgba(255,26,26,.32);color:#ff8f80}
 #prof .lksh{background:radial-gradient(ellipse,rgba(255,26,26,.65),transparent 70%)}
+
+/* ===== PROFILE FX (vortex rings, embers, shimmer, glow) ===== */
+#prof .lkw::before,#prof .lkw::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+#prof .lkw::before{inset:-26%;z-index:-1;background:conic-gradient(from 0deg,rgba(255,42,26,.95),rgba(40,0,0,.05) 25%,rgba(255,122,58,.85) 50%,rgba(40,0,0,.05) 75%,rgba(255,42,26,.95));-webkit-mask:radial-gradient(circle,transparent 62%,#000 65%,#000 82%,transparent 86%);mask:radial-gradient(circle,transparent 62%,#000 65%,#000 82%,transparent 86%);filter:blur(1.2px);animation:pfspin 6s linear infinite}
+#prof .lkw::after{inset:-40%;z-index:-1;border:1px dashed rgba(255,90,60,.38);box-shadow:0 0 40px rgba(255,30,10,.18) inset;animation:pfspin 26s linear infinite reverse}
+#prof .lksh{animation:lksha 3.4s ease-in-out infinite,pfpulse 2.8s ease-in-out infinite}
+#prof .pstage::after{content:"";position:absolute;left:50%;bottom:20%;width:3px;height:3px;border-radius:50%;pointer-events:none;background:#ff7a3a;
+  box-shadow:-90px 0 5px #ff4a1a,-50px -30px 4px #ff7a3a,-20px 10px 4px #ff3a1a,30px -10px 5px #ff7a3a,70px 20px 4px #ff4a1a,110px -20px 5px #ff3a1a,-120px 24px 4px #ff7a3a;
+  animation:pfrise 6.5s linear infinite}
+#prof .pcard,#prof .pt{position:relative}
+#prof .pcard::after,#prof .pt::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,120,90,.15),transparent);animation:pfsheen 6s ease-in-out infinite}
+#prof .pt:nth-child(2n)::after{animation-delay:1.5s}#prof .pt:nth-child(3n)::after{animation-delay:3s}
+#prof .pt:hover,#prof .pcard:hover{transform:translateY(-3px)}
+#prof .pt.nb:not(.lk) .big{display:inline-block;color:#ffd2c8;animation:pfrank 2.2s ease-in-out infinite}
+#prof .pstage .btn{animation:pfglow 2.6s ease-in-out infinite}
+#prof #lkn{text-shadow:0 0 14px rgba(255,40,20,.65)}
+@keyframes pfspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pfpulse{50%{filter:brightness(1.5)}}
+@keyframes pfrise{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(-230px) translateX(16px);opacity:0}}
+@keyframes pfsheen{0%,62%{left:-70%}100%{left:140%}}
+@keyframes pfrank{50%{transform:scale(1.1);text-shadow:0 0 26px #ff2a1a,0 0 6px #ffb36b}}
+@keyframes pfglow{50%{box-shadow:0 0 20px rgba(255,40,20,.6);border-color:#ff5a3a}}
+body.mob #prof .pstage::after,body.mob #prof .pcard::after,body.mob #prof .pt::after{display:none}
+body.mob #prof .lkw::after{display:none}
+@media(prefers-reduced-motion:reduce){#prof .lkw::before,#prof .lkw::after,#prof .pstage::after,#prof .pcard::after,#prof .pt::after,#prof .pstage .btn,#prof .pt.nb .big,#prof .lksh{animation:none!important}}
+/* ===== /PROFILE FX ===== */
+
+/* ---------- Dev Panel (developer-only) ---------- */
+.dv-badge{display:inline-block;margin-left:10px;padding:3px 10px;border:1px solid rgba(34,197,94,.45);background:rgba(34,197,94,.1);color:#4ade80;font-size:12px;font-weight:900;letter-spacing:.08em;vertical-align:middle}
+.dv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}
+.dv-card{border:1px solid var(--line);background:linear-gradient(120deg,#08201a,#05070d);padding:18px}
+.dv-card p{color:var(--mut);font-size:14px;line-height:1.5;margin:8px 0 12px}
+.dv-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0 4px}
+.dv-lab{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--mut);margin:12px 0 6px;text-transform:uppercase}
+.dv-top .dv-lab{margin-top:0}
+.dv-sel{display:block;width:100%;min-width:0;background:#0a0a0b;color:#fff;border:1px solid #2a2a2e;border-radius:8px;padding:11px 12px;font-size:14px}
+.dv-sel:focus{outline:2px solid #22c55e;outline-offset:1px}
+.dv-bots{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:10px}
+.dv-bot{border:1px solid var(--line);border-top:3px solid var(--bc,#3b82f6);background:#0e0e10;border-radius:12px;padding:14px}
+.dv-bh{display:flex;align-items:center;gap:12px;font-size:17px;font-weight:800}
+.dv-prev{width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--tile);border-radius:8px}
+.dv-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.dv-seg .btn{padding:10px 6px;font-size:13px}
+.dv-seg .btn.on{background:#dc2626;border-color:#dc2626;color:#fff}
+.dv-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center}
+.dv-note{color:var(--mut);font-size:12.5px;line-height:1.5;margin:10px 0 0}
+.dv-note b{color:#e2e8f0}
+
+/* Match Control (dev) */
+.mc-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.mc-bar .dv-sel{width:auto;min-width:140px}
+.mc-st{font-size:13px;color:var(--mut)}.mc-st b{color:#4ade80}.mc-st.bad b{color:#f87171}
+.mc-tabs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.mc-tabs .btn.on{outline:2px solid #22c55e}
+.mc-rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.mc-room{border:1px solid var(--line);border-top:3px solid #3b82f6;background:#0e0e10;border-radius:12px;padding:14px}
+.mc-rh{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.mc-rh small{color:var(--mut);font-weight:600}
+.mc-ra{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}.mc-ra .btn{padding:8px 12px;font-size:13px}
+.mc-seat{border-top:1px solid #1f1f23;padding:10px 0}
+.mc-sh{display:flex;justify-content:space-between;gap:8px;align-items:center;font-weight:700;font-size:14px}
+.mc-sh small{color:var(--mut);font-weight:500}
+.mc-sa{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.mc-sa .btn{padding:6px 10px;font-size:12px}
+.mc-risk{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:900;letter-spacing:.05em}
+.mc-risk.ok{background:rgba(34,197,94,.12);color:#4ade80}.mc-risk.mid{background:rgba(250,204,21,.14);color:#facc15}.mc-risk.hi{background:rgba(239,68,68,.16);color:#f87171}
+.mc-why{margin:6px 0 0;padding-left:18px;color:var(--mut);font-size:12px;line-height:1.5}
+.mc-ai{border:1px solid rgba(139,92,246,.4);background:linear-gradient(120deg,#16102b,#05070d);border-radius:12px;padding:12px 14px;margin:12px 0;font-size:13px;line-height:1.5}
+.mc-ai b{color:#c4b5fd}
+.mc-empty{padding:24px;text-align:center;color:var(--mut);border:1px dashed #2a2a2e;border-radius:12px}
+.mc-ban{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);background:#0e0e10;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:13px}
+.mc-ban small{display:block;color:var(--mut)}
+
+/* Live announcements */
+.annw{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:100000;display:flex;flex-direction:column;gap:8px;width:min(580px,calc(100vw - 20px));pointer-events:none}
+.ann{pointer-events:auto;display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;border:1px solid var(--ac,#3b82f6);background:linear-gradient(120deg,color-mix(in srgb,var(--ac,#3b82f6) 22%,#0b0b0e),#0b0b0e 70%);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04) inset;animation:annIn .35s cubic-bezier(.2,.9,.3,1.2)}
+.ann.info{--ac:#3b82f6}.ann.warn{--ac:#f59e0b}.ann.urgent{--ac:#ef4444}.ann.event{--ac:#a855f7}
+.ann .anni{font-style:normal;font-size:22px;line-height:1.1}
+.ann .annb{flex:1;min-width:0}.ann .annb small{display:block;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--ac)}
+.ann .annb span{display:block;font-size:14.5px;line-height:1.4;font-weight:600;word-break:break-word}
+.ann .annt{font-variant-numeric:tabular-nums;color:var(--ac);background:rgba(255,255,255,.08);padding:1px 7px;border-radius:6px}
+.ann .annx{background:none;border:0;color:#9ca3af;font-size:16px;cursor:pointer;padding:2px 4px}
+.ann.urgent{animation:annIn .35s cubic-bezier(.2,.9,.3,1.2),annPulse 2s ease-in-out .4s infinite}
+@keyframes annIn{from{opacity:0;transform:translateY(-16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes annPulse{50%{box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 22px rgba(239,68,68,.45)}}
+.annpv .ann{animation:none;width:100%}
+textarea.dv-sel{resize:vertical;font-family:inherit;line-height:1.4}
+.anr{font-size:13px;margin-top:6px;line-height:1.45}.anr.ok{color:#4ade80}.anr.bad{color:#f87171}.anr.warn{color:#facc15}.anr.info{color:#93c5fd}
+@media (prefers-reduced-motion:reduce){.ann,.ann.urgent{animation:none}}
+
+/* Live analytics */
+.lv-kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.lv-k{border:1px solid var(--line);background:linear-gradient(140deg,#14090a,#08080a);border-radius:12px;padding:12px 14px}
+.lv-k b{display:block;font-size:26px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}.lv-k small{display:block;color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.04em;margin-top:2px}.lv-k i{display:block;font-style:normal;color:#9ca3af;font-size:11px;margin-top:4px}
+.lv-sp{display:block;width:100%;height:90px;border:1px solid var(--line);border-radius:10px;background:#0a0a0c}
+.lv-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:6px}.lv-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.lv-br{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center;font-size:13px;margin:6px 0}.lv-br div{height:10px;background:#18181b;border-radius:6px;overflow:hidden}.lv-br u{display:block;height:100%;border-radius:6px}.lv-br b{text-align:right}
+.lv-tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.lv-t{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}.lv-t th{position:sticky;top:0;background:#101013;text-align:left;padding:10px 12px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);cursor:pointer;white-space:nowrap}.lv-t th.on{color:#fff}
+.lv-t td{padding:9px 12px;border-top:1px solid #1a1a1e;white-space:nowrap}.lv-t td small{margin-left:6px;color:var(--mut)}
+.lv-p{padding:2px 8px;border-radius:99px;font-weight:800;font-size:12px;background:#1f1f23;color:#9ca3af}.lv-p.good{background:rgba(34,197,94,.14);color:#4ade80}.lv-p.ok{background:rgba(250,204,21,.14);color:#facc15}.lv-p.bad{background:rgba(239,68,68,.16);color:#f87171}
+
+/* Server health */
+.hp{position:absolute;top:4px;right:0;display:flex;align-items:center;gap:10px;padding:7px 12px;border:1px solid var(--line);background:#0c0c0f;border-radius:12px;color:#fff;cursor:pointer;font:inherit;text-align:left;z-index:2}
+.hp i{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 0 0 currentColor}
+.hp.ok i{animation:hpp 2.4s ease-out infinite;color:rgba(34,197,94,.6)}.hp.down i{animation:hpp 1s ease-out infinite;color:rgba(239,68,68,.7)}.hp.warn i{animation:hpp 1.6s ease-out infinite;color:rgba(245,158,11,.6)}
+.hp.down{border-color:#7f1d1d}.hp.warn{border-color:#78561b}
+.hp span{display:flex;flex-direction:column;line-height:1.25}.hp b{font-size:12.5px}.hp small{font-size:11px;color:var(--mut);white-space:nowrap}
+@keyframes hpp{0%{box-shadow:0 0 0 0 currentColor}100%{box-shadow:0 0 0 8px rgba(0,0,0,0)}}
+@media (max-width:760px){.hp{position:static;margin:0 0 10px;width:100%}}
+@media (prefers-reduced-motion:reduce){.hp i{animation:none!important}}
+.hl-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:14px}
+.hl-c{border:1px solid var(--line);background:#0b0b0d;border-radius:12px;padding:12px 14px}
+.hl-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}.hl-h b{font-size:13px}.hl-h small{color:var(--mut);font-size:12px}
+.hl-s{display:block;width:100%;height:110px}.hl-e{height:110px;border:1px dashed #2a2a2e;border-radius:8px}
+.lv-k.bad{border-color:#7f1d1d}.lv-k.bad b{color:#f87171}.lv-k.warn{border-color:#78561b}.lv-k.warn b{color:#facc15}.lv-k.good b{color:#4ade80}
+
+/* ===== Gem gifts: Dev Panel "Send Gems" form + the player's gift popup ===== */
+.gf-form{display:grid;gap:8px;max-width:560px;margin-top:14px}
+.gf-in{width:100%;box-sizing:border-box;background:#05070d;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px 14px;font:inherit;font-size:16px}
+.gf-in:focus{outline:2px solid #facc15;outline-offset:1px}
+textarea.gf-in{resize:vertical;min-height:84px}
+.gf-chips{display:flex;gap:8px;flex-wrap:wrap}
+.gf-msg{min-height:20px;font-size:14px;font-weight:700;line-height:1.4}
+.gf-msg.ok{color:#4ade80}.gf-msg.bad{color:#f87171}
+.gf-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-top:8px;font-size:14px}
+.gf-h small{color:var(--mut);display:block;margin-top:2px}
+.gf-h .st{font-weight:800;white-space:nowrap}.gf-h .st.ok{color:#4ade80}.gf-h .st.wait{color:#facc15}
+#gfp{z-index:140}
+.gfc{position:relative;width:100%;max-width:380px;text-align:center;padding:30px 22px 24px;border-radius:22px;border:1px solid #7f1d1d;background:radial-gradient(120% 90% at 50% 0%,#3b0d0d 0%,#12060a 60%,#05070d 100%);box-shadow:0 0 0 1px rgba(250,204,21,.25),0 20px 70px rgba(220,38,38,.35);animation:gfpop .5s cubic-bezier(.2,1.4,.4,1) both}
+.gfi{font-size:68px;line-height:1;filter:drop-shadow(0 6px 18px rgba(250,204,21,.5));animation:gfbob 1.8s ease-in-out infinite}
+.gfc h3{margin:12px 0 4px;font-size:22px;font-weight:900;color:#fff}
+.gfa{font-family:Rajdhani,Inter,sans-serif;font-size:46px;font-weight:700;color:#facc15;line-height:1.1;margin:6px 0}
+.gff{color:var(--mut);font-size:14px}.gff b{color:#fff}
+.gfnote{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.06);color:#e5e7eb;font-size:15px;line-height:1.45;word-break:break-word;white-space:pre-wrap}
+.gfc .btn{margin-top:18px;width:100%;padding:14px}
+@keyframes gfpop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes gfbob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){.gfc,.gfi{animation:none}}
+</style>
+<style id="ac-font">
+/* American Captain as the base font everywhere. Put AmericanCaptain.woff2 (and/or .ttf) in /fonts next to index.html. Falls back to Inter until the file is there. */
+@font-face{font-family:'American Captain';font-style:normal;font-weight:100 900;font-display:swap;src:local('American Captain'),local('AmericanCaptain'),url('/fonts/AmericanCaptain.woff2') format('woff2'),url('/fonts/AmericanCaptain.ttf') format('truetype'),url('/fonts/AmericanCaptain.otf') format('opentype')}
+*,*::before,*::after{font-family:'American Captain',Inter,'Segoe UI',system-ui,sans-serif!important}
 </style>
 </head>
 <body>
@@ -2555,7 +2722,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
   </section>
   <aside class="side">
     <div class="card row">
-      <div class="row" style="justify-content:flex-start;gap:12px"><div class="logo"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Blockade Board"><defs><linearGradient id="lbg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ef4444"/><stop offset="1" stop-color="#b91c1c"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#lbg1)"/><text x="32" y="46.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="40" fill="#fff">B</text></svg></div><div><b style="font-size:16px">BLOCKADE BOARD</b><br><small>v4.0 · Arena Edition</small></div></div>
+      <div class="row" style="justify-content:flex-start;gap:12px"><div class="logo"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Blockade Board"><defs><linearGradient id="lbg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ef4444"/><stop offset="1" stop-color="#b91c1c"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#lbg1)"/><text x="32" y="46.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="40" fill="#fff">B</text></svg></div><div><b style="font-size:16px">BLOCKADE BOARD</b><br><small>v5.0.3 · Arena Edition</small></div></div>
       <div class="row" style="gap:8px"><button class="btn snb" data-do="snd">🔊</button><button class="btn" data-do="tut" aria-label="How to play">❓</button><button class="btn" data-do="menu">☰</button></div>
     </div>
     <div id="plist" class="plist"></div>
@@ -2573,6 +2740,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
   <button class="sbi" data-do="pdm:open"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4"/></svg></span>Chat<b id="pdmbd" class="frb hidden">0</b></button>
   <button class="sbi" data-do="prof"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Profile</button>
   <button class="sbi" data-do="shop"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5zM9 7a3 3 0 0 1 6 0"/></svg></span>Store</button>
+  <button class="sbi hidden" data-do="dv:open"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>Dev Panel</button>
   <div class="sbsp"></div>
   <div id="sbacc"></div>
   <button class="sbi" data-do="tut"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></span>How to play</button>
@@ -2596,6 +2764,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
   </header>
   <div class="blk mobonly lay"><small>LAYOUT</small><div class="seg3"><button class="btn lbtn" data-do="lay:auto">Auto-rotate</button><button class="btn lbtn" data-do="lay:portrait">Portrait</button><button class="btn lbtn" data-do="lay:landscape">Landscape</button></div></div>
   <div class="mc adp"><span class="ic">💎</span><div><b>Free Gems Reward</b><small>Watch a short ad for +10 gems (ads used: <span id="adn">0/20</span><span id="adr"></span>)</small></div><button id="adb" class="btn adb" data-do="ad:lobby">▶ WATCH AD (+10 💎)</button></div>
+  <div class="herow"><i class="hzo hzo-l" aria-hidden="true"><svg viewBox="-6 -2 100 200"><defs><linearGradient id="bbLo1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#b91c1c"/><stop offset=".5" stop-color="#f87171"/><stop offset="1" stop-color="#ffe4e6"/></linearGradient></defs><path d="M54.0 178.8 L50.8 177.5 L47.7 175.9 L44.7 173.9 L41.7 171.6 L38.8 168.8 L36.1 165.7 L33.5 162.3 L31.0 158.6 L28.7 154.5 L26.5 150.2 L24.5 145.6 L22.7 140.7 L21.1 135.7 L19.8 130.4 L18.6 125.0 L17.6 119.5 L16.9 113.9 L16.4 108.1 L16.1 102.4 L16.0 96.6 L16.2 90.8 L16.6 85.0 L17.2 79.3 L18.1 73.8 L19.1 68.3 L20.4 63.0 L21.9 57.8 L23.6 52.9 L25.5 48.1 L27.5 43.7 L29.8 39.5 L32.2 35.6 L34.7 32.0 L37.4 28.7 L40.2 25.8 L43.1 23.2 L46.2 21.0 L49.2 19.2 L52.4 17.8 L55.6 16.8" fill="none" stroke="url(#bbLo1)" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="34.4" cy="180.3" rx="15.0" ry="5.2" transform="rotate(-194.2 34.4 180.3)" fill="url(#bbLo1)"/><ellipse cx="43.8" cy="162.6" rx="15.0" ry="5.2" transform="rotate(-110.2 43.8 162.6)" fill="url(#bbLo1)"/><ellipse cx="23.7" cy="166.6" rx="14.4" ry="5.0" transform="rotate(-174.6 23.7 166.6)" fill="url(#bbLo1)"/><ellipse cx="37.9" cy="153.6" rx="14.4" ry="5.0" transform="rotate(-90.6 37.9 153.6)" fill="url(#bbLo1)"/><ellipse cx="15.8" cy="150.0" rx="13.8" ry="4.9" transform="rotate(-160.2 15.8 150.0)" fill="url(#bbLo1)"/><ellipse cx="32.0" cy="141.3" rx="13.8" ry="4.9" transform="rotate(-76.2 32.0 141.3)" fill="url(#bbLo1)"/><ellipse cx="10.4" cy="130.7" rx="13.2" ry="4.7" transform="rotate(-149.1 10.4 130.7)" fill="url(#bbLo1)"/><ellipse cx="27.2" cy="125.5" rx="13.2" ry="4.7" transform="rotate(-65.1 27.2 125.5)" fill="url(#bbLo1)"/><ellipse cx="7.7" cy="109.6" rx="12.6" ry="4.6" transform="rotate(-139.9 7.7 109.6)" fill="url(#bbLo1)"/><ellipse cx="24.4" cy="107.3" rx="12.6" ry="4.6" transform="rotate(-55.9 24.4 107.3)" fill="url(#bbLo1)"/><ellipse cx="8.1" cy="87.6" rx="12.0" ry="4.4" transform="rotate(-131.4 8.1 87.6)" fill="url(#bbLo1)"/><ellipse cx="24.1" cy="87.7" rx="12.0" ry="4.4" transform="rotate(-47.4 24.1 87.7)" fill="url(#bbLo1)"/><ellipse cx="11.6" cy="66.0" rx="11.4" ry="4.2" transform="rotate(-122.9 11.6 66.0)" fill="url(#bbLo1)"/><ellipse cx="26.6" cy="68.4" rx="11.4" ry="4.2" transform="rotate(-38.9 26.6 68.4)" fill="url(#bbLo1)"/><ellipse cx="18.2" cy="46.1" rx="10.8" ry="4.1" transform="rotate(-113.5 18.2 46.1)" fill="url(#bbLo1)"/><ellipse cx="31.9" cy="50.7" rx="10.8" ry="4.1" transform="rotate(-29.5 31.9 50.7)" fill="url(#bbLo1)"/><ellipse cx="27.7" cy="29.3" rx="10.2" ry="3.9" transform="rotate(-102.1 27.7 29.3)" fill="url(#bbLo1)"/><ellipse cx="39.6" cy="36.1" rx="10.2" ry="3.9" transform="rotate(-18.1 39.6 36.1)" fill="url(#bbLo1)"/><ellipse cx="39.9" cy="17.0" rx="9.6" ry="3.8" transform="rotate(-87.1 39.9 17.0)" fill="url(#bbLo1)"/><ellipse cx="49.0" cy="26.0" rx="9.6" ry="3.8" transform="rotate(-3.1 49.0 26.0)" fill="url(#bbLo1)"/><ellipse cx="54.1" cy="10.3" rx="9.0" ry="3.6" transform="rotate(-66.7 54.1 10.3)" fill="url(#bbLo1)"/><ellipse cx="59.1" cy="21.3" rx="9.0" ry="3.6" transform="rotate(17.3 59.1 21.3)" fill="url(#bbLo1)"/><ellipse cx="67.7" cy="15.1" rx="9" ry="3.6" transform="rotate(-7.1 67.7 15.1)" fill="url(#bbLo1)"/></svg></i><i class="hzo hzo-r" aria-hidden="true"><svg viewBox="-6 -2 100 200"><defs><linearGradient id="bbLo2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#b91c1c"/><stop offset=".5" stop-color="#f87171"/><stop offset="1" stop-color="#ffe4e6"/></linearGradient></defs><path d="M54.0 178.8 L50.8 177.5 L47.7 175.9 L44.7 173.9 L41.7 171.6 L38.8 168.8 L36.1 165.7 L33.5 162.3 L31.0 158.6 L28.7 154.5 L26.5 150.2 L24.5 145.6 L22.7 140.7 L21.1 135.7 L19.8 130.4 L18.6 125.0 L17.6 119.5 L16.9 113.9 L16.4 108.1 L16.1 102.4 L16.0 96.6 L16.2 90.8 L16.6 85.0 L17.2 79.3 L18.1 73.8 L19.1 68.3 L20.4 63.0 L21.9 57.8 L23.6 52.9 L25.5 48.1 L27.5 43.7 L29.8 39.5 L32.2 35.6 L34.7 32.0 L37.4 28.7 L40.2 25.8 L43.1 23.2 L46.2 21.0 L49.2 19.2 L52.4 17.8 L55.6 16.8" fill="none" stroke="url(#bbLo2)" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="34.4" cy="180.3" rx="15.0" ry="5.2" transform="rotate(-194.2 34.4 180.3)" fill="url(#bbLo2)"/><ellipse cx="43.8" cy="162.6" rx="15.0" ry="5.2" transform="rotate(-110.2 43.8 162.6)" fill="url(#bbLo2)"/><ellipse cx="23.7" cy="166.6" rx="14.4" ry="5.0" transform="rotate(-174.6 23.7 166.6)" fill="url(#bbLo2)"/><ellipse cx="37.9" cy="153.6" rx="14.4" ry="5.0" transform="rotate(-90.6 37.9 153.6)" fill="url(#bbLo2)"/><ellipse cx="15.8" cy="150.0" rx="13.8" ry="4.9" transform="rotate(-160.2 15.8 150.0)" fill="url(#bbLo2)"/><ellipse cx="32.0" cy="141.3" rx="13.8" ry="4.9" transform="rotate(-76.2 32.0 141.3)" fill="url(#bbLo2)"/><ellipse cx="10.4" cy="130.7" rx="13.2" ry="4.7" transform="rotate(-149.1 10.4 130.7)" fill="url(#bbLo2)"/><ellipse cx="27.2" cy="125.5" rx="13.2" ry="4.7" transform="rotate(-65.1 27.2 125.5)" fill="url(#bbLo2)"/><ellipse cx="7.7" cy="109.6" rx="12.6" ry="4.6" transform="rotate(-139.9 7.7 109.6)" fill="url(#bbLo2)"/><ellipse cx="24.4" cy="107.3" rx="12.6" ry="4.6" transform="rotate(-55.9 24.4 107.3)" fill="url(#bbLo2)"/><ellipse cx="8.1" cy="87.6" rx="12.0" ry="4.4" transform="rotate(-131.4 8.1 87.6)" fill="url(#bbLo2)"/><ellipse cx="24.1" cy="87.7" rx="12.0" ry="4.4" transform="rotate(-47.4 24.1 87.7)" fill="url(#bbLo2)"/><ellipse cx="11.6" cy="66.0" rx="11.4" ry="4.2" transform="rotate(-122.9 11.6 66.0)" fill="url(#bbLo2)"/><ellipse cx="26.6" cy="68.4" rx="11.4" ry="4.2" transform="rotate(-38.9 26.6 68.4)" fill="url(#bbLo2)"/><ellipse cx="18.2" cy="46.1" rx="10.8" ry="4.1" transform="rotate(-113.5 18.2 46.1)" fill="url(#bbLo2)"/><ellipse cx="31.9" cy="50.7" rx="10.8" ry="4.1" transform="rotate(-29.5 31.9 50.7)" fill="url(#bbLo2)"/><ellipse cx="27.7" cy="29.3" rx="10.2" ry="3.9" transform="rotate(-102.1 27.7 29.3)" fill="url(#bbLo2)"/><ellipse cx="39.6" cy="36.1" rx="10.2" ry="3.9" transform="rotate(-18.1 39.6 36.1)" fill="url(#bbLo2)"/><ellipse cx="39.9" cy="17.0" rx="9.6" ry="3.8" transform="rotate(-87.1 39.9 17.0)" fill="url(#bbLo2)"/><ellipse cx="49.0" cy="26.0" rx="9.6" ry="3.8" transform="rotate(-3.1 49.0 26.0)" fill="url(#bbLo2)"/><ellipse cx="54.1" cy="10.3" rx="9.0" ry="3.6" transform="rotate(-66.7 54.1 10.3)" fill="url(#bbLo2)"/><ellipse cx="59.1" cy="21.3" rx="9.0" ry="3.6" transform="rotate(17.3 59.1 21.3)" fill="url(#bbLo2)"/><ellipse cx="67.7" cy="15.1" rx="9" ry="3.6" transform="rotate(-7.1 67.7 15.1)" fill="url(#bbLo2)"/></svg></i>
   <section class="hero">
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <linearGradient id="bbLf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fecaca"/><stop offset=".45" stop-color="#ef4444"/><stop offset="1" stop-color="#7f1d1d"/></linearGradient>
@@ -2625,7 +2794,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
 <circle cx="120" cy="143" r="4" fill="url(#bbGm)" stroke="#fff" stroke-opacity=".6" stroke-width=".8"/></svg></i>
     <div class="rk"><small>GLOBAL RANK</small><b id="hr">#–</b><small id="hs2"></small></div>
     <i class="hzs" style="left:8%;top:22%;--d:0s;--t:5.5s;--z:9px"></i><i class="hzs" style="left:21%;top:74%;--d:1.8s;--t:6.5s;--z:7px"></i><i class="hzs" style="left:38%;top:16%;--d:3.1s;--t:7s;--z:8px"></i><i class="hzs" style="left:47%;top:70%;--d:0.9s;--t:6s;--z:6px"></i><i class="hzs" style="left:56%;top:22%;--d:2.4s;--t:5.8s;--z:10px"></i><i class="hzs" style="left:66%;top:76%;--d:4s;--t:7.5s;--z:7px"></i><i class="hzs" style="left:79%;top:18%;--d:1.2s;--t:6.2s;--z:8px"></i><i class="hzs" style="left:90%;top:70%;--d:3.4s;--t:5.6s;--z:9px"></i><i class="hzs" style="left:93%;top:28%;--d:0.4s;--t:7s;--z:6px"></i><i class="hz hz-r" aria-hidden="true"><svg viewBox="0 0 76 128"><use href="#bbLaurel" width="76" height="128"/></svg></i>
-  </section>
+  </section></div>
   <div class="lg">
     <div class="lcol">
       <div class="mlabel lt">🎮 CHOOSE HOW TO PLAY</div>
@@ -2642,7 +2811,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
       </section>
       <section id="rfc" class="foc rfc" aria-label="Your recent form"></section>
       <section id="wnc" class="foc wnc" aria-label="What's new">
-        <div class="foh"><span class="fot"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>What's new</span><span class="fos">Version 5.0.1</span></div>
+        <div class="foh"><span class="fot"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>What's new</span><span class="fos">Version 5.0.3</span></div>
         <div id="wnl"></div>
       </section>
     </div>
@@ -2668,7 +2837,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
     <button class="lkd" data-do="locked:app">Get the App <svg class="lk" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button>
     <button data-do="legal:terms">Terms</button>
     <button data-do="legal:privacy">Privacy</button>
-  </div><div class="ftc"><span>© 2026 Blockade Board · Developed by <b>Tasfique Alam</b></span><span class="ver"><a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a> &middot; Version 5.0.1</span></div></footer>
+  </div><div class="ftc"><span>© 2026 Blockade Board · Developed by <b>Tasfique Alam</b></span><span class="ver"><a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a> &middot; Version 5.0.3</span></div></footer>
 </div></div>
 
 <div id="shop" class="ov hidden" style="z-index:104"><div class="shopbox">
@@ -2693,6 +2862,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
     <button class="sbi" data-do="pdm:open"><span>💬</span>Chat<b id="pdmbd2" class="frb hidden">0</b></button>
     <button class="sbi" data-do="sblb"><span>🏆</span>Ranks</button>
     <button class="sbi" data-do="shop"><span>🛒</span>Store</button>
+    <button class="sbi hidden" data-do="dv:open"><span>🛠️</span>Dev Panel</button>
     <button class="sbi" data-do="dly"><span>🎁</span>Daily reward</button>
     <button class="sbi" data-do="ad:lobby"><span>💎</span>Free gems (watch an ad)</button>
     <button class="sbi" data-do="tut"><span>💡</span>How to play</button>
@@ -2705,7 +2875,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
     <button class="sbi" data-do="locked:prem"><span>💎</span>Premium 🔒</button>
   </div>
   <div class="mmt"><button data-do="legal:terms">Terms</button><button data-do="legal:privacy">Privacy</button></div>
-  <div class="mmf"><span>© 2026 Blockade Board · Developed by <b>Tasfique Alam</b></span><a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a><span>Version 5.0.1</span></div>
+  <div class="mmf"><span>© 2026 Blockade Board · Developed by <b>Tasfique Alam</b></span><a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a><span>Version 5.0.3</span></div>
 </div>
 <div id="auth" class="ov hidden" style="z-index:110"><div class="abx">
   <button class="btn ax" data-do="auth:x" aria-label="Close">✕</button>
@@ -2775,6 +2945,26 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
 <div class="bmc"><div class="bmt">&#127787;&#65039; Fog of War <span class="tag">NEW</span></div><p>The bot's walls stay <b>hidden</b> until they come near your pawn. Dark squares are out of sight. Walls you have seen are remembered as faint ghosts. Plan ahead, the bot may have blocked your road!</p><div class="row" style="gap:8px;justify-content:flex-start"><button class="btn yel" data-do="bm:fp">&#9654; Play</button></div></div>
 <div class="bmc"><div class="bmt">&#129512; Obstacle Board <span class="tag">NEW</span></div><p>Every game starts with random <b>stones</b> &#129512; you cannot walk through, and a pair of <b>portals</b> &#127744;. Step on one portal and you pop out of the other. The layout is mirrored, so it is fair for both sides.</p><div class="row" style="gap:8px;justify-content:flex-start"><button class="btn yel" data-do="bm:op">&#9654; Play</button></div></div>
 </div></div></div>
+<div id="dvp" class="ov hidden"><div class="lpb">
+<button class="lpx" data-do="dv:x" aria-label="Close">&#10005;</button>
+<button type="button" id="dvhp" class="hp wait" data-hp="open" title="Server health"><i style="background:#9ca3af"></i><span><b>Checking…</b><small>–</small></span></button>
+<h2>Dev Panel<span class="dv-badge">DEV ONLY</span></h2><p class="lps">Developer tools. This page is only shown to developers.</p>
+<div id="dvh"><div class="dv-grid">
+<div class="dv-card"><div class="bmt">&#129302; Bot vs Bot Match <span class="tag">WATCH</span></div><p>Pick two (or four) bots, their difficulty, pawn skin, animation and move style, choose the game mode, then watch the match on the normal game board. No points, gems or leaderboard changes.</p><button class="btn yel" data-dv="open-bb">Open</button></div>
+<div class="dv-card"><div class="bmt">&#128737;&#65039; Match Control <span class="tag">LIVE</span></div><p>See every running lobby and room. Reset or close a room, kick or ban players, manage the ban list. Includes the AI Guard moderator that flags AFK, bot-speed, rage-quit, collusion and reported players.</p><button class="btn yel" data-dv="open-mc">Open</button></div>
+<div class="dv-card"><div class="bmt">&#128226; Live Announcements <span class="tag">ALL PLAYERS</span></div><p>Push a banner to every player&rsquo;s screen, e.g. &ldquo;Server update in 5 minutes&rdquo; or &ldquo;Dev Event started!&rdquo;. Live countdown, 4 styles, multi-language. The AI Announcer drafts the message and reviews it before you send.</p><button class="btn yel" data-dv="open-an">Open</button></div>
+<div class="dv-card"><div class="bmt">&#128202; Live Analytics <span class="tag">REAL-TIME</span></div><p>How many players are online right now, who is in which room or mode, each player&rsquo;s ping and gem income. The AI Analyst spots gem farming, lag spikes and player drops.</p><button class="btn yel" data-dv="open-lv">Open</button></div>
+<div class="dv-card"><div class="bmt">&#128421;&#65039; Server Health <span class="tag">MONITOR</span></div><p>Is the game server up? CPU, memory, response time, sockets and errors as live graphs. A status light stays in the corner of the Dev Panel. The AI Ops assistant warns about leaks, overload and cold starts.</p><button class="btn yel" data-dv="open-hl">Open</button></div>
+<div class="dv-card"><div class="bmt">&#127873; Send Gems <span class="tag">GIFT</span></div><p>Gift gems to any player by email, username or user ID, with an optional note. They get a gift popup on their screen the moment it arrives.</p><button class="btn yel" data-dv="open-gf">Open</button></div>
+</div></div>
+<div id="dvbb" class="hidden"></div>
+<div id="dvmc" class="hidden"></div>
+<div id="dvan" class="hidden"></div>
+<div id="dvlv" class="hidden"></div>
+<div id="dvhl" class="hidden"></div>
+<div id="dvgf" class="hidden"></div>
+</div></div>
+<div id="gfp" class="ov hidden" role="dialog" aria-modal="true" aria-label="Gift received"></div>
 <div id="stp" class="ov hidden"><div class="lpb stb"><button class="lpx" data-do="st:x" aria-label="Close">&#10005;</button>
 <h2 data-t="st">Settings</h2>
 <div class="sth" data-t="pref">PREFERENCES</div>
@@ -2813,7 +3003,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
       <div id="pdmcmp" class="pdmcmp"></div>
     </section>
   </div>
-  <div class="pdmft"><span>© 2026 Blockade Board · Developed by <b>Tasfique Alam</b></span><span><a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a> &middot; Version 5.0.1</span></div>
+  <div class="pdmft"><span>© 2026 Blockade Board · Developed by <b>Tasfique Alam</b></span><span><a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a> &middot; Version 5.0.3</span></div>
   <div id="pdmnc" class="pdmnc hidden"><div class="pdmncb">
     <div class="hh"><b>New chat</b><button class="btn sm" data-do="pdm:ncx" aria-label="Close">✕</button></div>
     <label class="pdms" style="margin:0"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="pdmncq" placeholder="Search your friends..." autocomplete="off" maxlength="30"></label>
@@ -3028,7 +3218,7 @@ body.mob .pdmic[data-do="pdm:emo"],body.mob .pdmpop.emo{display:none!important}
 
 <script>
 /* =====================================================================
-   BLOCKADE BOARD v4 — generalised N-player engine
+   BLOCKADE BOARD v5.0.3 — generalised N-player engine
    Modes: classic · race · king · 2v2 · 3pt · ffa   (ids shared with the server)
    Player ids are 1..np and are also the TURN ORDER.
    Teams (2v2 / 3pt): p1,p3 = Team A (blue)   p2,p4 = Team B (red)
@@ -3047,6 +3237,8 @@ const maskBad=t=>String(t==null?'':t).replace(BAD_RE,m=>'*'.repeat(m.length));
 const cleanName=t=>maskBad(String(t||'').replace(/[\u0000-\u001f<>]/g,'').trim().slice(0,24));
 const fmt=ms=>{const s=Math.ceil(Math.max(0,ms)/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
 const board=$('board'),st=$('st'),menu=$('menu'),modal=$('modal');
+const DEV_GEMS=999999;   /* the developer account always has this many gems (never saved to the device) */
+let devUnl=false;        /* true while a signed-in developer (isDev()) is logged in */
 const DEBUG_UNLIMITED_GEMS=false;   /* TEST ONLY: true = unlimited gems. Keep false when publishing! */
 const ONLINE=true;   /* online modes + gems/ads; set false to hide them */
 
@@ -3063,7 +3255,7 @@ const CF={
   king:{N:9,np:2,start:{1:[8,4],2:[0,4]},crowns:[[4,4]],need:1,keep:1,walls:10,clk:300000},
   '2v2':{N:11,np:4,team:[0,1,2,1,2],start:TS,rows:{1:0,2:10},walls:8,clk:600000,turn:40000,bars:1},
   '3pt':{N:11,np:4,team:[0,1,2,1,2],start:TS,crowns:[[5,2],[5,5],[5,8]],need:2,walls:8,clk:600000,turn:40000},
-  ffa:{N:11,np:4,start:{1:[10,0],2:[0,10],3:[0,0],4:[10,10]},crowns:[[5,5]],keep:1,ffa:1,walls:8,turn:40000}
+  ffa:{N:11,np:4,start:{1:[10,5],2:[0,5],3:[5,0],4:[5,10]},crowns:[[5,5]],keep:1,ffa:1,walls:8,turn:40000}
 };
 const GRACE=4000;   /* ms an opponent waits before judging someone else's timeout */
 
@@ -3092,7 +3284,7 @@ const ST={
 };
 let pid='',pname='';
 function loadSaved(){
-  total=DEBUG_UNLIMITED_GEMS?999999:(+ST.get('bb_gems')||0);points=+ST.get('bb_pts')||0;winCnt=+ST.get('bb_wins')||0;{const r=ST.get('bb_wbr');wbClaim=(r===null||r===undefined||r==='')?-1:(+r||0);}adsUsed=+ST.get('bb_ads')||0;adStart=+ST.get('bb_adt')||0;if(adsUsed>0&&!adStart)adStart=Date.now();mute=ST.get('bb_mute')==='1';
+  total=(DEBUG_UNLIMITED_GEMS||devUnl)?DEV_GEMS:(+ST.get('bb_gems')||0);points=+ST.get('bb_pts')||0;winCnt=+ST.get('bb_wins')||0;{const r=ST.get('bb_wbr');wbClaim=(r===null||r===undefined||r==='')?-1:(+r||0);}adsUsed=+ST.get('bb_ads')||0;adStart=+ST.get('bb_adt')||0;if(adsUsed>0&&!adStart)adStart=Date.now();mute=ST.get('bb_mute')==='1';
   try{own=new Set(JSON.parse(ST.get('bb_own')||'[]'));}catch(e){own=new Set();}own.add('0-0');own.add('1-0');   /* Crimson + Azure Solid are free */
   skin=ST.get('bb_skin')||'';if(skin&&!own.has(skin))skin='';
   try{ownA=new Set(JSON.parse(ST.get('bb_ownA')||'[]'));}catch(e){ownA=new Set();}
@@ -3104,7 +3296,7 @@ function loadSaved(){
   $('pn').value=pname;$('pfn').value=pname;{const a=ST.get('bb_avatar');myAv=avOk(a)?a:'';}
   cc=ST.get('bb_cc')||'';if(!CM[cc])cc='';bio=(ST.get('bb_bio')||'').slice(0,120);
 }
-const save=()=>{ST.set('bb_wins',winCnt);ST.set('bb_wbr',wbClaim);if(!DEBUG_UNLIMITED_GEMS)ST.set('bb_gems',total);ST.set('bb_pts',points);ST.set('bb_ads',adsUsed);ST.set('bb_adt',adStart);};
+const save=()=>{if(devUnl)total=DEV_GEMS;ST.set('bb_wins',winCnt);ST.set('bb_wbr',wbClaim);if(!DEBUG_UNLIMITED_GEMS&&!devUnl)ST.set('bb_gems',total);ST.set('bb_pts',points);ST.set('bb_ads',adsUsed);ST.set('bb_adt',adStart);};
 function applyFeatures(){
   document.body.classList.toggle('noon',!ONLINE);
   document.body.classList.toggle('nolb',!LB_API);
@@ -3294,7 +3486,7 @@ function move(r,c){
     if(!cfg.team)return end(PL.filter(q=>cu(q)===cu(p)));
     const u=cu(p),mates=PL.filter(q=>cu(q)===u);
     if(mates.every(q=>pos[q].r===cfg.rows[u]))return end(mates,`${teamName(u)}: both players reached the finish line`);
-    toast(`${nameOf(p)} reached the line. Get your teammate there too!`);
+    toast(`${nameOf(p)} reached the line. Your turns are skipped now - your teammate keeps moving!`);
   }
   next();
 }
@@ -3306,6 +3498,11 @@ function wall(t,r,c){
   if(mode==='local'||turn===myIdx()){mWalls++;if(mode==='bot')dmAdd('w',mWalls,true);}
   W[t][r][c]=turn;wl[turn]--;to[turn]=0;sfx.wall();next();
 }
+/* 2v2 Classic: once a player stands on the finish line they never need to move again - their turn is skipped as long as an active teammate is still on the way. */
+function skipPk(k){
+  if(!cfg.team||!cfg.rows||cfg.crowns||!pos[k]||pos[k].r!==cfg.rows[cu(k)])return false;
+  return PL.some(q=>q!==k&&cu(q)===cu(k)&&act[q]&&pos[q]&&pos[q].r!==cfg.rows[cu(q)]);
+}
 function next(){
   {const ic=tcA()?tcI:cfg.inc;if(ic&&!over)tm[cu(turn)]+=ic;}   /* Blitz / chosen time control: increment per move */
   if(typeof pz!=='undefined'&&pz&&!over){
@@ -3313,7 +3510,7 @@ function next(){
     else if(pz.t==='d'&&pz.n>=pz.lim)return end([1],'You held the line!');
   }
   if(cfg.clk&&tm[cu(turn)]<0)tm[cu(turn)]=0;   /* mover was inside the timeout grace window: their move arrived in time */
-  let k=turn;do{k=k%np+1;}while(!act[k]);
+  let k=turn;do{k=k%np+1;}while(!act[k]||skipPk(k));   /* 2v2: a player already on the finish line is skipped while a teammate still has to get there */
   turn=k;tn++;tl=cfg.turn||0;turnAt=Date.now();
   try{render();}catch(e){console.warn('render failed',e);}   /* a render error must never skip the bot hand-off */
   schedBot();
@@ -3329,7 +3526,7 @@ function popup(t,s){const e=$('pop');e.innerHTML=`<b>${t}</b><small>${esc(s||'')
 
 /* ---------- End of game + points ---------- */
 function end(wins,why){
-  if(over)return;over=true;gamesDone++;if(mode==='bot')botDone++;clearTimeout(botT);
+  if(over)return;over=true;if(devMatch&&mode==='bot'){clearTimeout(botT);return devEnd(wins,why);}gamesDone++;if(mode==='bot')botDone++;clearTimeout(botT);
   const on=mode==='online',loc=mode==='local',q=on&&isQ,me=myIdx(),pl=places[me];
   let win,title,icon,pts=0,col=pc[wins[0]]?.c||'#fff';
   if(cfg.ffa){
@@ -3424,12 +3621,12 @@ function schedBot(){
   clearTimeout(botT);
   if(over||!started||!bt[turn]||!isCtl())return;
   const g=gen,t=turn,k=tn;
-  botT=setTimeout(()=>{if(g===gen&&t===turn&&k===tn)bot();},350+Math.random()*500);
+  botT=setTimeout(()=>{if(g===gen&&t===turn&&k===tn)bot();},((typeof HB!=='undefined'&&HB.live())?HB.delay():(350+Math.random()*500))*(devMatch?devMul():1));
 }
 function bot(){
   const p=turn;
   if(over||!started||!bt[p]||!isCtl())return;
-  if(adPlaying&&mode!=='online'){const g=gen;botT=setTimeout(()=>{if(g===gen)bot();},400);return;}   /* frozen while an ad plays (offline only: online clocks keep running) */
+  if((adPlaying||(devMatch&&!menu.classList.contains('hidden')))&&mode!=='online'){const g=gen;botT=setTimeout(()=>{if(g===gen)bot();},400);return;}   /* frozen while an ad plays (offline only: online clocks keep running) */
   try{botThink(p);}catch(e){
     console.warn('bot error',e);
     if(over||turn!==p)return;
@@ -3463,7 +3660,7 @@ function botThink(p){
 }
 
 /* ---------- Game setup ---------- */
-function reset(sync){mvfx=null;mWalls=0;
+function reset(sync){if(mode!=='bot')devMatch=false;mvfx=null;mWalls=0;
   clearTimeout(botT);gen++;
   cfg=CF[gmode];N=cfg.N;np=cfg.np;PL=Array.from({length:np},(_,i)=>i+1);
   over=false;turn=1;tn=0;resigned=false;adDone=false;
@@ -3483,6 +3680,7 @@ function reset(sync){mvfx=null;mWalls=0;
     names={};skins={1:skin};anims={};mvs={};PL.forEach(p=>{if(p===1||mode==='local'){anims[p]=anim;mvs[p]=mvk;}});   /* Pass & Play: every seat on this device uses the equipped animation */
     PL.forEach(p=>names[p]=mode==='local'?`Player ${p}`:p===1?'You':`Bot${np>2?' '+p:''} (${diff[0].toUpperCase()+diff.slice(1)})`);
   }
+  if(devMatch)devApply();
   vr=rotFor(myIdx());started=!sync;
   colors();
   const g=`repeat(${N-1},1fr var(--g)) 1fr`;board.style.gridTemplate=`${g}/${g}`;
@@ -3518,15 +3716,791 @@ function bmDay(){return euYmd(Date.now());}
 function bmPaint(){const x=pzStore(),d=bmDay();$('bmpz').innerHTML='<small>Streak: <b>'+(x.streak||0)+'</b> &middot; Daily: <b>'+(x.done===d?'solved &#10003;':'not solved')+'</b></small><br>';}
 function bmOpen(){closeLb();stClose();bmPaint();$('bmp').classList.remove('hidden');bmTabs(true);}
 function bmTabs(on){const a=document.querySelector('#sbar [data-do="bm:open"]'),b=document.querySelector('#sbar [data-do="sbp"]');if(a)a.classList.toggle('on',on);if(b)b.classList.toggle('on',!on);}
+function bmHide(){$('bmp').classList.add('hidden');}
+function bmShow(){$('bmp').classList.remove('hidden');}
 function bmClose(){$('pzm').classList.add('hidden');$('bmp').classList.add('hidden');bmTabs(false);}
 function bmStart(kind,df,idx,daily){
-  bmClose();netClose();mode='bot';isQ=false;pubRoom=false;gmode=kind;diff=df||'hard';menu.classList.add('hidden');pz=null;pzCur=kind==='puzzle'?{i:idx,daily:daily?bmDay():0}:null;
+  devMatch=false;bmClose();netClose();mode='bot';isQ=false;pubRoom=false;gmode=kind;diff=df||'hard';menu.classList.add('hidden');pz=null;pzCur=kind==='puzzle'?{i:idx,daily:daily?bmDay():0}:null;
   reset(false);if(kind==='fog')toast('🌫️ Fog of War: enemy walls show only near your pawn');if(kind==='obs')toast('🪨 Stones block · 🌀 portals teleport');if(kind==='puzzle'){const q=PZL[idx];toast('Puzzle '+(idx+1)+' - '+PZT[q.t](q.n));}
 }
 const PZT={w:n=>'Win in '+n+' moves',h:n=>'Win in '+n+' turns. Use your wall to slow the bot',j:n=>'Win in '+n+' turns. Jump over the pawn',d:n=>'Defend: stop the bot from reaching its goal for '+n+' turns. Use your wall'};
 function pzDone(){if(!pz||!pz.daily)return;const x=pzStore(),d=pz.daily;if(x.done===d)return;
   x.streak=(x.last===euYmdOfDay(euDayNum(Date.now())-1))?(x.streak||0)+1:1;x.done=d;x.last=d;ST.set('bb_pz',JSON.stringify(x));}
 {const _e=end;end=function(w,y){if(pz&&w&&w.includes(1))pzDone();return _e(w,y);};}
+
+/* ===== Dev Panel (developer-only tools) =====
+   Add new developer systems as cards inside #dvh. Access is decided ONLY by isDev() below. */
+const DEV_ACCESS={usernames:[],emails:['ffmacro79@gmail.com','shayon.shayonee16@gmail.com','tasfiquealam8@gmail.com'],userIds:[]};   /* TODO: put the developers' username / email / user id here (any case) */
+const DEV_PANEL_OPEN_FOR_TESTING=false;   /* TEST ONLY: true = everybody sees the Dev Panel. Set to false when publishing! */
+let devMatch=false,devCur=null;          /* devMatch = a Bot vs Bot match is running (nothing is saved, no points/gems) */
+function isDev(){
+  if(DEV_PANEL_OPEN_FOR_TESTING)return true;
+  try{
+    const p=acct&&acct.profile,u=acct&&acct.user;if(!u)return false;
+    const has=(list,v)=>!!v&&list.some(x=>String(x).toLowerCase()===String(v).toLowerCase());
+    return has(DEV_ACCESS.usernames,p&&p.username)||has(DEV_ACCESS.emails,u.email)||has(DEV_ACCESS.userIds,u.id);
+  }catch(e){return false;}
+}
+function devSync(){
+  const on=isDev();
+  if(on!==devUnl){   /* dev logged in -> unlimited gems; logged out -> back to the real saved balance */
+    devUnl=on;
+    total=on?DEV_GEMS:(+ST.get('bb_gems')||0);
+    try{render();}catch(e){}
+  }
+  document.querySelectorAll('[data-do="dv:open"]').forEach(b=>b.classList.toggle('hidden',!on));
+  if(!on)dvClose();
+}
+const DV_MODES=[['classic','Classic 1v1'],['blitz','Blitz 1v1 (1 min + 2s)'],['fog','Fog of War 1v1 (you see everything)'],['obs','Obstacle Board 1v1'],['race','1v1 Race'],['king','1v1 King'],['2v2','2v2 Classic (4 bots)'],['3pt','2v2 3-Point (4 bots)'],['ffa','Vs 4 King (4 bots)']];
+const DV_SPEED=[['Slow',3],['Normal',1.6],['Fast',.5],['Turbo',.06]];
+const dvDef=()=>({mode:'classic',speed:1,bots:[{d:'hard',c:1,f:2,a:'',m:''},{d:'hard',c:0,f:2,a:'',m:''},{d:'medium',c:2,f:2,a:'',m:''},{d:'medium',c:4,f:2,a:'',m:''}]});
+let devBB=(()=>{
+  const d=dvDef();
+  try{
+    const x=JSON.parse(ST.get('bb_dev_bb')||'null');
+    if(x&&typeof x==='object'){
+      if(DV_MODES.some(m=>m[0]===x.mode))d.mode=x.mode;
+      if(DV_SPEED[x.speed])d.speed=x.speed;
+      (Array.isArray(x.bots)?x.bots:[]).slice(0,4).forEach((b,i)=>{if(!b)return;
+        if(['easy','medium','hard'].includes(b.d))d.bots[i].d=b.d;
+        if(Number.isInteger(b.c)&&b.c>=0&&b.c<CLR.length)d.bots[i].c=b.c;
+        if(Number.isInteger(b.f)&&b.f>=0&&b.f<FX.length)d.bots[i].f=b.f;
+        if(typeof b.a==='string')d.bots[i].a=b.a;
+        if(typeof b.m==='string')d.bots[i].m=b.m;});
+    }
+  }catch(e){}
+  return d;
+})();
+const dvSave=()=>ST.set('bb_dev_bb',JSON.stringify(devBB));
+const cap1=t=>t[0].toUpperCase()+t.slice(1);
+function dvTabs(on){const a=document.querySelector('#sbar [data-do="dv:open"]'),b=document.querySelector('#sbar [data-do="sbp"]');if(a)a.classList.toggle('on',on);if(on&&b)b.classList.remove('on');}
+function dvView(v){$('dvh').classList.toggle('hidden',v!=='h');$('dvbb').classList.toggle('hidden',v!=='bb');$('dvmc').classList.toggle('hidden',v!=='mc');$('dvan').classList.toggle('hidden',v!=='an');$('dvlv').classList.toggle('hidden',v!=='lv');$('dvhl').classList.toggle('hidden',v!=='hl');$('dvgf').classList.toggle('hidden',v!=='gf');if(v==='bb')dvPaint();if(v==='mc')mcOpen();else mcStop();if(v==='an')anPaint();if(v==='lv')lvOpen();else lvStop();if(v==='hl')hlPaint();if(v==='gf')gfPaint();$('dvp').scrollTop=0;}
+function dvOpen(){if(!isDev())return;closeLb();bmClose();stClose();shClose();dvView('h');$('dvp').classList.remove('hidden');dvTabs(true);try{hpStart();}catch(e){}}
+function dvClose(){const e=$('dvp');if(e)e.classList.add('hidden');dvTabs(false);try{mcStop();lvStop();hpStop();}catch(_){}}
+function dvDo(v){if(v==='open')dvOpen();else if(v==='x'){dvClose();bmTabs(false);}}
+function dvPaint(){
+  const c=devBB,cf=CF[c.mode],n=cf.np,tm=cf.team;
+  const opt=(v,l,cur)=>`<option value="${esc(v)}"${String(v)===String(cur)?' selected':''}>${esc(l)}</option>`;
+  const sel=(attrs,items,cur)=>`<select class="dv-sel" ${attrs}>${items.map(([v,l])=>opt(v,l,cur)).join('')}</select>`;
+  const animSel=(i,cur)=>`<select class="dv-sel" data-k="a" data-b="${i}">${opt('','None (default)',cur)}${EM.map((e,ei)=>`<optgroup label="${esc(e[0])}">${AN.filter(a=>a.e===ei).map(a=>opt(a.id,a.name,cur)).join('')}</optgroup>`).join('')}</select>`;
+  let bots='';
+  for(let i=0;i<n;i++){
+    const b=c.bots[i],p=i+1,col=CLR[b.c][1];
+    const mate=tm?[...Array(i).keys()].find(j=>tm[j+1]===tm[p]):undefined;
+    const tag=tm?` <span class="tag">TEAM ${tm[p]===1?'A':'B'}</span>`:'';
+    bots+=`<div class="dv-bot" style="--bc:${col}"><div class="dv-bh"><div class="dv-prev"><i class="ball" data-fx="${b.f}" style="${bst(col)}"></i></div><span>Bot ${p}</span>${tag}</div>
+<div class="dv-lab">Difficulty</div><div class="dv-seg">${['easy','medium','hard'].map(d=>`<button type="button" class="btn${b.d===d?' on':''}" data-dvd="${i}:${d}">${cap1(d)}</button>`).join('')}</div>
+${mate!==undefined?`<div class="dv-lab">Pawn skin</div><small>Team-mates share one pawn: Bot ${p} uses Bot ${mate+1}'s skin.</small>`
+:`<div class="dv-lab">Pawn colour</div>${sel(`data-k="c" data-b="${i}"`,CLR.map(([nm],ci)=>[ci,nm]),b.c)}<div class="dv-lab">Pawn effect</div>${sel(`data-k="f" data-b="${i}"`,FX.map(([nm],fi)=>[fi,nm]),b.f)}`}
+<div class="dv-lab">Animation</div>${animSel(i,b.a)}
+<div class="dv-lab">Move style</div>${sel(`data-k="m" data-b="${i}"`,[['','None (default)'],...MVS.map(m=>[m.id,m.name])],b.m)}</div>`;
+  }
+  $('dvbb').innerHTML=`<button type="button" class="btn" data-dv="back">&lsaquo; Back</button>
+<h3 style="margin:16px 0 0;font-size:22px;font-weight:900;color:#fff">&#129302; Bot vs Bot Match</h3>
+<div class="dv-top"><div><div class="dv-lab">Game mode</div>${sel('data-k="mode"',DV_MODES,c.mode)}</div><div><div class="dv-lab">Bot speed</div>${sel('data-k="speed"',DV_SPEED.map(([l],i)=>[i,l]),c.speed)}</div></div>
+<div class="dv-bots">${bots}</div>
+<div class="dv-act"><button type="button" class="btn yel" data-dv="start" style="padding:14px 22px">&#9654; Start match</button><button type="button" class="btn" data-dv="rand">&#127922; Randomize looks</button></div>
+<p class="dv-note">The match is played on the normal game board. <b>Restart</b> replays the same setup, <b>Resign</b> stops the match, and opening the menu pauses it. If two pawns would look too alike, the game swaps one colour automatically so you can tell them apart.</p>`;
+}
+$('dvp').addEventListener('click',e=>{
+  const b=e.target.closest('[data-dv],[data-dvd]');if(!b||!$('dvp').contains(b))return;
+  if(b.dataset.dvd){const[i,d]=b.dataset.dvd.split(':');devBB.bots[+i].d=d;dvSave();dvPaint();return;}
+  const k=b.dataset.dv;
+  if(k==='open-bb')dvView('bb');else if(k==='open-mc')dvView('mc');else if(k==='open-an')dvView('an');else if(k==='open-lv')dvView('lv');else if(k==='open-hl')dvView('hl');else if(k==='back')dvView('h');else if(k==='start')dvStart();else if(k==='rand')dvRand();else if(k==='open-gf')dvView('gf');else if(k==='gf-send')gfSend();else if(k==='gf-amt')gfAmt(b.dataset.v);
+});
+$('dvp').addEventListener('change',e=>{
+  const s=e.target.closest('select[data-k]');if(!s)return;
+  const k=s.dataset.k;
+  if(k==='mode'){devBB.mode=s.value;dvSave();dvPaint();return;}
+  if(k==='speed'){devBB.speed=+s.value;dvSave();return;}
+  const b=devBB.bots[+s.dataset.b];if(!b)return;
+  b[k]=(k==='c'||k==='f')?+s.value:s.value;dvSave();
+  const card=s.closest('.dv-bot'),ball=card&&card.querySelector('.ball');
+  if(card){card.style.setProperty('--bc',CLR[b.c][1]);}
+  if(ball){ball.dataset.fx=b.f;ball.setAttribute('style',bst(CLR[b.c][1]));}
+});
+function dvRand(){
+  devBB.bots.forEach(b=>{b.c=rnd(CLR.length);b.f=rnd(FX.length);b.a=AN[rnd(AN.length)].id;b.m=MVS[rnd(MVS.length)].id;});
+  dvSave();dvPaint();
+}
+function dvStart(){
+  if(!isDev())return;
+  const cf=CF[devBB.mode];if(!cf)return;
+  devCur=JSON.parse(JSON.stringify(devBB));
+  dvClose();bmClose();stClose();closeLb();
+  netClose();mode='bot';isQ=false;pubRoom=false;pz=null;pzCur=null;gmode=devCur.mode;diff='medium';
+  menu.classList.add('hidden');
+  devMatch=true;reset(false);
+  toast('🛠️ Dev match · Bot vs Bot');
+}
+/* called from reset(): every seat is a bot with the chosen difficulty + cosmetics */
+function devApply(){
+  if(!devCur)return;
+  if(cfg.fog)cfg=Object.assign({},cfg,{fog:0});   /* a spectator sees the whole board */
+  PL.forEach((p,i)=>{
+    const b=devCur.bots[i]||devCur.bots[0],sid=b.c+'-'+b.f;
+    hum[p]=false;bt[p]=true;bd[p]=b.d;
+    skins[p]=SK[sid]?sid:'';anims[p]=AK[b.a]?b.a:'';mvs[p]=MK[b.m]?b.m:'';
+    names[p]=`Bot ${p} (${cap1(b.d)})`;
+  });
+}
+const devMul=()=>{let m=(DV_SPEED[devCur&&devCur.speed]||DV_SPEED[1])[1];if(cfg.blitz)m=Math.min(m,1.2);return m;};   /* Blitz keeps up with its +2s increment */
+/* called from end(): shows the result without touching points, gems, missions or the leaderboard */
+function devEnd(wins,why){
+  let title='Match stopped',icon='⏹️',col='#fff',sub=why||'';
+  if(cfg.ffa){const f=PL.find(p=>places[p]===1);if(f){title=`${nameOf(f)} wins!`;icon='🏆';col=pc[f]?pc[f].c:'#fff';}else{title='Match over';icon='🏁';}}
+  else if(wins&&wins.length){const w=wins[0];title=cfg.team?`${teamName(cu(w))} wins!`:`${nameOf(w)} wins!`;icon='🏆';col=pc[w]?pc[w].c:'#fff';if(!sub)sub=`${nameOf(w)} reached the finish line`;}
+  render();
+  $('mi').textContent=icon;$('mt').textContent=title;$('mt').style.color=col;
+  $('ms').textContent=`${sub?sub+' · ':''}${tn} turns · dev match (nothing saved)`;
+  $('pa').classList.add('hidden');modal.classList.remove('hidden');rematchUI();
+}
+{const _a=applyAcct;applyAcct=function(){const r=_a.apply(this,arguments);devSync();return r;};}
+devSync();
+
+/* ===== Gem gifts =====
+   Dev side: Dev Panel > Send Gems calls the Supabase RPC send_gem_gift (the DATABASE checks the caller is a developer, finds the player
+   by email / username / user id and stores the gift). Player side: gfClaim() calls claim_gem_gifts, which atomically marks the gifts as
+   delivered and returns them, so a gift can never be credited twice. Gems live on the device (localStorage, `total`), so they are
+   added here and the popup is shown. Setup SQL: supabase_gem_gifts.sql */
+const GF={busy:false,claiming:false,showing:false,warned:false,q:[],hist:[],t:0};
+function gfMsg(t,ok){const e=$('gfm');if(!e)return;e.textContent=t||'';e.className='gf-msg'+(t?(ok?' ok':' bad'):'');}
+function gfAmt(v){const a=$('gfa');if(a){a.value=String(Math.floor(+v)||'');a.focus();}}
+function gfErr(er){
+  const c=(er&&er.code)||'',m=(er&&er.message)||'';
+  if(c==='PGRST202'||c==='42883'||/could not find the function/i.test(m))return 'The gift system is not installed on the database yet. Run supabase_gem_gifts.sql in the Supabase SQL editor.';
+  if(c==='42501'||/not a developer/i.test(m))return 'Not allowed: this account is not registered as a developer in the database.';
+  if(/Failed to fetch|NetworkError|network/i.test(m))return 'Network problem. Please try again.';
+  return m||'Something went wrong. Please try again.';
+}
+function gfPaint(){
+  const el=$('dvgf');if(!el)return;
+  el.innerHTML=`<button type="button" class="btn" data-dv="back">&lsaquo; Back</button>
+<h3 style="margin:16px 0 0;font-size:22px;font-weight:900;color:#fff">&#127873; Send Gems</h3>
+<p class="lps">Send gems to a player&rsquo;s account. They see a gift popup right away if they are online, otherwise the next time they open the game signed in.</p>
+<div class="gf-form">
+<label class="dv-lab" for="gft">Player (email, username or user ID)</label>
+<input id="gft" class="gf-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="player@email.com or username">
+<label class="dv-lab" for="gfa">Gems</label>
+<input id="gfa" class="gf-in" type="number" inputmode="numeric" min="1" max="1000000" step="1" placeholder="e.g. 500">
+<div class="gf-chips">${[100,500,1000,5000].map(v=>`<button type="button" class="btn" data-dv="gf-amt" data-v="${v}">${v}</button>`).join('')}</div>
+<label class="dv-lab" for="gfn">Gift note (optional)</label>
+<textarea id="gfn" class="gf-in" maxlength="200" rows="3" placeholder="e.g. Thank you for reporting the bug!"></textarea>
+<div id="gfm" class="gf-msg" role="status" aria-live="polite"></div>
+<div><button type="button" id="gfs" class="btn yel" data-dv="gf-send" style="padding:14px 22px">&#127873; Send Gems</button></div>
+</div>
+<div class="dv-lab" style="margin-top:22px">Recently sent</div><div id="gfh"><div class="mc-empty">Loading&hellip;</div></div>`;
+  gfHist();
+}
+async function gfHist(){
+  const h=$('gfh');if(!h)return;
+  try{
+    if(!sb||!acct||!acct.user){h.innerHTML='<div class="mc-empty">Sign in to see your sent gifts.</div>';return;}
+    const r=await sb.from('gem_gifts').select('to_name,amount,note,created_at,claimed_at').eq('from_user',acct.user.id).order('created_at',{ascending:false}).limit(10);
+    if(r.error){h.innerHTML='<div class="mc-empty">'+esc(gfErr(r.error))+'</div>';return;}
+    GF.hist=r.data||[];
+    h.innerHTML=GF.hist.length?GF.hist.map(g=>`<div class="gf-h"><div><b>${esc(g.to_name||'player')}</b> &middot; +${(+g.amount||0).toLocaleString()} &#128142;<small>${esc(new Date(g.created_at).toLocaleString())}${g.note?' &middot; &ldquo;'+esc(g.note)+'&rdquo;':''}</small></div><span class="st ${g.claimed_at?'ok':'wait'}">${g.claimed_at?'Delivered':'Waiting for login'}</span></div>`).join(''):'<div class="mc-empty">No gifts sent yet.</div>';
+  }catch(e){h.innerHTML='<div class="mc-empty">Could not load.</div>';}
+}
+async function gfSend(){
+  if(!isDev()||GF.busy)return;
+  const t=($('gft').value||'').trim(),a=Math.floor(+$('gfa').value),n=($('gfn').value||'').trim().slice(0,200);
+  if(!t){gfMsg('Enter the player\u2019s email, username or user ID.');return;}
+  if(!Number.isFinite(a)||a<1||a>1000000){gfMsg('Gems must be a whole number from 1 to 1,000,000.');return;}
+  if(!sb||!acct||!acct.user){gfMsg('Sign in with a developer account first.');return;}
+  if(!confirm(`Send ${a.toLocaleString()} gems to "${t}"?`))return;
+  GF.busy=true;const btn=$('gfs');if(btn)btn.disabled=true;gfMsg('Sending\u2026',true);
+  try{
+    const r=await sb.rpc('send_gem_gift',{p_target:t,p_amount:a,p_note:n});
+    if(r.error){gfMsg(gfErr(r.error));return;}
+    const d=r.data||{};
+    if(d.to_user){if(acct&&d.to_user===acct.user.id)gfClaim();else frPing(d.to_user,'gift',{});}
+    gfMsg(`Sent ${a.toLocaleString()} gems to ${d.username||t}. They get the popup instantly if online, otherwise when they next open the game.`,true);
+    $('gfa').value='';$('gfn').value='';
+    gfHist();
+  }catch(e){gfMsg(gfErr(e));}
+  finally{GF.busy=false;const b=$('gfs');if(b)b.disabled=false;}
+}
+/* ---- player side ---- */
+async function gfClaim(){
+  if(!sb||!acct||!acct.profile||GF.claiming)return;
+  GF.claiming=true;
+  try{
+    const r=await sb.rpc('claim_gem_gifts');
+    if(r.error){if(!/PGRST202|42883/.test((r.error.code||'')+(r.error.message||'')))console.warn('[gift]',r.error);return;}
+    const L=Array.isArray(r.data)?r.data:[];let sum=0;
+    L.forEach(g=>{const a=Math.max(0,Math.floor(+g.amount)||0);if(!a)return;sum+=a;GF.q.push({a,note:String(g.note||''),from:String(g.from_name||'Blockade Board Team')});});
+    if(!sum)return;
+    if(!DEBUG_UNLIMITED_GEMS&&!devUnl){total+=sum;save();}   /* credit first, then show: the gems are safe even if the popup is closed fast */
+    try{render();}catch(e){}
+    gfShow();
+  }catch(e){console.warn('[gift]',e);}
+  finally{GF.claiming=false;}
+}
+function gfShow(){
+  clearTimeout(GF.t);
+  if(GF.showing||!GF.q.length)return;
+  if(started&&!over){   /* never cover the board during a live match: tell them briefly, show the popup afterwards */
+    if(!GF.warned){GF.warned=true;toast('\uD83C\uDF81 Gift received! Open it after the match.');}
+    GF.t=setTimeout(gfShow,4000);return;
+  }
+  GF.warned=false;
+  const g=GF.q.shift(),p=$('gfp');if(!p)return;
+  GF.showing=true;
+  p.innerHTML=`<div class="gfc"><div class="gfi" aria-hidden="true">\uD83C\uDF81</div><h3>You received a gift!</h3><div class="gfa">+${g.a.toLocaleString()} \uD83D\uDC8E</div><div class="gff">From <b>${esc(g.from)}</b></div>${g.note?`<div class="gfnote">${esc(g.note)}</div>`:''}<button type="button" class="btn yel" data-gf="x" autofocus>Awesome!</button></div>`;
+  p.classList.remove('hidden');
+  try{sfx.gem();}catch(e){}
+}
+function gfClose(){
+  const p=$('gfp');if(p)p.classList.add('hidden');
+  GF.showing=false;
+  if(GF.q.length)GF.t=setTimeout(gfShow,250);
+}
+$('gfp').addEventListener('click',e=>{if(e.target===$('gfp')||e.target.closest('[data-gf]'))gfClose();});
+
+/* ===== Match Control (dev) + AI Guard =====
+   Talks to the game server's admin API (see admin-server.js). The server is the ONLY place that
+   decides who is an admin: every request carries the Supabase access token and is verified there. */
+const MC={rooms:[],bans:[],tab:'rooms',busy:false,timer:0,err:'',ok:false,ai:true,at:0,dur:'24',reason:''};
+const mcEsc=esc;
+async function mcApi(path,method,body){
+  let tok=authToken;
+  try{if(sb){const r=await sb.auth.getSession();tok=(r&&r.data&&r.data.session&&r.data.session.access_token)||tok;}}catch(e){}
+  if(!tok)throw new Error('Sign in with a developer account first.');
+  const r=await fetch(NET.url+'/api/admin'+path,{method:method||'GET',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:body?JSON.stringify(body):undefined});
+  let j=null;try{j=await r.json();}catch(e){}
+  if(r.status===401||r.status===403)throw new Error('Not allowed: this account is not a server admin.');
+  if(r.status===404)throw new Error('Admin API not found on the server. Deploy admin-server.js first.');
+  if(!r.ok||(j&&j.ok===false))throw new Error((j&&j.error)||('Server error '+r.status));
+  return j||{};
+}
+/* ---- AI Guard: explainable rule-based scoring, runs in the browser, no external API ---- */
+function mcAI(room,seat){
+  const why=[];let sc=0,act='';
+  const add=(n,t,a)=>{sc+=n;why.push(t);if(a&&(!act||a==='ban'))act=a;};
+  if(seat.bot)return{sc:0,lvl:'ok',why:[],act:''};
+  if(room.started&&seat.idleSec>=90)add(seat.idleSec>=240?55:35,'AFK for '+Math.round(seat.idleSec)+'s during a live match','kick');
+  if(seat.moves>=8&&seat.avgMoveMs>0&&seat.avgMoveMs<350)add(45,'Inhumanly fast moves (avg '+Math.round(seat.avgMoveMs)+' ms over '+seat.moves+' moves): possible bot/script','ban');
+  if(seat.moves>=10&&seat.moveStdMs>=0&&seat.moveStdMs<40&&seat.avgMoveMs<2500)add(25,'Move timing is almost perfectly regular (σ '+Math.round(seat.moveStdMs)+' ms)','ban');
+  if(seat.leaves24h>=3)add(30,'Left '+seat.leaves24h+' matches in the last 24h (rage-quit pattern)','kick');
+  if(seat.reports>=2)add(Math.min(40,seat.reports*15),seat.reports+' player reports','kick');
+  if(seat.chatFlags>=3)add(Math.min(35,seat.chatFlags*10),seat.chatFlags+' flagged chat messages (abuse/spam)','kick');
+  if(seat.ipHash&&room.seats.some(o=>o!==seat&&!o.bot&&o.ipHash&&o.ipHash===seat.ipHash))add(50,'Shares a network fingerprint with another seat in this room (collusion / win-trading / multi-account)','ban');
+  if(seat.prevBans>=1)add(20,'Has '+seat.prevBans+' earlier ban(s)','');
+  sc=Math.min(100,sc);
+  return{sc,lvl:sc>=70?'hi':sc>=40?'mid':'ok',why,act:sc>=70?'ban':sc>=40?(act||'kick'):''};
+}
+function mcAIRoom(room){
+  const out=[];
+  if(room.started&&room.idleSec>=600)out.push('Room has had no moves for '+Math.round(room.idleSec/60)+' min: reset or close it.');
+  const real=room.seats.filter(s=>!s.bot&&s.name).length;
+  if(!room.started&&room.ageSec>=900&&real<2)out.push('Waiting for '+Math.round(room.ageSec/60)+' min with '+real+' player(s): probably abandoned.');
+  return out;
+}
+function mcSummary(){
+  let hi=0,mid=0,ids=0;
+  MC.rooms.forEach(r=>{mcAIRoom(r).forEach(()=>ids++);r.seats.forEach(s=>{if(!s.name)return;const a=mcAI(r,s);if(a.lvl==='hi')hi++;else if(a.lvl==='mid')mid++;});});
+  if(!MC.rooms.length)return'No live rooms right now. Nothing to review.';
+  if(!hi&&!mid&&!ids)return'Scanned '+MC.rooms.length+' room(s): everything looks normal.';
+  return'Scanned '+MC.rooms.length+' room(s): <b>'+hi+'</b> high-risk and <b>'+mid+'</b> medium-risk player(s)'+(ids?', <b>'+ids+'</b> stale room(s)':'')+'. Review the highlighted seats below. Nothing is applied automatically.';
+}
+/* ---- UI ---- */
+function mcOpen(){MC.tab='rooms';mcPaint();mcLoad();clearInterval(MC.timer);MC.timer=setInterval(()=>{if($('dvp').classList.contains('hidden')||document.hidden)return;mcLoad(true);},3000);}
+function mcStop(){clearInterval(MC.timer);MC.timer=0;}
+async function mcLoad(quiet){
+  if(MC.busy)return;MC.busy=true;
+  try{
+    if(MC.tab==='bans'){const j=await mcApi('/bans');MC.bans=j.bans||[];}
+    else{const j=await mcApi('/rooms');MC.rooms=(j.rooms||[]).map(r=>Object.assign({seats:[]},r));}
+    MC.err='';MC.ok=true;MC.at=Date.now();
+  }catch(e){MC.err=e.message||'Failed';MC.ok=false;}
+  finally{MC.busy=false;}
+  if(!(quiet&&document.activeElement&&/INPUT|SELECT/.test(document.activeElement.tagName)))mcPaint();
+}
+function mcPaint(){
+  const el=$('dvmc');if(!el)return;
+  const seatHtml=(r,s)=>{
+    if(!s.name&&!s.bot)return`<div class="mc-seat"><div class="mc-sh"><span>Seat ${s.role}</span><small>empty</small></div></div>`;
+    const a=mcAI(r,s),mine=s.uid&&s.uid===authUid;
+    const risk=MC.ai&&!s.bot?`<span class="mc-risk ${a.lvl}">${a.lvl==='hi'?'HIGH RISK':a.lvl==='mid'?'REVIEW':'OK'} · ${a.sc}</span>`:'';
+    const sug=MC.ai&&a.act?`<button class="btn yel" data-mc="ai:${r.code}:${s.role}:${a.act}">AI suggests: ${a.act==='ban'?'Ban '+(MC.dur==='0'?'permanently':MC.dur+'h'):'Kick'}</button>`:'';
+    return`<div class="mc-seat"><div class="mc-sh"><span>${s.bot?'🤖 ':''}${mcEsc(s.name||('Bot '+s.role))} <small>seat ${s.role}${s.bot?' · bot':''}${s.uid?'':' · guest'}</small></span>${risk}</div>
+${MC.ai&&a.why.length?`<ul class="mc-why">${a.why.map(w=>`<li>${mcEsc(w)}</li>`).join('')}</ul>`:''}
+${s.bot||mine?'':`<div class="mc-sa"><button class="btn" data-mc="kick:${r.code}:${s.role}">Kick</button><button class="btn red" data-mc="ban:${r.code}:${s.role}">Ban</button>${sug}</div>`}</div>`;
+  };
+  const rooms=MC.rooms.map(r=>{
+    const tips=MC.ai?mcAIRoom(r):[];
+    return`<div class="mc-room"><div class="mc-rh"><span>${mcEsc((typeof MN!=='undefined'&&MN[r.mode])||r.mode||'Room')} <small>#${mcEsc(r.code)}</small></span><small>${r.started?'● live':'○ lobby'}${r.pub?' · public':' · private'}</small></div>
+<small style="color:var(--mut)">Host: ${mcEsc(r.host||'?')} · ${r.n!=null?r.n:r.seats.filter(s=>s.name).length}/${r.cap||r.seats.length} players · ${Math.round((r.ageSec||0)/60)} min old</small>
+${tips.length?`<ul class="mc-why">${tips.map(t=>`<li>${mcEsc(t)}</li>`).join('')}</ul>`:''}
+<div class="mc-ra"><button class="btn yel" data-mc="reset:${r.code}">↻ Reset match</button><button class="btn red" data-mc="close:${r.code}">✕ Close room</button></div>
+${r.seats.map(s=>seatHtml(r,s)).join('')}</div>`;}).join('');
+  const bans=MC.bans.length?MC.bans.map(b=>`<div class="mc-ban"><div><b>${mcEsc(b.name||b.uid)}</b><small>${mcEsc(b.reason||'No reason')} · ${b.until?'until '+new Date(b.until).toLocaleString():'permanent'}</small></div><button class="btn" data-mc="unban:${mcEsc(b.uid)}">Unban</button></div>`).join(''):'<div class="mc-empty">No active bans.</div>';
+  el.innerHTML=`<button type="button" class="btn" data-dv="back">&lsaquo; Back</button>
+<h3 style="margin:16px 0 0;font-size:22px;font-weight:900;color:#fff">&#128737;&#65039; Match Control</h3>
+<div class="mc-bar"><span class="mc-st${MC.ok?'':' bad'}">Server: <b>${MC.ok?'connected':'unavailable'}</b>${MC.ok?' · '+MC.rooms.length+' room(s) · updated '+new Date(MC.at).toLocaleTimeString():''}</span>
+<button class="btn" data-mc="refresh">↻ Refresh</button>
+<label class="mc-st"><input type="checkbox" data-mc="aitog"${MC.ai?' checked':''}> AI Guard</label></div>
+${MC.err?`<div class="mc-empty" style="border-color:#7f1d1d;color:#fca5a5">${mcEsc(MC.err)}</div>`:''}
+<div class="mc-bar"><select class="dv-sel" data-mcdur><option value="1"${MC.dur==='1'?' selected':''}>Ban: 1 hour</option><option value="24"${MC.dur==='24'?' selected':''}>Ban: 24 hours</option><option value="168"${MC.dur==='168'?' selected':''}>Ban: 7 days</option><option value="0"${MC.dur==='0'?' selected':''}>Ban: permanent</option></select>
+<input class="dv-sel" data-mcreason style="flex:1;min-width:200px" maxlength="120" placeholder="Reason (shown to the player)" value="${mcEsc(MC.reason)}"></div>
+<div class="mc-tabs"><button class="btn${MC.tab==='rooms'?' on':''}" data-mc="tab:rooms">Live rooms</button><button class="btn${MC.tab==='bans'?' on':''}" data-mc="tab:bans">Ban list</button></div>
+${MC.ai&&MC.tab==='rooms'&&MC.ok?`<div class="mc-ai"><b>🧠 AI Guard</b> · ${mcSummary()}</div>`:''}
+${MC.tab==='rooms'?(MC.rooms.length?`<div class="mc-rooms">${rooms}</div>`:`<div class="mc-empty">${MC.ok?'No running lobbies or rooms.':'Waiting for the server…'}</div>`):bans}
+<p class="dv-note">Every action is checked and logged on the server. The AI Guard only <b>suggests</b>: you confirm each kick or ban.</p>`;
+}
+async function mcDo(v){
+  const[k,a,b,c]=v.split(':');
+  if(k==='refresh'){mcLoad();return;}
+  if(k==='tab'){MC.tab=a;mcPaint();mcLoad();return;}
+  const room=MC.rooms.find(r=>r.code===a),seat=room&&room.seats.find(s=>String(s.role)===b);
+  const nm=seat?(seat.name||('seat '+b)):'';
+  const reason=MC.reason.trim()||(c&&room?(mcAI(room,seat).why[0]||''):'');
+  try{
+    if(k==='reset'){if(!confirm('Reset the match in room #'+a+'? Everyone restarts a fresh game.'))return;await mcApi('/room/reset','POST',{code:a});toast('Room #'+a+' reset');}
+    else if(k==='close'){if(!confirm('Close room #'+a+' and disconnect every player?'))return;await mcApi('/room/close','POST',{code:a});toast('Room #'+a+' closed');}
+    else if(k==='kick'||(k==='ai'&&c==='kick')){if(!confirm('Kick '+nm+' from room #'+a+'?'))return;await mcApi('/kick','POST',{code:a,role:+b,uid:seat&&seat.uid||undefined,reason});toast(nm+' kicked');}
+    else if(k==='ban'||(k==='ai'&&c==='ban')){const h=+MC.dur;if(!confirm('Ban '+nm+(h?' for '+h+' hour(s)':' PERMANENTLY')+'? They are removed from the room immediately.'))return;await mcApi('/ban','POST',{code:a,role:+b,uid:seat&&seat.uid||undefined,name:nm,reason,hours:h});toast(nm+' banned');}
+    else if(k==='unban'){if(!confirm('Remove this ban?'))return;await mcApi('/unban','POST',{uid:a});toast('Ban removed');}
+  }catch(e){toast('⚠️ '+(e.message||'Action failed'));}
+  mcLoad();
+}
+$('dvp').addEventListener('click',e=>{const b=e.target.closest('[data-mc]');if(!b||!$('dvmc').contains(b)||b.type==='checkbox')return;mcDo(b.dataset.mc);});
+$('dvp').addEventListener('change',e=>{
+  const t=e.target;
+  if(t.matches&&t.matches('[data-mc="aitog"]')){MC.ai=t.checked;mcPaint();}
+  else if(t.matches&&t.matches('[data-mcdur]')){MC.dur=t.value;mcPaint();}
+});
+$('dvp').addEventListener('input',e=>{if(e.target.matches&&e.target.matches('[data-mcreason]'))MC.reason=e.target.value;});
+
+/* ===== Live announcements (every player) + Announce composer with AI Announcer (dev) ===== */
+const ANN={seen:new Set(),off:0,live:{},tm:0};
+try{JSON.parse(ST.get('bb_ann_seen')||'[]').forEach(i=>ANN.seen.add(i));}catch(e){}
+const ANN_LV={info:['📢','Announcement'],warn:['⚠️','Heads up'],urgent:['🚨','Urgent'],event:['🎉','Event']};
+const annNow=()=>Date.now()+ANN.off;
+const annTxt=a=>{const t=(a&&a.text)||{};return String(t[lang]||t.en||Object.values(t)[0]||'').slice(0,300);};
+const annFmt=ms=>{ms=Math.max(0,Math.round(ms/1000));const m=Math.floor(ms/60),s=ms%60;return m+':'+String(s).padStart(2,'0');};
+function annWrap(){let w=document.getElementById('annw');if(!w){w=document.createElement('div');w.id='annw';w.className='annw';w.setAttribute('role','status');w.setAttribute('aria-live','polite');document.body.appendChild(w);}return w;}
+function annHtml(a){
+  const lv=ANN_LV[a.level]||ANN_LV.info;let txt=esc(annTxt(a));
+  if(a.at){if(txt.includes('{t}'))txt=txt.split('{t}').join('<b class="annt"></b>');else txt+=' · <b class="annt"></b>';}
+  return`<i class="anni">${lv[0]}</i><div class="annb"><small>${lv[1]}</small><span>${txt}</span></div><button type="button" class="annx" aria-label="Dismiss">✕</button>`;
+}
+function annShow(a,preview){
+  if(!a||!a.id||!a.text)return;
+  if(!preview&&(ANN.seen.has(a.id)||(a.exp&&annNow()>a.exp)))return;
+  annWrap();const old=ANN.live[a.id];if(old&&old.el)old.el.remove();
+  const el=document.createElement('div');el.className='ann '+(ANN_LV[a.level]?a.level:'info');el.innerHTML=annHtml(a);
+  el.querySelector('.annx').onclick=()=>annDrop(a.id,true);
+  const w=annWrap();w.prepend(el);while(w.children.length>3)w.lastChild.remove();
+  ANN.live[a.id]={el,a,pv:!!preview};
+  if(!preview){try{if(!mute&&typeof tone==='function')tone(a.level==='urgent'?880:660,.14,'sine',.05);}catch(e){}}
+  annTick();if(!ANN.tm)ANN.tm=setInterval(annTick,1000);
+}
+function annDrop(id,remember){
+  const x=ANN.live[id];if(x&&x.el)x.el.remove();delete ANN.live[id];
+  if(remember&&!(x&&x.pv)){ANN.seen.add(id);try{ST.set('bb_ann_seen',JSON.stringify([...ANN.seen].slice(-30)));}catch(e){}}
+  if(!Object.keys(ANN.live).length){clearInterval(ANN.tm);ANN.tm=0;}
+}
+function annTick(){
+  for(const id in ANN.live){
+    const{el,a,pv}=ANN.live[id],t=el.querySelector('.annt');
+    if(a.at&&t){const left=a.at-annNow();t.textContent=left>0?annFmt(left):'NOW';}
+    if(!pv&&a.exp&&annNow()>a.exp)annDrop(id,true);
+  }
+}
+async function annPoll(){
+  if(document.hidden||typeof NET==='undefined')return;
+  try{
+    const j=await(await fetch(NET.url+'/api/announcements',{cache:'no-store'})).json();
+    if(!j||!Array.isArray(j.list))return;
+    ANN.off=(+j.now||Date.now())-Date.now();
+    const ids=new Set(j.list.map(a=>a.id));
+    for(const id in ANN.live)if(!ANN.live[id].pv&&!ids.has(id))annDrop(id,false);   /* cleared by a dev */
+    j.list.forEach(a=>annShow(a));
+  }catch(e){}
+}
+setTimeout(annPoll,4000);setInterval(annPoll,20000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)annPoll();});
+
+/* ---- Dev composer ---- */
+const ANC={kind:'maint',level:'warn',mins:5,ev:'',ttl:20,sticky:false,txt:{en:'',bn:'',hi:'',es:''},list:[],busy:false,rev:null};
+const AN_KINDS=[['maint','🛠️ Server update / maintenance'],['back','✅ Maintenance finished'],['evsoon','⏳ Event starting soon'],['evnow','🎉 Dev event started'],['issue','🚧 Known issue / outage'],['custom','✏️ Custom message']];
+const AN_LANG=[['en','English'],['bn','বাংলা'],['hi','हिन्दी'],['es','Español']];
+/* templates: {t} = live countdown, {e} = event name */
+const AN_TPL={
+  maint:{lv:'warn',en:'Server update in {t}. Please finish your match. Online play will pause briefly.',bn:'সার্ভার আপডেট শুরু হবে {t} পরে। অনুগ্রহ করে আপনার ম্যাচ শেষ করুন। অনলাইন খেলা কিছুক্ষণ বন্ধ থাকবে।',hi:'सर्वर अपडेट {t} में शुरू होगा। कृपया अपना मैच पूरा करें। ऑनलाइन खेल थोड़ी देर रुकेगा।',es:'Actualización del servidor en {t}. Termina tu partida. El juego online se pausará un momento.'},
+  back:{lv:'info',en:'The update is complete. Thanks for waiting. Online play is back!',bn:'আপডেট সম্পন্ন হয়েছে। অপেক্ষার জন্য ধন্যবাদ। অনলাইন খেলা আবার চালু!',hi:'अपडेट पूरा हो गया। इंतज़ार के लिए धन्यवाद। ऑनलाइन खेल फिर से चालू!',es:'La actualización terminó. ¡Gracias por esperar! El juego online ya está disponible.'},
+  evsoon:{lv:'event',en:'{e} starts in {t}. Get ready!',bn:'{e} শুরু হবে {t} পরে। প্রস্তুত হয়ে নিন!',hi:'{e} {t} में शुरू होगा। तैयार हो जाइए!',es:'¡{e} empieza en {t}! Prepárate.'},
+  evnow:{lv:'event',en:'{e} has started! Jump in and play now.',bn:'{e} শুরু হয়ে গেছে! এখনই খেলতে যোগ দিন।',hi:'{e} शुरू हो गया है! अभी खेलना शुरू करें।',es:'¡{e} ha comenzado! Entra y juega ahora.'},
+  issue:{lv:'urgent',en:'We are fixing an issue that affects online matches. Bot and local modes still work.',bn:'অনলাইন ম্যাচে একটি সমস্যা ঠিক করা হচ্ছে। বট ও লোকাল মোড চলছে।',hi:'हम ऑनलाइन मैचों की एक समस्या ठीक कर रहे हैं। बॉट और लोकल मोड चल रहे हैं।',es:'Estamos solucionando un problema en las partidas online. Los modos bot y local funcionan.'}
+};
+function anDraft(){
+  const k=ANC.kind,t=AN_TPL[k];if(!t){toast('Custom: write your own text, then use AI Review');return;}
+  const ev=(ANC.ev||'Dev Event').trim();const needT=/\{t\}/.test(t.en);
+  ANC.level=t.lv;if(k==='maint'&&ANC.mins<=2&&ANC.mins>0)ANC.level='urgent';
+  if(needT&&ANC.mins<=0)ANC.mins=5;if(!needT&&(k==='back'||k==='evnow'||k==='issue'))ANC.mins=0;
+  AN_LANG.forEach(([c])=>{ANC.txt[c]=(t[c]||'').split('{e}').join(ev);});
+  if(k==='back'||k==='evnow')ANC.ttl=30;if(k==='issue')ANC.sticky=true;
+  anPaint();toast('✨ AI draft ready: check, then send');
+}
+/* AI Review: explainable checks, runs live while typing */
+function anReview(){
+  const out=[],en=(ANC.txt.en||'').trim();let bad=0;
+  const add=(l,m)=>{out.push([l,m]);if(l==='bad')bad++;};
+  if(!en)add('bad','English text is required: it is the fallback for every language.');
+  if(en.length>140)add('warn','English text is '+en.length+' characters. Banners are read in ~3 seconds: aim for under 140.');
+  if(en.length>12&&en.replace(/[^A-Za-z]/g,'').length&&(en.replace(/[^A-Z]/g,'').length/en.replace(/[^A-Za-z]/g,'').length)>.6)add('warn','Mostly CAPITAL letters reads as shouting. Use normal case.');
+  if((en.match(/!/g)||[]).length>2)add('warn','Too many exclamation marks: one is enough.');
+  if(/https?:\/\/|www\./i.test(ANC.txt.en+ANC.txt.bn+ANC.txt.hi+ANC.txt.es))add('bad','Links cannot be tapped in a banner and look like phishing. Remove them.');
+  const hasT=Object.values(ANC.txt).some(x=>/\{t\}/.test(x));
+  if(hasT&&ANC.mins<=0)add('bad','Text uses {t} (live countdown) but "Countdown minutes" is 0.');
+  if(ANC.mins>0&&!hasT&&en)add('info','Countdown is on but the text has no {t}. The timer will be added to the end automatically.');
+  if(ANC.kind==='maint'&&ANC.mins<=0)add('warn','Maintenance notices should have a countdown so players know how long they have.');
+  if(ANC.kind==='maint'&&ANC.mins>0&&ANC.mins<=2&&ANC.level!=='urgent')add('info','Under 2 minutes left: Urgent level is recommended.');
+  if(ANC.kind==='issue'&&ANC.level!=='urgent')add('info','Outages are usually sent as Urgent.');
+  if((ANC.kind==='evsoon'||ANC.kind==='evnow')&&ANC.level!=='event')add('info','Event announcements look best with the Event style.');
+  if(/\{e\}/.test(Object.values(ANC.txt).join('')))add('bad','Text still contains {e}: fill in the event name or remove it.');
+  ['bn','hi','es'].forEach(c=>{if(en&&!(ANC.txt[c]||'').trim())add('info',AN_LANG.find(l=>l[0]===c)[1]+' players will see the English text (no translation written).');});
+  if(ANC.mins>=60)add('info','Countdown is over an hour away. Consider announcing closer to the time.');
+  if(!bad)out.unshift(['ok','Ready to send.']);
+  return out;
+}
+function anPreview(){
+  const box=document.getElementById('anpv');if(!box)return;
+  annDrop('__pv',false);
+  const a={id:'__pv',level:ANC.level,text:Object.assign({},ANC.txt),at:ANC.mins>0?Date.now()+ANC.mins*60000:0};
+  box.innerHTML='<div class="annpv"></div>';
+  const el=document.createElement('div');el.className='ann '+a.level;el.innerHTML=annHtml(a);el.querySelector('.annx').remove();
+  box.firstChild.appendChild(el);
+  const t=el.querySelector('.annt');if(t)t.textContent=annFmt(a.at-Date.now());
+}
+function anLive(){
+  const r=document.getElementById('anrev');if(!r)return;
+  const rv=anReview();ANC.rev=rv;
+  r.innerHTML='<b>🧠 AI Announcer review</b>'+rv.map(([l,m])=>`<div class="anr ${l}">${l==='ok'?'✓':l==='bad'?'✕':l==='warn'?'!':'i'} ${esc(m)}</div>`).join('');
+  anPreview();
+}
+function anPaint(){
+  const el=$('dvan');if(!el)return;
+  const opt=(v,l,c)=>`<option value="${esc(v)}"${String(v)===String(c)?' selected':''}>${esc(l)}</option>`;
+  el.innerHTML=`<button type="button" class="btn" data-dv="back">&lsaquo; Back</button>
+<h3 style="margin:16px 0 0;font-size:22px;font-weight:900;color:#fff">&#128226; Live Announcements</h3>
+<p class="dv-note" style="margin-top:6px">Shows a banner on <b>every player's screen</b> (lobby, bot games, online matches). Use <code>{t}</code> for a live countdown and <code>{e}</code> for the event name.</p>
+<div class="dv-top"><div><div class="dv-lab">Type</div><select class="dv-sel" data-an="kind">${AN_KINDS.map(([v,l])=>opt(v,l,ANC.kind)).join('')}</select></div>
+<div><div class="dv-lab">Style</div><select class="dv-sel" data-an="level">${[['info','📢 Info (blue)'],['warn','⚠️ Heads up (amber)'],['urgent','🚨 Urgent (red)'],['event','🎉 Event (purple)']].map(([v,l])=>opt(v,l,ANC.level)).join('')}</select></div>
+<div><div class="dv-lab">Countdown minutes (0 = none)</div><input class="dv-sel" type="number" min="0" max="240" data-an="mins" value="${ANC.mins}"></div>
+<div><div class="dv-lab">Event name</div><input class="dv-sel" maxlength="40" data-an="ev" placeholder="e.g. Weekend Gem Rush" value="${esc(ANC.ev)}"></div>
+<div><div class="dv-lab">Show for (no countdown)</div><select class="dv-sel" data-an="ttl">${[[10,'10 seconds'],[20,'20 seconds'],[30,'30 seconds'],[60,'1 minute'],[300,'5 minutes']].map(([v,l])=>opt(v,l,ANC.ttl)).join('')}</select></div>
+<div><div class="dv-lab">Stay until dismissed / cleared</div><label class="mc-st"><input type="checkbox" data-an="sticky"${ANC.sticky?' checked':''}> Sticky (max 1 hour)</label></div></div>
+<div class="dv-act" style="margin-top:12px"><button type="button" class="btn yel" data-an="draft">✨ AI Draft (EN · বাংলা · हिन्दी · ES)</button></div>
+${AN_LANG.map(([c,n])=>`<div class="dv-lab">${n}${c==='en'?' (required)':' (optional)'}</div><textarea class="dv-sel" rows="2" maxlength="220" data-ant="${c}" placeholder="${c==='en'?'Server update in {t}. Please finish your match.':'Leave empty to show English'}">${esc(ANC.txt[c])}</textarea>`).join('')}
+<div class="dv-lab">Preview (what players see)</div><div id="anpv"></div>
+<div id="anrev" class="mc-ai"></div>
+<div class="dv-act"><button type="button" class="btn red" data-an="send" style="padding:14px 22px">📣 Send to all players</button><button type="button" class="btn" data-an="clearall">Clear active banners</button></div>
+<div class="dv-lab" style="margin-top:18px">Active / recent announcements</div><div id="anact"><div class="mc-empty">Loading…</div></div>`;
+  anLive();anLoad();
+}
+async function anLoad(){
+  const box=document.getElementById('anact');if(!box)return;
+  try{
+    const j=await mcApi('/announcements');const L=j.list||[];
+    box.innerHTML=L.length?L.map(a=>{const live=!a.exp||a.exp>Date.now()&&!a.cleared;return`<div class="mc-ban"><div><b>${esc((a.text&&a.text.en)||'')}</b><small>${esc(a.level)} · ${new Date(a.created).toLocaleTimeString()} · ${a.cleared?'cleared':live?'live':'expired'}${a.by?' · '+esc(a.by):''}</small></div>${live?`<button class="btn" data-an="clear:${esc(a.id)}">Clear</button>`:''}</div>`;}).join(''):'<div class="mc-empty">Nothing sent yet.</div>';
+  }catch(e){box.innerHTML='<div class="mc-empty" style="border-color:#7f1d1d;color:#fca5a5">'+esc(e.message||'Failed')+'</div>';}
+}
+async function anSend(){
+  const rv=anReview();if(rv.some(x=>x[0]==='bad')){toast('⚠️ Fix the red items in the AI review first');return;}
+  if(!confirm('Send this announcement to ALL players right now?'))return;
+  const text={};AN_LANG.forEach(([c])=>{const v=(ANC.txt[c]||'').trim();if(v)text[c]=v;});
+  try{await mcApi('/announce','POST',{level:ANC.level,text,mins:+ANC.mins||0,ttl:+ANC.ttl||20,sticky:!!ANC.sticky});toast('📣 Announcement sent');}
+  catch(e){toast('⚠️ '+(e.message||'Failed'));}
+  anLoad();
+}
+$('dvp').addEventListener('click',e=>{
+  const b=e.target.closest('[data-an]');if(!b||!$('dvan').contains(b)||b.tagName==='INPUT'||b.tagName==='SELECT')return;
+  const v=b.dataset.an;
+  if(v==='draft')anDraft();else if(v==='send')anSend();
+  else if(v==='clearall'){if(!confirm('Remove every active banner from all players?'))return;mcApi('/announce/clear','POST',{all:true}).then(()=>{toast('Cleared');anLoad();}).catch(x=>toast('⚠️ '+x.message));}
+  else if(v.startsWith('clear:'))mcApi('/announce/clear','POST',{id:v.slice(6)}).then(()=>{toast('Cleared');anLoad();}).catch(x=>toast('⚠️ '+x.message));
+});
+$('dvp').addEventListener('change',e=>{
+  const t=e.target,k=t.dataset&&t.dataset.an;if(!k||!$('dvan').contains(t))return;
+  if(k==='kind'){ANC.kind=t.value;const tp=AN_TPL[ANC.kind];if(tp)ANC.level=tp.lv;anPaint();return;}
+  if(k==='level')ANC.level=t.value;else if(k==='ttl')ANC.ttl=+t.value;else if(k==='sticky')ANC.sticky=t.checked;
+  anLive();
+});
+$('dvp').addEventListener('input',e=>{
+  const t=e.target;if(!t.dataset||!$('dvan').contains(t))return;
+  if(t.dataset.ant){ANC.txt[t.dataset.ant]=t.value;anLive();}
+  else if(t.dataset.an==='mins'){ANC.mins=Math.max(0,Math.min(240,+t.value||0));anLive();}
+  else if(t.dataset.an==='ev')ANC.ev=t.value;
+});
+
+/* ===== Live presence heartbeat (every player) + Live Analytics dashboard with AI Analyst (dev) =====
+   Each open copy of the game sends a small heartbeat to the server (screen, mode, ping, gem balance).
+   Only admins can read the combined list (GET /api/admin/live). Ping = real round-trip time of the heartbeat itself. */
+const PRS={rtt:0,earned:0,prev:null,t0:Date.now(),busy:false};
+function prsScreen(){
+  try{
+    if(mode==='online')return(conn&&started&&!over)?'match':'room';
+    if(!menu.classList.contains('hidden'))return'lobby';
+    return(typeof pz!=='undefined'&&pz)?'puzzle':'bot';
+  }catch(e){return'lobby';}
+}
+function prsBody(extra){
+  const g=devUnl?0:Math.max(0,+total||0);   /* a developer's unlimited wallet is not reported (it would look like a gem exploit) */
+  if(PRS.prev!==null&&g>PRS.prev)PRS.earned+=g-PRS.prev;
+  PRS.prev=g;
+  let nm=pname;try{if(acct&&acct.profile&&acct.profile.username)nm=acct.profile.username;}catch(e){}
+  return JSON.stringify(Object.assign({k:ARENA.key,sid:(typeof sock!=='undefined'&&sock&&sock.id)||'',uid:authUid||'',n:String(nm||'').slice(0,24),c:cc||'',s:prsScreen(),gm:gmode||'',rtt:PRS.rtt,g:g,e:Math.round(PRS.earned),up:Math.round((Date.now()-PRS.t0)/1000),pt:+points||0,pl:(window.innerWidth<820||/Android|iPhone|iPad/i.test(navigator.userAgent))?'m':'d'},extra||{}));
+}
+async function prsBeat(){
+  if(PRS.busy||document.hidden||typeof NET==='undefined')return;
+  PRS.busy=true;const t0=performance.now();
+  try{
+    const r=await fetch(NET.url+'/api/presence',{method:'POST',headers:{'Content-Type':'text/plain'},body:prsBody(),keepalive:true});
+    if(r.ok)PRS.rtt=Math.max(1,Math.round(performance.now()-t0));
+  }catch(e){}
+  PRS.busy=false;
+}
+setTimeout(prsBeat,3000);setInterval(prsBeat,15000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)prsBeat();});
+addEventListener('pagehide',()=>{try{navigator.sendBeacon(NET.url+'/api/presence',new Blob([prsBody({x:1})],{type:'text/plain'}));}catch(e){}});
+
+/* ---- Dev dashboard ---- */
+const LV={d:null,err:'',ok:false,busy:false,timer:0,sort:'ping',dir:-1,q:'',f:'all'};
+const LV_MODE={classic:'Classic 1v1',blitz:'Blitz',fog:'Fog of War',obs:'Obstacle',race:'1v1 Race',king:'1v1 King','2v2':'2v2 Classic','3pt':'2v2 3-Point',ffa:'Vs 4 King',puzzle:'Puzzle'};
+const lvMode=m=>LV_MODE[m]||(typeof MN!=='undefined'&&MN[m])||m||'–';
+const LV_SCR={lobby:'Lobby',room:'Waiting room',match:'In match',bot:'Vs computer',puzzle:'Puzzle'};
+function lvOpen(){LV.err='';lvPaint();lvLoad();clearInterval(LV.timer);LV.timer=setInterval(()=>{if($('dvp').classList.contains('hidden')||document.hidden)return;lvLoad(true);},5000);}
+function lvStop(){clearInterval(LV.timer);LV.timer=0;}
+async function lvLoad(quiet){
+  if(LV.busy)return;LV.busy=true;
+  try{LV.d=await mcApi('/live');LV.ok=true;LV.err='';try{lvLog(LV.d);}catch(e){}}catch(e){LV.ok=false;LV.err=e.message||'Failed';}
+  finally{LV.busy=false;}
+  if(!(quiet&&document.activeElement&&/INPUT|SELECT/.test(document.activeElement.tagName)))lvPaint();
+}
+const LV_LOG='bb_lv_log';   /* [time, real players online] samples, kept 7 days, written while Live Analytics is open */
+function lvLogGet(){try{const a=JSON.parse(ST.get(LV_LOG)||'[]');return Array.isArray(a)?a:[];}catch(e){return[];}}
+function lvLog(d){if(!d||!d.players)return;const a=lvLogGet(),now=Date.now();if(a.length&&now-a[a.length-1][0]<120000)return;a.push([now,d.players.length]);const cut=now-7*864e5;while(a.length&&a[0][0]<cut)a.shift();try{ST.set(LV_LOG,JSON.stringify(a));}catch(e){}}
+function lvStats(d){
+  const H=d.hist||[],avg=a=>a.length?Math.round(a.reduce((s,x)=>s+x,0)/a.length*10)/10:null,f=v=>v==null?'–':String(v);
+  const hv=H.map(x=>x.n),L=lvLogGet(),t0=new Date();t0.setHours(0,0,0,0);
+  return{avgH:f(avg(hv)),peak:hv.length?Math.max(...hv):0,avgD:f(avg(L.filter(x=>x[0]>=t0.getTime()).map(x=>x[1]))),avgW:f(avg(L.map(x=>x[1])))};
+}
+const lvMed=a=>{a=a.filter(x=>x>0).sort((x,y)=>x-y);return a.length?a[Math.floor((a.length-1)/2)]:0;};
+const lvRate=p=>p.up>=300?p.e/(p.up/3600):0;
+const lvPing=ms=>!ms?['–','']:ms<80?[ms+' ms','good']:ms<200?[ms+' ms','ok']:[ms+' ms','bad'];
+/* AI Analyst: explainable statistics over the live data. Suggests, never acts. */
+function lvAI(d){
+  const P=d.players||[],out=[],add=(lv,t,act)=>out.push({lv,t,act});
+  if(!P.length)return[{lv:'info',t:'No players online right now.'}];
+  const medRate=lvMed(P.map(lvRate)),medBal=lvMed(P.map(p=>p.g));
+  P.forEach(p=>{
+    const r=lvRate(p),nm=p.n||'Player';
+    if(r>=300&&medRate>0&&r>=medRate*5)add('hi',`<b>${esc(nm)}</b> earns ~${Math.round(r)} gems/hour: ${Math.round(r/medRate)}× the median (${Math.round(medRate)}/h). Possible gem farming or an exploit.`);
+    else if(r>=600)add('mid',`<b>${esc(nm)}</b> earns ~${Math.round(r)} gems/hour: unusually high.`);
+    if(p.mj>=200)add('hi',`<b>${esc(nm)}</b>'s balance jumped by +${p.mj} in one step. Gems are stored on the player's device, so this can mean local tampering.`);
+    if(medBal>0&&p.g>=Math.max(20000,medBal*25))add('mid',`<b>${esc(nm)}</b> holds ${p.g.toLocaleString()} gems (${Math.round(p.g/medBal)}× the median). Worth a look.`);
+  });
+  const byIp={};P.forEach(p=>{if(p.ip)(byIp[p.ip]=byIp[p.ip]||[]).push(p);});
+  Object.values(byIp).forEach(g=>{const ids=new Set(g.map(x=>x.uid||x.id));if(ids.size>=3)add('mid',`${ids.size} different players share one network (${g.slice(0,3).map(x=>esc(x.n)).join(', ')}…). Could be a household or school, or multi-account farming.`);});
+  const pings=P.map(p=>p.rtt).filter(x=>x>0),mp=lvMed(pings);
+  const slow=pings.filter(x=>x>250).length;
+  if(pings.length>=5&&slow/pings.length>=.3)add('hi',`${Math.round(slow/pings.length*100)}% of players have ping above 250 ms (median ${mp} ms): likely a server or region problem.`);
+  const byC={};P.forEach(p=>{if(p.c&&p.rtt>0)(byC[p.c]=byC[p.c]||[]).push(p.rtt);});
+  Object.entries(byC).forEach(([c,a])=>{if(a.length>=3&&mp&&lvMed(a)>mp*2&&lvMed(a)>200)add('mid',`Players from <b>${esc((typeof CM!=='undefined'&&CM[c])||c)}</b> have a median ping of ${lvMed(a)} ms, about ${(lvMed(a)/mp).toFixed(1)}× everyone else.`);});
+  const H=d.hist||[];
+  if(H.length>=6){
+    const now=H[H.length-1],ref=H.slice(-11,-5);const rn=ref.reduce((s,x)=>s+x.n,0)/ref.length;
+    if(rn>=6&&now.n<rn*.6)add('hi',`Players online fell from ~${Math.round(rn)} to ${now.n} in the last few minutes: check the server.`);
+    const rp=ref.map(x=>x.p).filter(x=>x>0);if(rp.length&&now.p>0){const a=rp.reduce((s,x)=>s+x,0)/rp.length;if(now.p>a*1.6&&now.p>150)add('mid',`Median ping rose from ~${Math.round(a)} ms to ${now.p} ms.`);}
+  }
+  const lobby=P.filter(p=>p.s==='lobby').length,open=(d.rooms||[]).filter(r=>r.pub&&!r.started).length;
+  if(lobby>=4&&open===0)add('info',`${lobby} players are in the lobby but there are no open public rooms. A short event could pull them into matches.`,'announce');
+  (d.rooms||[]).forEach(r=>{if(!r.started&&r.ageSec>600&&r.n<2)add('info',`Room #${esc(r.code)} (${esc(lvMode(r.mode))}) has waited ${Math.round(r.ageSec/60)} min with ${r.n} player(s): probably abandoned.`);});
+  const rank={hi:0,mid:1,info:2};out.sort((a,b)=>rank[a.lv]-rank[b.lv]);
+  if(!out.length)out.push({lv:'ok',t:`Everything looks healthy: ${P.length} players, median ping ${mp||'–'} ms, no gem anomalies.`});
+  return out;
+}
+function lvSpark(H){
+  if(!H||H.length<2)return'<div class="mc-empty" style="padding:14px">Collecting data… the chart fills in as samples arrive (every 30 s).</div>';
+  const w=640,h=90,mx=Math.max(3,...H.map(x=>x.n)),X=i=>i/(H.length-1)*w,Y=v=>h-6-(v/mx)*(h-16);
+  const pts=H.map((x,i)=>X(i).toFixed(1)+','+Y(x.n).toFixed(1)).join(' ');
+  const mp=H.map((x,i)=>X(i).toFixed(1)+','+Y(x.m).toFixed(1)).join(' ');
+  return`<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" class="lv-sp" role="img" aria-label="Players online, last hour"><polyline points="0,${h} ${pts} ${w},${h}" fill="rgba(239,68,68,.14)" stroke="none"/><polyline points="${pts}" fill="none" stroke="#ef4444" stroke-width="2.2" vector-effect="non-scaling-stroke"/><polyline points="${mp}" fill="none" stroke="#60a5fa" stroke-width="1.6" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/></svg><div class="lv-leg"><span><i style="background:#ef4444"></i>Players online</span><span><i style="background:#60a5fa"></i>In matches</span><span>peak ${mx}</span></div>`;
+}
+function lvPaint(){
+  const el=$('dvlv');if(!el)return;
+  const d=LV.d;let body='';
+  if(d){
+    const P=d.players||[],R=d.rooms||[],cnt=s=>P.filter(p=>p.s===s).length;
+    const mp=lvMed(P.map(p=>p.rtt)),earnedSum=P.reduce((s,p)=>s+p.e,0);
+    const tile=(b,l,s)=>`<div class="lv-k"><b>${b}</b><small>${l}</small>${s?`<i>${s}</i>`:''}</div>`;
+    const modes={};R.forEach(r=>{modes[r.mode]=(modes[r.mode]||0)+1;});P.filter(p=>p.s==='bot'||p.s==='puzzle').forEach(p=>{const k='bot:'+(p.s==='puzzle'?'puzzle':p.gm);modes[k]=(modes[k]||0)+0;});
+    const botModes={};P.filter(p=>p.s==='bot'||p.s==='puzzle').forEach(p=>{const k=p.s==='puzzle'?'puzzle':p.gm;botModes[k]=(botModes[k]||0)+1;});
+    const mrow=(n,l,max,c)=>`<div class="lv-br"><span>${esc(l)}</span><div><u style="width:${Math.max(4,n/max*100)}%;background:${c}"></u></div><b>${n}</b></div>`;
+    const rm=Math.max(1,...Object.values(R.reduce((a,r)=>(a[r.mode]=(a[r.mode]||0)+1,a),{})),1),bm=Math.max(1,...Object.values(botModes),1);
+    const roomRows=Object.entries(R.reduce((a,r)=>(a[r.mode]=(a[r.mode]||0)+1,a),{})).map(([m,n])=>mrow(n,lvMode(m),rm,'#ef4444')).join('')||'<small style="color:var(--mut)">No rooms running.</small>';
+    const botRows=Object.entries(botModes).map(([m,n])=>mrow(n,lvMode(m),bm,'#60a5fa')).join('')||'<small style="color:var(--mut)">Nobody is playing bots.</small>';
+    const q=LV.q.trim().toLowerCase();
+    let rows=P.filter(p=>(LV.f==='all'||p.s===LV.f)&&(!q||(p.n||'').toLowerCase().includes(q)||(p.room||'').toLowerCase().includes(q)));
+    const key={ping:p=>p.rtt||0,gems:p=>p.g,earned:p=>p.e,rate:lvRate,name:p=>(p.n||'').toLowerCase(),up:p=>p.up}[LV.sort]||(p=>p.rtt);
+    rows.sort((a,b)=>{const x=key(a),y=key(b);return(x>y?1:x<y?-1:0)*LV.dir;});
+    const th=(k,l)=>`<th data-lv="sort:${k}" class="${LV.sort===k?'on':''}">${l}${LV.sort===k?(LV.dir>0?' ▲':' ▼'):''}</th>`;
+    const tr=rows.slice(0,200).map(p=>{const pg=lvPing(p.rtt),r=lvRate(p),where=p.room?`Room <b>#${esc(p.room)}</b> · ${esc(lvMode(p.rm||p.gm))}`:p.s==='bot'||p.s==='puzzle'?`${LV_SCR[p.s]} · ${esc(lvMode(p.gm))}`:LV_SCR[p.s]||p.s;
+      return`<tr><td><b>${esc(p.n||'Player')}</b>${p.uid?'':' <small>guest</small>'}<small>${p.c&&FL[p.c]?flagS(p.c)+' ':''}${p.pl==='m'?'📱':'🖥️'}</small></td><td>${where}</td><td><span class="lv-p ${pg[1]}">${pg[0]}</span></td><td>${p.g.toLocaleString()}</td><td>+${p.e.toLocaleString()}</td><td>${p.up>=300?Math.round(r)+'/h':'–'}</td><td>${Math.round(p.up/60)}m</td></tr>`;}).join('');
+    const ai=lvAI(d),icon={hi:'🔴',mid:'🟡',info:'🔵',ok:'🟢'},st=lvStats(d),hbn=hbN('players');
+    body=`<div class="lv-kg">${tile(P.length.toLocaleString(),'Real players online','last 45 s · no bots')}${tile(st.avgH,'Avg online (last hour)','peak '+st.peak)}${tile(st.avgD,'Avg online today','7-day avg '+st.avgW)}${tile(hbn.toLocaleString(),'Human bots shown to players','not real · not in the list below')}${tile(cnt('match'),'In online matches',R.filter(r=>r.started).length+' live rooms')}${tile(cnt('lobby')+cnt('room'),'Lobby / waiting',R.filter(r=>!r.started).length+' open rooms')}${tile(cnt('bot')+cnt('puzzle'),'Vs computer / puzzle')}${tile(mp?mp+' ms':'–','Median ping',lvPing(mp)[1]==='good'?'good':lvPing(mp)[1]==='ok'?'okay':mp?'slow':'')}${tile('+'+earnedSum.toLocaleString(),'Gems earned (this session, all players)')}</div>
+<div class="mc-ai"><b>🧠 AI Analyst</b>${ai.map(x=>`<div class="anr ${x.lv==='hi'?'bad':x.lv==='mid'?'warn':x.lv==='ok'?'ok':'info'}">${icon[x.lv]} ${x.t}${x.act==='announce'?' <button type="button" class="btn" style="padding:4px 10px;font-size:12px;margin-left:6px" data-lv="announce">📢 Draft event announcement</button>':''}</div>`).join('')}</div>
+<div class="dv-lab">Players online · last hour</div>${lvSpark(d.hist)}
+<div class="dv-top" style="margin-top:14px"><div><div class="dv-lab">Online rooms by mode</div>${roomRows}</div><div><div class="dv-lab">Vs-computer players by mode</div>${botRows}</div></div>
+<div class="dv-lab" style="margin-top:18px">Live player list · real players only (human bots are not included)</div>
+<div class="mc-bar"><input class="dv-sel" style="flex:1;min-width:180px" data-lvq placeholder="Search name or room code" value="${esc(LV.q)}"><select class="dv-sel" data-lvf>${[['all','Everyone'],['match','In match'],['room','Waiting room'],['lobby','Lobby'],['bot','Vs computer'],['puzzle','Puzzle']].map(([v,l])=>`<option value="${v}"${LV.f===v?' selected':''}>${l}</option>`).join('')}</select></div>
+<div class="lv-tw"><table class="lv-t"><thead><tr>${th('name','Player')}<th>Where</th>${th('ping','Ping')}${th('gems','Gems')}${th('earned','Earned')}${th('rate','Rate')}${th('up','Online')}</tr></thead><tbody>${tr||'<tr><td colspan="7" style="text-align:center;color:var(--mut)">No players match.</td></tr>'}</tbody></table></div>`;
+  }
+  el.innerHTML=`<button type="button" class="btn" data-dv="back">&lsaquo; Back</button>
+<h3 style="margin:16px 0 0;font-size:22px;font-weight:900;color:#fff">&#128202; Live Analytics</h3>
+<div class="mc-bar"><span class="mc-st${LV.ok?'':' bad'}">Server: <b>${LV.ok?'connected':'unavailable'}</b>${LV.ok&&d?' · updated '+new Date().toLocaleTimeString():''}</span><button class="btn" data-lv="refresh">↻ Refresh</button></div>
+${LV.err?`<div class="mc-empty" style="border-color:#7f1d1d;color:#fca5a5">${esc(LV.err)}</div>`:''}${body}
+<p class="dv-note">Gems and ping are reported by each player's game and refreshed every 15 s, so treat them as a monitoring signal, not proof. Gems are stored on the player's device. The AI Analyst only flags things for you to review. The hourly average and peak come from the server. The today and 7-day averages are counted from samples taken while this panel is open.</p>`;
+}
+$('dvp').addEventListener('click',e=>{
+  const b=e.target.closest('[data-lv]');if(!b||!$('dvlv').contains(b))return;
+  const v=b.dataset.lv;
+  if(v==='refresh')lvLoad();
+  else if(v.startsWith('sort:')){const k=v.slice(5);if(LV.sort===k)LV.dir*=-1;else{LV.sort=k;LV.dir=k==='name'?1:-1;}lvPaint();}
+  else if(v==='announce'){ANC.kind='evsoon';ANC.level='event';ANC.mins=10;dvView('an');anDraft();}
+});
+$('dvp').addEventListener('input',e=>{if(e.target.matches&&e.target.matches('[data-lvq]')){LV.q=e.target.value;const pos=e.target.selectionStart;lvPaint();const i=$('dvlv').querySelector('[data-lvq]');if(i){i.focus();try{i.setSelectionRange(pos,pos);}catch(_){}}}});
+$('dvp').addEventListener('change',e=>{if(e.target.matches&&e.target.matches('[data-lvf]')){LV.f=e.target.value;lvPaint();}});
+
+/* ===== Server health (dev): corner status pill + full graphs + AI Ops ===== */
+const HP={ping:[],fails:0,okAt:0,state:'wait',cur:null,hist:[],up:0,upPrev:0,restart:0,err:'',timer:0,busy:false,lastState:'',n:0};
+const HP_MAX=60;
+async function hpCheck(){
+  if(HP.busy)return;HP.busy=true;
+  const t0=performance.now();let ok=false,ms=0,j=null;
+  try{
+    const ac=new AbortController(),to=setTimeout(()=>ac.abort(),12000);
+    const r=await fetch(NET.url+'/api/health',{cache:'no-store',signal:ac.signal});clearTimeout(to);
+    ms=Math.round(performance.now()-t0);ok=r.ok;if(ok)try{j=await r.json();}catch(e){}
+  }catch(e){ok=false;}
+  HP.n++;HP.ping.push(ok?ms:-1);if(HP.ping.length>HP_MAX)HP.ping.shift();
+  if(ok){HP.fails=0;HP.okAt=Date.now();if(j&&j.up!=null){if(HP.up&&j.up<HP.up-5)HP.restart=Date.now();HP.upPrev=HP.up;HP.up=j.up;}}else HP.fails++;
+  /* detailed metrics need an admin token; the public check above works for everybody */
+  try{const d=await mcApi('/health');HP.cur=d.cur||null;HP.hist=d.hist||[];HP.meta=d.meta||{};HP.err='';}catch(e){HP.err=e.message||'';}
+  HP.busy=false;
+  hpState();hpPill();if($('dvp')&&!$('dvhl').classList.contains('hidden'))hlPaint();
+}
+function hpState(){
+  const c=HP.cur,last=HP.ping[HP.ping.length-1];
+  let s='ok';
+  if(HP.fails>=2)s='down';
+  else if(HP.fails===1)s='warn';
+  else if(last>3000)s='warn';
+  else if(c&&(c.cpu>85||c.memPct>88||c.lag>250||c.err5>5))s='warn';
+  HP.state=HP.n?s:'wait';
+  if(HP.lastState&&HP.lastState!==HP.state){
+    if(HP.state==='down')toast('🔴 Game server is not responding');
+    else if(HP.lastState==='down'&&HP.state!=='down')toast('🟢 Game server is back online');
+  }
+  HP.lastState=HP.state;
+}
+function hpSpark(a,w,h,col){
+  const v=a.filter(x=>x>=0);if(v.length<2)return'';
+  const mx=Math.max(100,...v),X=i=>i/(a.length-1)*w,Y=x=>h-2-(Math.min(x,mx)/mx)*(h-4);
+  let pts=a.map((x,i)=>x<0?null:X(i).toFixed(1)+','+Y(x).toFixed(1)).filter(Boolean).join(' ');
+  return`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.6"/></svg>`;
+}
+function hpPill(){
+  const el=$('dvhp');if(!el)return;
+  const L={ok:['#22c55e','Server OK'],warn:['#f59e0b','Server slow'],down:['#ef4444','Server DOWN'],wait:['#9ca3af','Checking…']}[HP.state]||['#9ca3af','…'];
+  const last=HP.ping[HP.ping.length-1],c=HP.cur;
+  el.className='hp '+HP.state;
+  el.innerHTML=`<i style="background:${L[0]}"></i><span><b>${L[1]}</b><small>${last>0?last+' ms':HP.state==='down'?'no reply':'–'}${c?' · CPU '+Math.round(c.cpu)+'% · RAM '+Math.round(c.memPct)+'%':''}</small></span>${hpSpark(HP.ping,54,20,L[0])}`;
+  el.setAttribute('aria-label',L[1]);
+}
+function hpStart(){hpStop();hpCheck();HP.timer=setInterval(()=>{if(!document.hidden)hpCheck();},10000);}
+function hpStop(){clearInterval(HP.timer);HP.timer=0;}
+/* ---- AI Ops: explainable analysis of the health history ---- */
+function hlSlope(a){const n=a.length;if(n<6)return 0;let sx=0,sy=0,sxy=0,sxx=0;a.forEach((y,i)=>{sx+=i;sy+=y;sxy+=i*y;sxx+=i*i;});return(n*sxy-sx*sy)/(n*sxx-sx*sx||1);}
+function hlAI(){
+  const out=[],add=(lv,t,act)=>out.push({lv,t,act}),H=HP.hist||[],c=HP.cur;
+  const ps=HP.ping.filter(x=>x>0);
+  if(HP.fails>=2)add('hi',`The server has not answered the last ${HP.fails} checks. Check the Render dashboard (deploy logs, crash, out of memory).`,'announce');
+  else if(HP.fails===1)add('mid','One health check failed. Watching: it turns red if the next one fails too.');
+  const slowest=Math.max(0,...HP.ping);
+  if(slowest>5000&&HP.ping.filter(x=>x>5000).length<=2)add('mid',`A check took ${(slowest/1000).toFixed(1)} s. That looks like a free-tier cold start (the server was asleep). Players wait up to a minute in that case. A 10-minute uptime ping or a paid instance avoids it.`);
+  if(HP.restart&&Date.now()-HP.restart<36e5)add('mid',`The server restarted ${Math.round((Date.now()-HP.restart)/60000)} min ago. Online rooms, announcements and the live player list were reset.`);
+  if(!c){out.push({lv:'info',t:HP.err?'Detailed CPU/memory graphs need the admin API: '+esc(HP.err):'Waiting for the first detailed sample (every 10 s).'});}
+  else{
+    const mem=H.map(x=>x.memMB);
+    if(mem.length>=30){
+      const sl=hlSlope(mem.slice(-90))*6;                    /* MB per minute (samples are 10 s) -> per-sample*6 = per minute */
+      const perH=sl*60,left=c.memLimit-c.memMB;
+      if(perH>15&&left>0&&left/perH<3&&mem[mem.length-1]>mem[Math.max(0,mem.length-60)])add('hi',`Memory is rising about ${Math.round(perH)} MB/hour and would reach the ${Math.round(c.memLimit)} MB limit in ~${Math.max(1,Math.round(left/perH*60))} min. Likely a memory leak (rooms or sockets not cleaned up).`);
+      else if(perH>40)add('mid',`Memory is growing ${Math.round(perH)} MB/hour. Keep an eye on it.`);
+    }
+    if(c.memPct>88)add('hi',`Memory is at ${Math.round(c.memPct)}% of the limit. The host may kill and restart the server.`);
+    else if(c.memPct>75)add('mid',`Memory is at ${Math.round(c.memPct)}% of the limit.`);
+    const last12=H.slice(-12).map(x=>x.cpu);
+    if(last12.length>=12&&last12.every(x=>x>80))add('hi',`CPU has stayed above 80% for 2 minutes (now ${Math.round(c.cpu)}%). Matches will feel laggy.`);
+    else if(c.cpu>85)add('mid',`CPU spike: ${Math.round(c.cpu)}%.`);
+    const lags=H.slice(-30).map(x=>x.lag).sort((a,b)=>a-b),p95=lags.length?lags[Math.floor(lags.length*.95)]:0;
+    if(p95>150)add('mid',`Event-loop lag p95 is ${Math.round(p95)} ms. Some code is blocking the server (heavy loop, sync file or JSON work).`);
+    if(c.err5>2)add('hi',`${c.err5} server errors in the last minute (${c.reqMin} requests).`);
+    /* capacity estimate from CPU per connected player */
+    const hs=H.slice(-30).filter(x=>x.players>0&&x.cpu>0);
+    if(hs.length>=10){
+      const per=hs.reduce((s,x)=>s+x.cpu/x.players,0)/hs.length,room=Math.floor(Math.max(0,80-c.cpu)/Math.max(.05,per));
+      if(c.players>=3)add('info',`Capacity estimate: about ${per.toFixed(2)}% CPU per player, so roughly <b>${room}</b> more players fit before CPU reaches 80% on this instance.`);
+    }
+    if(c.players>=5&&c.sockets>c.players*2+5)add('mid',`${c.sockets} open sockets for ${c.players} active players: connections may not be closed properly.`);
+  }
+  if(ps.length>=10){const a=ps.slice(0,Math.floor(ps.length/2)),b=ps.slice(Math.floor(ps.length/2));const m=x=>x.reduce((s,v)=>s+v,0)/x.length;if(m(b)>m(a)*2&&m(b)>400)add('mid',`Response time doubled: ${Math.round(m(a))} ms → ${Math.round(m(b))} ms.`);}
+  const rank={hi:0,mid:1,info:2};out.sort((a,b)=>rank[a.lv]-rank[b.lv]);
+  if(!out.length)out.push({lv:'ok',t:`The server looks healthy: ${ps.length?'responds in ~'+Math.round(ps.reduce((s,x)=>s+x,0)/ps.length)+' ms':'no data yet'}${c?', CPU '+Math.round(c.cpu)+'%, memory '+Math.round(c.memPct)+'%':''}.`});
+  return out;
+}
+function hlChart(title,vals,unit,col,max,fmt){
+  const v=vals.filter(x=>x!=null&&x>=0);
+  if(vals.length<2||!v.length)return`<div class="hl-c"><div class="hl-h"><b>${title}</b><small>collecting…</small></div><div class="hl-e"></div></div>`;
+  const w=520,h=110,mx=max||Math.max(1,...v)*1.15,X=i=>i/(vals.length-1)*w,Y=x=>h-4-(Math.min(x,mx)/mx)*(h-12);
+  let seg='',cur=[];vals.forEach((x,i)=>{if(x==null||x<0){if(cur.length)seg+=cur.join(' ')+'|';cur=[];}else cur.push(X(i).toFixed(1)+','+Y(x).toFixed(1));});if(cur.length)seg+=cur.join(' ');
+  const lines=seg.split('|').filter(Boolean).map(p=>`<polyline points="${p}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/>`).join('');
+  const last=v[v.length-1],f=fmt||(x=>Math.round(x));
+  const gaps=vals.map((x,i)=>(x<0)?`<rect x="${(X(i)-2).toFixed(1)}" y="0" width="4" height="${h}" fill="rgba(239,68,68,.35)"/>`:'').join('');
+  return`<div class="hl-c"><div class="hl-h"><b>${title}</b><small>now <span style="color:${col}">${f(last)}${unit}</span> · max ${f(Math.max(...v))}${unit}</small></div><svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" class="hl-s" role="img" aria-label="${title}">${[.25,.5,.75].map(g=>`<line x1="0" x2="${w}" y1="${(h-4-g*(h-12)).toFixed(1)}" y2="${(h-4-g*(h-12)).toFixed(1)}" stroke="#1f1f23" stroke-width="1"/>`).join('')}${gaps}${lines}</svg></div>`;
+}
+const hlUp=s=>{s=Math.round(s);const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?d+'d '+h+'h':h?h+'h '+m+'m':m+'m '+(s%60)+'s';};
+function hlPaint(){
+  const el=$('dvhl');if(!el)return;
+  const c=HP.cur,H=HP.hist||[],ps=HP.ping,last=ps[ps.length-1];
+  const tile=(b,l,s,cls)=>`<div class="lv-k ${cls||''}"><b>${b}</b><small>${l}</small>${s?`<i>${s}</i>`:''}</div>`;
+  const st={ok:['ONLINE','good'],warn:['DEGRADED','warn'],down:['DOWN','bad'],wait:['CHECKING','']}[HP.state];
+  const good=ps.filter(x=>x>0),avg=good.length?Math.round(good.reduce((s,x)=>s+x,0)/good.length):0,upPct=ps.length?Math.round(good.length/ps.length*100):0;
+  const ai=hlAI(),icon={hi:'🔴',mid:'🟡',info:'🔵',ok:'🟢'};
+  el.innerHTML=`<button type="button" class="btn" data-dv="back">&lsaquo; Back</button>
+<h3 style="margin:16px 0 0;font-size:22px;font-weight:900;color:#fff">&#128421;&#65039; Server Health</h3>
+<div class="mc-bar"><span class="mc-st${HP.state==='ok'?'':' bad'}">Status: <b>${st[0]}</b> · ${esc(NET.url.replace('https://',''))}${HP.meta&&HP.meta.host?' · '+esc(HP.meta.host):''}</span><button class="btn" data-hl="refresh">↻ Check now</button></div>
+<div class="lv-kg">${tile(st[0],'Status',upPct+'% of last '+ps.length+' checks')}${tile(last>0?last+' ms':'–','Response time','avg '+(avg||'–')+' ms')}${tile(HP.up?hlUp(HP.up):(c?hlUp(c.up):'–'),'Server uptime',HP.restart?'restarted '+Math.round((Date.now()-HP.restart)/60000)+' min ago':'')}${c?tile(Math.round(c.cpu)+'%','CPU',c.cores+' core(s) · load '+c.load.toFixed(2),c.cpu>85?'bad':c.cpu>65?'warn':''):''}${c?tile(Math.round(c.memMB)+' MB','Memory',Math.round(c.memPct)+'% of '+Math.round(c.memLimit)+' MB',c.memPct>88?'bad':c.memPct>75?'warn':''):''}${c?tile(Math.round(c.lag)+' ms','Event-loop lag','p95 over last 5 min: '+Math.round(H.slice(-30).map(x=>x.lag).sort((a,b)=>a-b)[Math.floor(Math.min(H.length,30)*.95)]||0)+' ms'):''}${c?tile(c.sockets,'Open sockets',c.rooms+' rooms · '+c.players+' players'):''}${c?tile(c.reqMin,'Requests / min',c.err5+' server errors'):''}</div>
+<div class="mc-ai"><b>🧠 AI Ops</b>${ai.map(x=>`<div class="anr ${x.lv==='hi'?'bad':x.lv==='mid'?'warn':x.lv==='ok'?'ok':'info'}">${icon[x.lv]} ${x.t}${x.act==='announce'?' <button type="button" class="btn" style="padding:4px 10px;font-size:12px;margin-left:6px" data-hl="announce">📢 Draft maintenance notice</button>':''}</div>`).join('')}</div>
+<div class="hl-g">${hlChart('Response time (checks every 10 s, this session)',ps,' ms','#60a5fa')}
+${hlChart('CPU',H.map(x=>x.cpu),'%','#ef4444',100)}
+${hlChart('Memory',H.map(x=>x.memMB),' MB','#a855f7',c?c.memLimit:null)}
+${hlChart('Event-loop lag',H.map(x=>x.lag),' ms','#f59e0b')}
+${hlChart('Open sockets',H.map(x=>x.sockets),'','#22c55e')}
+${hlChart('Requests per minute',H.map(x=>x.reqMin),'','#eab308')}</div>
+<p class="dv-note">The status light checks the public <code>/api/health</code> every 10 s while the Dev Panel is open. CPU, memory and the other graphs come from the server's own sampler (last hour, 10 s steps). Red bars in the response graph mean a failed check.</p>`;
+}
+$('dvp').addEventListener('click',e=>{
+  const b=e.target.closest('[data-hp],[data-hl]');if(!b)return;
+  if(b.dataset.hp==='open'){dvView('hl');return;}
+  if(!$('dvhl').contains(b))return;
+  if(b.dataset.hl==='refresh')hpCheck();
+  else if(b.dataset.hl==='announce'){ANC.kind='maint';ANC.level='warn';ANC.mins=5;dvView('an');anDraft();}
+});
 
 /* ===== Settings page + languages ===== */
 const LG=[['en','English'],['bn','\u09ac\u09be\u0982\u09b2\u09be'],['hi','\u0939\u093f\u0928\u094d\u0926\u0940'],['es','Espa\u00f1ol'],['fr','Fran\u00e7ais'],['ar','\u0627\u0644\u0639\u0631\u0628\u064a\u0629'],['pt','Portugu\u00eas'],['ru','\u0420\u0443\u0441\u0441\u043a\u0438\u0439']];
@@ -3559,7 +4533,7 @@ $('stlang').addEventListener('change',e=>{lang=e.target.value;ST.set('bb_lang',l
 /* same footer (Rules, Help, Get the App, Terms, Privacy, credit + version) at the bottom of every page */
 function addFooters(){const f=document.querySelector('.lw .ftr');if(!f)return;document.querySelectorAll('#bmp .lpb,#stp .lpb,#lbp .lpb,#fr .frbx,#shop .shopbox').forEach(c=>{if(!c.querySelector(':scope>.ftr'))c.appendChild(f.cloneNode(true));});}
 function start(m){
-  pz=null;netClose();mode=m;isQ=false;gmode=offMode;pubRoom=false;
+  devMatch=false;pz=null;netClose();mode=m;isQ=false;gmode=offMode;pubRoom=false;
   menu.classList.add('hidden');reset(false);
 }
 function setDiff(d){diff=d;}
@@ -3570,8 +4544,9 @@ function openDif(){
   $('dfm').classList.remove('hidden');
 }
 function closeDif(){$('dfm').classList.add('hidden');}
-$('dfm').addEventListener('click',e=>{if(e.target===$('dfm'))closeDif();});
-addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('dfm').classList.contains('hidden'))closeDif();});
+function cancelDif(){closeDif();if(bmPick){bmPick=0;bmShow();}}
+$('dfm').addEventListener('click',e=>{if(e.target===$('dfm'))cancelDif();});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('dfm').classList.contains('hidden'))cancelDif();});
 function flash(m){st.textContent=m;clearTimeout(ft);ft=setTimeout(render,1500);}
 
 /* ---------- Local seats (phone): which side of the device the current player sits on ---------- */
@@ -3637,7 +4612,7 @@ function render(){
   else if(gmode==='2v2'){$('gl').textContent='Both teammates reach the far side';$('gr').textContent='Team A vs Team B'+(mode==='online'?' · 40s turns':'');}
   else if(gmode==='3pt'){$('gl').textContent='👑 First team to 2 crowns';$('gr').textContent=`A ${caps[1]} – ${caps[2]} B`;}
   else{$('gl').textContent='👑 Reach the centre crown';$('gr').textContent=`${Object.keys(places).length}/2 places filled`;}
-  st.textContent=over?'Game over':!started?'Syncing players…':mode==='online'?(turn===myP?'Your Turn':`${nameOf(turn)}’s Turn`):mode==='bot'?(turn===1?'Your Turn':'Bot thinking…'):`${nameOf(turn)}’s Turn`;
+  st.textContent=over?'Game over':!started?'Syncing players…':mode==='online'?(turn===myP?'Your Turn':`${nameOf(turn)}’s Turn`):mode==='bot'?(devMatch?`${nameOf(turn)}’s Turn`:turn===1?'Your Turn':'Bot thinking…'):`${nameOf(turn)}’s Turn`;
   st.className='pill c'+(pc[turn]&&cu(turn)===1?1:2);
   if(pc[turn]){const k=rgbOf(pc[turn].c);st.style.color=pc[turn].c;st.style.background='rgba('+k+',.1)';st.style.borderColor='rgba('+k+',.3)';}
   st.style.color=pc[turn]?pc[turn].c:'';
@@ -3647,14 +4622,14 @@ function render(){
 }
 
 /* ---------- Input ---------- */
-function closePages(){try{pdmClose();}catch(e){}$('fr').classList.add('hidden');$('prof').classList.add('hidden');$('shop').classList.add('hidden');closeLb();bmClose();stClose();closeLegal();shTabs(false);}
+function closePages(){try{pdmClose();}catch(e){}$('fr').classList.add('hidden');$('prof').classList.add('hidden');$('shop').classList.add('hidden');closeLb();bmClose();stClose();dvClose();closeLegal();shTabs(false);}
 document.addEventListener('click',e=>{
   if(!booted||Date.now()<skipUntil)return;
   const b=e.target.closest('[data-do]');if(!b)return;
   const[a,v='']=b.dataset.do.split(':'),[r,c]=v.split(',').map(Number);
   if('mhv'.indexOf(a)<0)sfx.ui();
   if(a==='auth'&&b.closest('#gs'))gsClose(true);   /* the sign-in prompt inside the sheet closes the sheet first */
-  if(b.closest('#sbar,#mnav,#mmore')&&(a==='sbp'||a==='sblb'||a==='prof'||a==='shop'||a==='tut'||(a==='bm'&&v==='open')||(a==='fr'&&v==='open')||(a==='pdm'&&v==='open')||(a==='st'&&v==='open')))closePages();   /* sidebar: jump straight to the chosen page */
+  if(b.closest('#sbar,#mnav,#mmore')&&(a==='sbp'||a==='sblb'||a==='prof'||a==='shop'||a==='tut'||(a==='bm'&&v==='open')||(a==='fr'&&v==='open')||(a==='pdm'&&v==='open')||(a==='st'&&v==='open')||(a==='dv'&&v==='open')))closePages();   /* sidebar: jump straight to the chosen page */
   if(b.closest('#sbar,#mnav,#mmore')&&!$('auth').classList.contains('hidden')&&a!=='auth'&&!(a==='st'&&v!=='open'))authClose();   /* sidebar navigation closes the login/sign-up screen first */
   if(a==='m'){if(human()&&tutMoves())move(r,c);}
   else if(a==='h'||a==='v'){if(human()&&!document.body.classList.contains('mob'))wall(a,r,c);}
@@ -3670,6 +4645,7 @@ document.addEventListener('click',e=>{
   else if(a==='fr')frDo(v);
   else if(a==='pdm')pdmDo(v);
   else if(a==='sbtog')sbToggle();
+  else if(a==='dv')dvDo(v);
   else if(a==='mmore')mmToggle();
   else if(a==='avup')$('avf').click();
   else if(a==='avrm')avClear();
@@ -3683,7 +4659,7 @@ document.addEventListener('click',e=>{
   else if(a==='lbrow')lbProfile(+v);
   else if(a==='reset'||a==='again'){
     if(mode==='online'){if(a==='again'){if(!isQ&&over&&conn){rematch();return;}netClose();mode='bot';modal.classList.add('hidden');reset(false);openMenu();}else flash('Restart isn’t available online');}
-    else if(a==='again')midAd(()=>reset(false));else reset(false);
+    else if(a==='again'){if(devMatch)reset(false);else midAd(()=>reset(false));}else reset(false);
   }
   else if(a==='wbd'){renderWB();$('wbm').classList.remove('hidden');}
   else if(a==='wbx')$('wbm').classList.add('hidden');
@@ -3693,15 +4669,15 @@ document.addEventListener('click',e=>{
   else if(a==='buy')buy();
   else if(a==='botplay'){bmPick=0;openDif();}
   else if(a==='st'){if(v==='open')stOpen();else if(v==='x')stClose();else if(v==='snd'){mute=!mute;ST.set('bb_mute',mute?'1':'0');document.querySelectorAll('.snb').forEach(x=>x.textContent=mute?'\uD83D\uDD07':'\uD83D\uDD0A');stPaint();}else authOpen(v==='su'?'signup':(acct&&acct.profile?'acct':'login'));}
-  else if(a==='bm'){if(v==='open')bmOpen();else if(v==='pp')$('pzm').classList.remove('hidden');else if(v==='px')$('pzm').classList.add('hidden');else if(v==='fp'||v==='op'){bmPick=v==='fp'?'fog':'obs';openDif();$('dfs').textContent=v==='fp'?'Fog of War 🌫️ · vs AI bot':'Obstacle Board 🪨 · vs AI bot';}else if(v==='bp'){bmPick=1;openDif();$('dfs').textContent='Blitz \u26A1 1 min + 2s \u00B7 vs AI bots';}else if(v==='x')bmClose();else if(v==='pd')bmStart('puzzle','hard',euDayNum(Date.now())%PZL.length,1);else if(v==='pr')bmStart('puzzle','hard',Math.floor(Math.random()*PZL.length),0);else bmStart('blitz',{be:'easy',bm:'medium',bh:'hard'}[v]);}
-  else if(a==='dfx')closeDif();
+  else if(a==='bm'){if(v==='open')bmOpen();else if(v==='pp'){bmHide();$('pzm').classList.remove('hidden');}else if(v==='px'){$('pzm').classList.add('hidden');bmShow();}else if(v==='fp'||v==='op'){bmPick=v==='fp'?'fog':'obs';bmHide();openDif();$('dfs').textContent=v==='fp'?'Fog of War 🌫️ · vs AI bot':'Obstacle Board 🪨 · vs AI bot';}else if(v==='bp'){bmPick=1;bmHide();openDif();$('dfs').textContent='Blitz \u26A1 1 min + 2s \u00B7 vs AI bots';}else if(v==='x')bmClose();else if(v==='pd')bmStart('puzzle','hard',euDayNum(Date.now())%PZL.length,1);else if(v==='pr')bmStart('puzzle','hard',Math.floor(Math.random()*PZL.length),0);else bmStart('blitz',{be:'easy',bm:'medium',bh:'hard'}[v]);}
+  else if(a==='dfx')cancelDif();
   else if(a==='bot'){setDiff(v);closeDif();midAd(()=>bmPick?(()=>{const k=bmPick;bmPick=0;bmStart(k===1?'blitz':k,v);})():start('bot'),1);}
   else if(a==='lay')setLay(v);
   else if(a==='ad')watchAd(v);
   else if(a==='ori'){ori=v;render();}
   else if(a==='ctl'){ctl=v;document.querySelectorAll('.cbtn').forEach(x=>x.classList.toggle('on',x.dataset.do==='ctl:'+v));applyCtl();}
   else if(a==='snd'){mute=!mute;ST.set('bb_mute',mute?'1':'0');document.querySelectorAll('.snb').forEach(x=>x.textContent=mute?'🔇':'🔊');}
-  else if(a==='lobby'){netClose();if(mode==='online')mode='bot';reset(false);openMenu();}
+  else if(a==='lobby'){const wasDev=devMatch;devMatch=false;netClose();if(mode==='online')mode='bot';reset(false);openMenu();if(wasDev){dvOpen();dvView('bb');}}
   else if(a==='shop')openShop();
   else if(a==='shopx'){$('shop').classList.add('hidden');shTabs(false);}
   else if(a==='sfx'){shopFx=+v;shopPg=0;renderShop();}
@@ -3797,6 +4773,7 @@ board.addEventListener('contextmenu',e=>e.preventDefault());
 /* ---------- Resign ---------- */
 function resign(){
   if(over)return;
+  if(devMatch&&mode==='bot'){end([],'Match stopped');return;}
   resigned=true;
   if(mode==='online'){
     net({k:'r',p:myP,tn});
@@ -3818,6 +4795,7 @@ const NET={url:'https://blockade-board.onrender.com'},
     const t=e&&e.type;
     if(t==='not-found')return 'Room not found. Check the code and try again.';
     if(t==='full')return 'That room is already full.';
+    if(t==='banned')return 'You are banned from online play.'+(e.reason?' Reason: '+String(e.reason).slice(0,120):'')+(e.until?' Until: '+new Date(e.until).toLocaleString():'');
     if(t==='nolib')return 'Online play could not load. Check your internet connection or allow cdn.jsdelivr.net.';
     if(t==='timeout')return 'The game server did not respond in time. It may still be waking up, so please try again in a moment. Bot and local play still work.';
     return 'Could not connect to the game server ('+NET.url.replace('https://','')+'). It may be down, or blocked by your network, VPN, or firewall. Bot and local modes still work.';
@@ -3854,7 +4832,13 @@ function connect(tok,ok,err){
   s.on('qstat',d=>{if(tok!==netTok||!d)return;$('nm').textContent='Searching for players… '+d.n+'/'+d.cap+' ('+(MN[d.mode]||'')+')';});
   s.on('room',d=>{if(tok!==netTok||mode==='online')return;roomUI(d);});
   s.on('chat',d=>{if(tok!==netTok||!d||chatMuted)return;const p=Math.round(+d.p)||0;if(p&&p===chatMe())return;chatPush(p,d.n,d.t,false);});
-  s.on('room-closed',()=>{if(tok!==netTok)return;netFail('The host closed the room.');});
+  s.on('room-closed',d=>{if(tok!==netTok)return;netFail(d&&d.by==='admin'?'A moderator closed this room.':'The host closed the room.');});
+  s.on('kicked',d=>{if(tok!==netTok)return;netFail('A moderator removed you from the match.'+(d&&d.reason?' Reason: '+String(d.reason).slice(0,120):''));});
+  s.on('banned',d=>{if(tok!==netTok)return;netFail('You have been banned from online play.'+(d&&d.reason?' Reason: '+String(d.reason).slice(0,120):'')+(d&&d.until?' Until: '+new Date(d.until).toLocaleString():''));});
+  s.on('announce',d=>{if(tok!==netTok||!d)return;if(d.now)ANN.off=+d.now-Date.now();annShow(d);});
+  s.on('announce-clear',d=>{if(tok!==netTok||!d)return;if(d.all)Object.keys(ANN.live).forEach(i=>{if(!ANN.live[i].pv)annDrop(i,false);});else annDrop(d.id,false);});
+  s.on('notice',d=>{if(tok!==netTok||!d||!d.t)return;toast('🛡️ '+String(d.t).slice(0,120));});
+  s.on('connect_error',e=>{if(e&&/banned/i.test(e.message||'')){s.disconnect();fin(err,{type:'banned',reason:e.data&&e.data.reason,until:e.data&&e.data.until});}});
   s.on('m',d=>{if(tok!==netTok)return;onData(d);});
   s.on('peer-left',d=>{if(tok!==netTok)return;onPeerLeft(d&&d.role);});
   s.on('disconnect',()=>{
@@ -4105,6 +5089,7 @@ function join(code){
 }
 function onl(v){
   try{
+    if(typeof v==='string'&&v.startsWith('j-')&&typeof HB!=='undefined'&&HB.join(v.slice(2)))return;   /* a human-bot room */
     if(v==='quick'||v.startsWith('q-')){isQ=true;netClose();quick(v==='quick'?'classic':v.slice(2));}
     else if(v==='newroom')gsShow('online');
     else if(v==='crx')gsClose();
@@ -4804,6 +5789,7 @@ async function lbLoad(){
   if(!LB_API)return;
   let top,rank;
   try{const r=await(await fetch(LB_API+'?id='+encodeURIComponent(pid)+(authUid?'&userId='+encodeURIComponent(authUid):''))).json();top=r.top.slice(0,100);rank=r.rank;
+    try{if(typeof HB!=='undefined'){const m=HB.lb(top,rank,points);top=m.top;rank=m.rank;}}catch(e){}   /* human bots on the leaderboard (HB_LB) */
     /* signed-in players are listed under their account name: find yourself by name when the server matched the old device id */
     if(acct&&acct.profile){const nm=String(acct.profile.username).toLowerCase(),i=top.findIndex(x=>String(x.n||x.name||'').toLowerCase()===nm);if(i>=0){top.forEach((x,j)=>{x.me=(j===i);});rank=i+1;}}}
   catch(e){$('lbl').innerHTML='<div class="lr"><i></i><span>Leaderboard unavailable</span></div>';LBD=[];lbpErr=true;lbpPaint();return;}
@@ -4881,12 +5867,13 @@ help:{t:'Help',u:'31 October 2026',s:[
  {h:'Account, gems and the Store',l:['You can play as a guest. Sign up to save your games and rating.','Collect gems by playing and spend them in the <b>Store</b> on pawn skins, move effects and animations.','Add friends from the Friends page and invite them to a room.']},
  {h:'Troubleshooting',l:['If a page looks wrong or does not load, refresh it.','If an online match will not connect, check your internet and try again.','Make sure your browser is up to date.']},
  {h:'Contact us',p:['Still need help, found a bug, or have an idea? Email the developer, Tasfique Alam, at <a href="mailto:tasfiquealam8@gmail.com">tasfiquealam8@gmail.com</a>.','Please include what you were doing, what happened, and your device and browser. A screenshot helps a lot.']}]},
-terms:{t:'Terms of Service',u:'31 October 2026',s:[
+terms:{t:'Terms of Service',u:'7 November 2026',s:[
  {h:'Acceptance of Terms',p:['By playing Blockade Board (“the Game”) you agree to these Terms. If you do not agree, please do not use the Game.','The Game is developed and operated by Tasfique Alam.']},
  {h:'Use of the Game',p:['The Game is free to play for personal, non-commercial use. You may not copy, resell, or redistribute the Game or its artwork without permission. All rights not expressly granted are reserved.']},
  {h:'Accounts and Usernames',p:['You can play as a guest, or create an account with an email address and a unique username. You are responsible for your account and for keeping your login details safe.','Usernames, bios and profile pictures must not be offensive, impersonate others, or contain links or advertising. We may change or remove any that are, and may suspend the account.']},
  {h:'Fair Play',p:['Play fairly and without outside help. Not allowed:'],l:['Bots, scripts, engines or any software that plays or advises you during a match.','Deliberately leaving or stalling matches, or arranging results with other players (win-trading) to climb the leaderboard.','Exploiting bugs, or tampering with the Game, its data or its servers.']},
  {h:'Online Conduct and Chat',p:['Be respectful. Harassment, hate speech, threats, spam and sharing personal information are not allowed. Words that break these rules may be hidden automatically, and repeated or serious offences can lead to a ban.']},
+ {h:'Computer-Controlled Players',p:['Some players you see in the lobby, in public rooms, on the leaderboard and in matches may be controlled by the computer (bots) and not by a person. They are there to keep the Game lively and to help you find a match. They can have names, flags and play styles that look like those of real players.','Matches against computer-controlled players are scored like matches against the computer.']},
  {h:'Gems, Points, Skins and Rankings',p:['Gems, points, win badges, pawns, moves and animations are virtual items for use inside the Game only. They have no cash value, cannot be exchanged for money, and may be adjusted or reset if needed to keep the Game fair or working (for example after cheating or a bug).','Leaderboard ranks update as matches are played and can change at any time.']},
  {h:'Advertising',p:['The Game may show advertisements, including optional rewarded ads. Ads are provided by third parties and we are not responsible for their content.']},
  {h:'Termination',p:['You can stop playing at any time. We may suspend or end access for anyone who breaks these Terms.']},
@@ -4918,15 +5905,19 @@ function closeLegal(){if($('lgl').classList.contains('hidden'))return;$('lgl').c
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('lgl').classList.contains('hidden'))closeLegal();},true);
 const MI={classic:'⚔️',race:'🏁',king:'👑','2v2':'🤝','3pt':'👑',ffa:'🎯'};
 async function lobbyList(){
+  let rooms=null;
+  try{const r=await(await fetch(NET.url+'/api/rooms')).json();rooms=r.rooms||[];ARENA.rooms=rooms.length;}catch(e){ARENA.rooms=null;}
+  let hb=[];try{if(typeof HB!=='undefined')hb=HB.rooms();}catch(e){}
+  try{arenaPaint();}catch(e){}
+  if(rooms===null&&!hb.length){$('rl').innerHTML='<div class="rr rlempty">Lobby unavailable</div>';return;}
+  rooms=(rooms||[]).concat(hb);
   try{
-    const r=await(await fetch(NET.url+'/api/rooms')).json();
-    try{ARENA.rooms=r.rooms.length;arenaPaint();}catch(e){}
-    $('rl').innerHTML=r.rooms.length?r.rooms.map(x=>{
+    $('rl').innerHTML=rooms.length?rooms.map(x=>{
       const team=x.cap===4&&x.mode!=='ffa',
         pips=Array.from({length:x.cap},(_,i)=>{const c=DEFC[team?i%2:i],s=x.seats&&x.seats[i];return`<span class="pip${s?'':' e'}" style="--sc:${rgbOf(c)}" title="${s?esc(maskBad(s.n)):'Waiting…'}">${s?'<i></i>':''}</span>`;}).join('');
       return`<div class="lrm"><span class="lric">${MI[x.mode]||'🎮'}</span><div class="lrb"><b>${esc(MN[x.mode]||x.mode)}${x.q?'<span class="tag">QUICK</span>':''}</b><small>${x.hc&&FL[x.hc]?flagS(x.hc):''}${esc(maskBad(x.host))} · Public</small></div><div class="lrp"><div class="pips">${pips}</div><small>${x.n}/${x.cap} joined</small></div><button class="btn yel" data-do="online:j-${x.code}">Join</button></div>`;
     }).join(''):'<div class="rr rlempty">No open public rooms yet. Create one or tap Quick Match!</div>';
-  }catch(e){$('rl').innerHTML='<div class="rr rlempty">Lobby unavailable</div>';ARENA.rooms=null;try{arenaPaint();}catch(_){}}
+  }catch(e){$('rl').innerHTML='<div class="rr rlempty">Lobby unavailable</div>';}
 }
 let lobBusy=false;
 setInterval(async()=>{if(menu.classList.contains('hidden')||document.hidden||lobBusy)return;lobBusy=true;try{await lobbyList();}finally{lobBusy=false;}},2000);   /* live room list */
@@ -4979,7 +5970,7 @@ document.addEventListener('click',e=>{
   const s=dmLoad(),m=DM.find(x=>x.id===b.dataset.dm);
   if(!m||s.c[m.id]||(s[m.id]||0)<m.max)return;
   s.c[m.id]=1;dmSave();
-  if(!DEBUG_UNLIMITED_GEMS){total+=m.g;save();}
+  if(!DEBUG_UNLIMITED_GEMS&&!devUnl){total+=m.g;save();}
   try{sfx.gem();}catch(err){}
   toast('🎯 Mission complete: +'+m.g+' 💎');
   try{render();}catch(err){}
@@ -5036,7 +6027,7 @@ function startItut(replay){
   const seen=kind==='p'?(ST.get('bb_itutp')||ST.get('bb_tut')):ST.get('bb_itut');
   if(!force&&(inv||seen))return false;
   tutKind=kind;
-  netClose();mode='bot';gmode='classic';offMode='classic';isQ=false;pubRoom=false;
+  devMatch=false;netClose();mode='bot';gmode='classic';offMode='classic';isQ=false;pubRoom=false;
   tutOn=true;tutStep=0;tutBusy=false;
   menu.classList.add('hidden');reset(false);
   document.body.classList.add('itg');
@@ -5428,8 +6419,8 @@ function frStart(){
   FR.pc=sb.channel('bb-presence',{config:{presence:{key:uid}}});
   FR.pc.on('presence',{event:'sync'},()=>{FR.on=new Set(Object.keys(FR.pc.presenceState()));frPaint();})
     .subscribe(st=>{if(st==='SUBSCRIBED')FR.pc.track({n:nm,t:Date.now()});});
-  FR.ib=sb.channel('user:'+uid).on('broadcast',{event:'invite'},m=>frGot(m.payload)).on('broadcast',{event:'frq'},()=>frLoad()).on('broadcast',{event:'pdm'},()=>{try{pdmSync();}catch(e){}}).subscribe();
-  frLoad();try{pdmStart();}catch(e){console.warn('[dm]',e);}
+  FR.ib=sb.channel('user:'+uid).on('broadcast',{event:'invite'},m=>frGot(m.payload)).on('broadcast',{event:'frq'},()=>frLoad()).on('broadcast',{event:'pdm'},()=>{try{pdmSync();}catch(e){}}).on('broadcast',{event:'gift'},()=>{try{gfClaim();}catch(e){}}).subscribe();
+  frLoad();try{pdmStart();}catch(e){console.warn('[dm]',e);}try{gfClaim();}catch(e){console.warn('[gift]',e);}
 }
 function frStop(){
   try{if(FR.pc)sb.removeChannel(FR.pc);if(FR.ib)sb.removeChannel(FR.ib);}catch(e){}
@@ -5507,6 +6498,7 @@ function arenaTick(){
   }catch(e){}
 }
 setInterval(arenaTick,2500);setTimeout(arenaTick,1200);
+const hbN=k=>{try{return typeof HB!=='undefined'?HB[k]():0;}catch(e){return 0;}};   /* human bots: players / games / open */
 function arenaPaint(){
   const el=$('arc');if(!el)return;
   let g=null,l=null;try{g=JSON.parse(ST.get('bb_gday')||'null');l=JSON.parse(ST.get('bb_glast')||'null');}catch(e){}
@@ -5514,7 +6506,7 @@ function arenaPaint(){
   const R=ARENA.rooms;
   const feed=l?`<span>${l.w?'You won':'You lost'}${l.l?' · '+esc(l.l):''}${l.m?' · '+l.m+' moves':''}</span><small>${esc(pdmAgo(l.t))}</small>`:'<span>Your next online result will show here</span><small></small>';
   el.innerHTML=`<div class="foh"><span class="fot"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Arena right now</span><span class="fos">Updates live</span></div>`
-   +`<div class="arg"><div class="fst"><b>${ARENA.players==null?'–':ARENA.players.toLocaleString()}</b><small>Players online</small></div><div class="fst"><b>${ARENA.games==null?'–':ARENA.games.toLocaleString()}</b><small>Live games</small></div><div class="fst"><b>${R==null?'–':R.toLocaleString()}</b><small>Open rooms</small></div><div class="fst"><b>${rk}</b><small>Your rank</small></div></div>`
+   +`<div class="arg"><div class="fst"><b>${(ARENA.players==null&&!hbN('players'))?'–':((ARENA.players||0)+hbN('players')).toLocaleString()}</b><small>Players online</small></div><div class="fst"><b>${(ARENA.games==null&&!hbN('games'))?'–':((ARENA.games||0)+hbN('games')).toLocaleString()}</b><small>Live games</small></div><div class="fst"><b>${(R==null&&!hbN('open'))?'–':((R||0)+hbN('open')).toLocaleString()}</b><small>Open rooms</small></div><div class="fst"><b>${rk}</b><small>Your rank</small></div></div>`
    +`<div class="arf"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>${feed}</div>`;
 }
 function wnPaint(){const el=$('wnl');if(el)el.innerHTML=WHATS_NEW.map(n=>`<div class="wni"><em>${esc(n.t)}</em><span>${esc(n.x)}</span><small>${esc(n.d)}</small></div>`).join('');}
@@ -6187,7 +7179,7 @@ function gsGo(){
   gsSave();
   tcOn=!online&&tb>0;tcB=tb;tcI=ti;gsTcSend=online&&tb>0?{b:tb,i:ti}:null;
   myCol=gsColK==='blue'?0:gsColK==='red'?1:(skin?-1:Math.floor(Math.random()*2));
-  offMode=gsMode;gsClose();
+  offMode=gsMode;gsClose(true);   /* instant: no lingering fade-out overlay on top of the new game */
   if(gsCtx==='bot'){setDiff(gsDiff);bmPick=0;midAd(()=>start('bot'),1);}
   else if(gsCtx==='local')midAd(()=>start('local'));
   else{isQ=false;netClose();create(gsMode,gsPriv?0:1);}
@@ -6284,6 +7276,282 @@ document.getElementById('bmp').addEventListener('click',function(e){if(e.target=
 (function(){var b=document.getElementById('bmp');if(!b)return;
 b.addEventListener('click',function(e){if(e.target===b&&typeof bmClose==='function')bmClose();});
 addEventListener('keydown',function(e){if(e.key==='Escape'&&!b.classList.contains('hidden')&&typeof bmClose==='function'){var z=document.getElementById('pzm');if(z&&!z.classList.contains('hidden'))return;bmClose();}});})();
+</script>
+<script>
+/* F11 toggles real fullscreen (instead of the browser's own F11 mode); Esc leaves it and the page returns to normal.
+   Esc-to-exit is handled natively by the browser's Fullscreen API, so nothing extra is needed for it. */
+(function(){
+  var de=document.documentElement;
+  function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement||null;}
+  function enter(){
+    var f=de.requestFullscreen||de.webkitRequestFullscreen;
+    if(!f)return;
+    try{var r=f.call(de);if(r&&r.catch)r.catch(function(){});}catch(e){}
+  }
+  function leave(){
+    var f=document.exitFullscreen||document.webkitExitFullscreen;
+    if(!f)return;
+    try{var r=f.call(document);if(r&&r.catch)r.catch(function(){});}catch(e){}
+  }
+  addEventListener('keydown',function(e){
+    if(e.key!=='F11'&&e.keyCode!==122)return;
+    e.preventDefault();
+    if(e.repeat)return;
+    if(fsEl())leave();else enter();
+  },true);
+})();
+</script>
+<script>
+/* Tap-loss fix: the lobby room list, the live "arena" panel and the daily-reward row were re-drawn from scratch
+   every 2 s (and every 15 s) even when nothing had changed. A finger that went down on a button just before such a
+   redraw lost its click, because the button it touched no longer existed when the finger lifted - on phones that
+   felt like "I have to tap again / press hard". Now these panels only redraw when their content really changed, and
+   never while a finger is down (the change is applied right after it lifts). */
+(function(){
+  var desc=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');
+  if(!desc||!desc.set)return;
+  var down=0,pend=[];
+  function flush(){down=0;var q=pend;pend=[];q.forEach(function(f){f();});}
+  addEventListener('pointerdown',function(){down=Date.now();},true);
+  addEventListener('pointerup',function(){setTimeout(flush,80);},true);
+  addEventListener('pointercancel',function(){setTimeout(flush,80);},true);
+  function guard(id){
+    var el=document.getElementById(id);if(!el)return;
+    var last=null,want=null,queued=false;
+    Object.defineProperty(el,'innerHTML',{
+      configurable:true,
+      get:function(){return desc.get.call(this);},
+      set:function(v){
+        v=String(v);want=v;
+        if(v===last)return;
+        if(down&&Date.now()-down<1500){
+          if(!queued){queued=true;pend.push(function(){queued=false;if(want!==last){last=want;desc.set.call(el,want);}});}
+          return;
+        }
+        last=v;desc.set.call(this,v);
+      }
+    });
+  }
+  ['rl','arc','ddays'].forEach(guard);
+})();
+</script>
+<script>
+/* show the outer banner wings only when there is free room beside the banner (not over the sidebar) */
+(function(){function f(){try{var w=document.querySelector('.herow'),h=w&&w.querySelector('.hero');if(!w||!h||!h.offsetWidth)return;var r=h.getBoundingClientRect(),sb=document.querySelector('#menu aside'),lo=sb&&sb.offsetWidth?sb.getBoundingClientRect().right:0;w.classList.toggle('nofit',r.left-lo<84||innerWidth-r.right<84)}catch(e){}}
+addEventListener('resize',f);addEventListener('load',f);setInterval(f,1500);setTimeout(f,300)})();
+</script>
+<style>
+/* PC ONLY: whole Bot Modes / Dev Panel card is clickable (mobile untouched) */
+body:not(.mob) #bmp .bmc,body:not(.mob) #dvh .dv-card{cursor:pointer}
+</style>
+<script>
+/* PC ONLY: click anywhere on a Bot Modes / Dev Panel card = press its Play / Open button */
+(function(){
+  function wire(id,cardSel,btnSel){
+    var root=document.getElementById(id);if(!root)return;
+    root.addEventListener('click',function(e){
+      if(document.body.classList.contains('mob'))return;           /* mobile: do nothing */
+      var t=e.target;
+      if(t.closest&&t.closest('button,a,input,select,textarea,label'))return;   /* real buttons keep working normally */
+      var card=t.closest&&t.closest(cardSel);if(!card||!root.contains(card))return;
+      var b=card.querySelector(btnSel);if(b)b.click();
+    });
+  }
+  wire('bmp','.bmc','button[data-do^="bm:"]');
+  wire('dvp','#dvh .dv-card','button[data-dv^="open-"]');
+})();
+</script>
+<script>
+/* ===== HUMAN BOTS (HB) =====
+   175 computer-controlled "players" that look like normal online players: nicknames, flags, rooms in the Live Lobby,
+   a live "Players online / Live games / Open rooms" count that rises and falls through the day.
+   They create and fill their own public rooms. A real player can tap Join on one of their rooms and play against them.
+   In a match they think for a different time every move, keep a different skill level from game to game and
+   spread their walls out like a person (not all at the start).
+   Kill switch: set HB_ON=false and everything returns to normal. */
+const HB=(function(){
+  const HB_ON=true,HB_LB=true,TOTAL=175;   /* HB_LB: also show the bots on the Global Leaderboard */
+  function mk(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  const S=mk(20261107);                                   /* fixed seed = the same 175 people every visit */
+  const sp=a=>a[Math.floor(S()*a.length)];
+  /* first names by country: mostly male (about 1 in 14 is female) */
+  const NM={
+    bd:{m:['Rafi','Tanvir','Arif','Hasan','Fahim','Sakib','Rakib','Imran','Shuvo','Farhan','Raihan','Tamim','Mehedi','Zubair','Sabbir','Shihab','Tonmoy','Rifat','Akash','Dipto','Labib','Sohan','Pial','Rony','Sohel','Nirjon','Mahin','Jahid','Nayeem','Sazzad','Mamun','Rubel','Kamrul','Shakil','Fardin','Ratul','Sajid','Parvez','Habib','Anik','Rahat','Sumon'],f:['Nusrat','Mim','Sadia','Tania']},
+    in:{m:['Rohan','Aman','Vikram','Arjun','Rahul','Amit','Karan','Nikhil','Siddharth','Aditya','Varun','Harsh','Pranav','Kunal','Ankit','Deepak','Manish','Sanjay','Ravi','Vivek'],f:['Priya','Neha']},
+    pk:{m:['Ali','Hamza','Bilal','Usman','Hassan','Zain','Faisal','Imran','Saad','Talha','Waqas','Adeel','Shahid','Junaid','Umair'],f:['Ayesha']},
+    us:{m:['Jake','Chris','Ethan','Noah','Liam','Tyler','Jordan','Mason','Logan','Ryan','Brandon','Kyle','Cody','Austin','Dylan'],f:['Emma']},
+    gb:{m:['Harry','Oliver','George','Jack','Charlie','Callum','Jamie','Ollie','Connor','Reece','Declan'],f:['Ruby']},
+    br:{m:['Lucas','Gabriel','Pedro','Joao','Mateus','Rafael','Thiago','Felipe','Bruno','Guilherme','Diego','Vinicius'],f:['Maria']},
+    tr:{m:['Emre','Mert','Burak','Can','Eren','Kerem','Yusuf','Ahmet','Mehmet','Onur','Baran','Cem','Hakan'],f:['Elif']},
+    id:{m:['Budi','Reza','Aditya','Rizky','Dimas','Fajar','Bagus','Andi','Agus','Yoga','Hendra','Eko','Rian'],f:['Putri']},
+    ph:{m:['Miguel','Carlo','Jerome','Mark','John','Paolo','Kenneth','Joshua','Renz','Jayson','Nico','Rey']},
+    ru:{m:['Ivan','Dmitri','Alexei','Sergei','Nikita','Artem','Maxim','Andrei','Egor','Kirill','Pavel','Danil']},
+    de:{m:['Lukas','Jonas','Felix','Leon','Finn','Niklas','Tim','Jan','Moritz','Paul','Fabian','Tobias']},
+    fr:{m:['Hugo','Louis','Theo','Maxime','Antoine','Julien','Nathan','Romain','Baptiste','Mathis','Clement']},
+    eg:{m:['Omar','Youssef','Mostafa','Ahmed','Karim','Hossam','Mahmoud','Amr','Khaled','Tarek','Ziad']},
+    sa:{m:['Faisal','Abdullah','Khalid','Fahad','Saud','Turki','Nasser','Sultan','Majed','Rayan','Yazeed']},
+    np:{m:['Sujan','Bibek','Prabin','Anish','Roshan','Suraj','Sagar','Bikash','Nabin','Rajan','Dipesh']},
+    lk:{m:['Kasun','Nuwan','Dilan','Chamara','Isuru','Sanjaya','Tharindu','Lahiru','Supun','Ravindu']},
+    my:{m:['Aiman','Hakim','Farid','Amir','Danish','Syafiq','Haziq','Irfan','Azlan','Faiz'],f:['Farah']},
+    ng:{m:['Chidi','Tunde','Emeka','Kelechi','Segun','Ifeanyi','Obinna','Damilola','Kunle','Femi']},
+    mx:{m:['Diego','Mateo','Carlos','Luis','Jorge','Javier','Miguel','Alejandro','Ricardo','Fernando','Oscar']},
+    es:{m:['Alvaro','Pablo','Adrian','Sergio','Daniel','Javier','Raul','David','Marcos','Hector']},
+    it:{m:['Marco','Luca','Matteo','Giorgio','Andrea','Alessio','Davide','Simone','Federico','Fabio']},
+    jp:{m:['Hiro','Kenji','Yuki','Takumi','Haruto','Ren','Sora','Daichi','Kaito','Shun','Ryota']},
+    ca:{m:['Ethan','Mason','Liam','Logan','Noah','Tyler','Connor','Owen','Jacob','Carter']},
+    au:{m:['Jack','Mitch','Lachlan','Blake','Hayden','Jayden','Cooper','Riley','Tyson','Brodie']},
+    ae:{m:['Hamad','Khalifa','Rashid','Mansoor','Saeed','Obaid','Salem','Zayed','Fahim']}
+  };
+  const HANDLES=['NightFox','PixelKing','BlueWolf','IronMind','ShadowX','QuietStorm','CheckMate','WallBreaker','FastFox','DarkHorse','SilverArrow','LoneWolf','Nova','Blaze','Phantom','Rocket','Viper','Zenith','Echo','Frost','Ghost','Hunter','Jinx','Knight','Maverick','Ninja','Orbit','Pilot','Quest','Raven','Sniper','Titan','Ultra','Vortex','Wizard','Xeno','Zero','CoolCat','BigBoss','SkyWalker','StarBoy','RedDragon','GoldenEagle','MazeRunner','Strategist','Gambit','Bishop','Rookie','Tactician','Pathfinder'];
+  const FLAGS=Object.keys(NM).map(k=>[k,({bd:30,in:14,pk:8,us:7,gb:5,br:5,tr:5,id:4,ph:3,ru:3,de:3,fr:2,eg:2,sa:2,np:2,lk:2,my:2,ng:2,mx:2,es:2,it:1,jp:1,ca:2,au:1,ae:2})[k]||1]);
+  function wpick(list,r){let t=0;list.forEach(x=>t+=x[1]);let u=r()*t;for(const x of list){if((u-=x[1])<=0)return x[0];}return list[0][0];}
+  const MODES=[['classic',55],['race',15],['king',12],['2v2',8],['ffa',5],['3pt',5]];
+  const DUR={classic:[4,12],race:[3,9],king:[6,14],'2v2':[8,16],ffa:[8,16],'3pt':[8,16]};   /* minutes */
+  const LV=['easy','medium','hard'];
+  /* ---------- the 175 people: the name always fits the flag ---------- */
+  const people=(function(){
+    const used=new Set(),out=[],I='ABCDEFGHIJKLMNOPRSTUVWZ';let guard=0;
+    while(out.length<TOTAL&&guard++<8000){
+      let cc=wpick(FLAGS,S);if(typeof FL!=='undefined'&&FL&&!FL[cc])continue;
+      const pool=NM[cc],fem=pool.f&&S()<.07,b=sp(fem?pool.f:pool.m),r=S();
+      let n;
+      if(r<.14)n=sp(HANDLES)+(S()<.5?Math.floor(1+S()*99):'');                         /* gamer-style handle (any country) */
+      else if(r<.30)n=b;
+      else if(r<.46)n=b+'_'+String(1+Math.floor(S()*99)).padStart(2,'0');
+      else if(r<.58)n=b.toLowerCase()+Math.floor(1996+S()*11);
+      else if(r<.70)n=b+(S()<.5?'_':'.')+cc.toUpperCase();                               /* e.g. Rafi_BD, Emre.TR */
+      else if(r<.82)n=b+I[Math.floor(S()*I.length)]+Math.floor(10+S()*89);
+      else if(r<.92)n=b+'.'+I[Math.floor(S()*I.length)];
+      else n=b+sp(['X','Pro','07','99','_x','YT']);
+      n=n.slice(0,14);if(used.has(n.toLowerCase()))continue;used.add(n.toLowerCase());
+      const q=S(),d=q<.30?'easy':q<.75?'medium':'hard',id=out.length,u=S();
+      const lbp=Math.round(25+1150*Math.pow(u,2.3)),lbw=Math.max(0,Math.round(lbp/32*(.55+S()*.5))),lbg=Math.round(lbw*(1.7+S()*.9))+Math.floor(S()*8);
+      out.push({id,name:n,cc,d,spd:.7+S()*.8,base:.6+S()*.8,use:.5+S()*.5,curve:1.2+S()*1,len:50+Math.floor(S()*50),lust:sp([.4,1,1.8]),lbp,lbw,lbg,on:false,room:null});
+    }
+    return out;
+  })();
+  /* ---------- live simulation ---------- */
+  const rooms=[];let cur=null,started=false;
+  const rnd=(a,b)=>a+Math.random()*(b-a),shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const online=()=>people.filter(p=>p.on),idle=()=>people.filter(p=>p.on&&!p.room);
+  function target(now){
+    const d=new Date(now),h=d.getHours()+d.getMinutes()/60,day=.5+.5*Math.sin((h-9)/24*2*Math.PI);
+    const f=.52+.2*day+.07*Math.sin(now/410000)+.05*Math.sin(now/97000+1.3)+.03*Math.sin(now/23000);
+    return Math.max(60,Math.min(TOTAL-8,Math.round(TOTAL*f)));
+  }
+  function wake(){const off=people.filter(p=>!p.on);if(!off.length)return null;const p=off[Math.floor(Math.random()*off.length)];p.on=true;return p;}
+  function takeIdle(){const a=idle();if(a.length)return a[Math.floor(Math.random()*a.length)];return wake();}
+  function pickMode(){return wpick(MODES,Math.random);}
+  function capOf(m){return(typeof CF!=='undefined'&&CF[m]&&CF[m].np)||2;}
+  function code(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c;do{c='';for(let i=0;i<4;i++)c+=A[Math.floor(Math.random()*A.length)];}while(rooms.some(r=>r.code===c));return c;}
+  function newRoom(st,now){
+    const m=pickMode(),cap=capOf(m),host=takeIdle();if(!host)return null;
+    const life=rnd(120000,300000);                          /* a room stays open 2-5 min */
+    const r={code:code(),mode:m,cap,seats:[host],st,made:now,life,end:0,quit:Math.random()<.07?now+life*rnd(.5,.9):0,join:[]};host.room=r;
+    for(let k=1;k<cap;k++){const lo=cap===2?.84:.5+(k-1)*.18,hi=cap===2?.96:.62+(k-1)*.17;r.join.push(rnd(lo,hi));}   /* bots arrive late and slowly */
+    if(st==='play'){while(r.seats.length<cap){const g=takeIdle();if(!g)break;g.room=r;r.seats.push(g);}const du=DUR[m]||[4,12];r.end=now+rnd(.1,1)*rnd(du[0],du[1])*60000;}
+    rooms.push(r);return r;
+  }
+  function freeRoom(r){r.seats.forEach(p=>{if(p.room===r)p.room=null;});}
+  function tick(){
+    if(!HB_ON)return;const now=Date.now();
+    for(let i=rooms.length-1;i>=0;i--){const r=rooms[i];
+      if(r.st==='play'&&now>=r.end){freeRoom(r);rooms.splice(i,1);continue;}
+      if(r.st==='wait'){
+        if(r.quit&&now>=r.quit&&r.seats.length===1){freeRoom(r);rooms.splice(i,1);continue;}   /* host gives up and leaves */
+        const age=(now-r.made)/r.life;
+        while(r.seats.length<r.cap&&age>=(r.join[r.seats.length-1]||1)){const g=takeIdle();if(!g)break;g.room=r;r.seats.push(g);}
+        if(age>=1)while(r.seats.length<r.cap){const g=takeIdle();if(!g)break;g.room=r;r.seats.push(g);}   /* time-up: the rest arrive */
+        if(r.seats.length>=r.cap){const du=DUR[r.mode]||[4,12];r.st='play';r.end=now+rnd(du[0],du[1])*60000;}
+      }
+    }
+    /* how many bots are online right now: follows a slow daily + random wave, changes a few at a time */
+    const want=target(now),on=online().length;
+    if(on<want){for(let k=0;k<Math.min(3,want-on);k++)wake();}
+    else if(on>want){const a=shuffle(idle());for(let k=0;k<Math.min(3,on-want)&&k<a.length;k++)a[k].on=false;}
+    /* open (waiting) rooms: a few at a time */
+    const wantOpen=Math.max(2,Math.min(7,Math.round(on/30+1.3*Math.sin(now/53000))));
+    let open=rooms.filter(r=>r.st==='wait').length;
+    while(open<wantOpen&&idle().length+people.filter(p=>!p.on).length>0){if(!newRoom('wait',now))break;open++;}
+    /* games in progress: about half of the online bots are playing */
+    let busy=rooms.reduce((a,r)=>a+(r.st==='play'?r.seats.length:0),0);
+    const wantBusy=Math.round(online().length*.5);let g=0;
+    while(busy<wantBusy&&g++<6){const r=newRoom('play',now);if(!r)break;busy+=r.seats.length;}
+  }
+  function init(){
+    if(started||!HB_ON)return;started=true;
+    const now=Date.now(),want=target(now);
+    shuffle(people.slice()).slice(0,want).forEach(p=>p.on=true);
+    let busy=0,g=0;while(busy<Math.round(want*.5)&&g++<80){const r=newRoom('play',now);if(!r)break;busy+=r.seats.length;}
+    for(let k=0;k<3;k++){const r=newRoom('wait',now);if(r)r.made=now-r.life*rnd(0,.4);}
+    setInterval(tick,3000);
+  }
+  /* ---------- what the rest of the game reads ---------- */
+  const api={
+    players:()=>HB_ON?online().length:0,
+    games:()=>HB_ON?rooms.filter(r=>r.st==='play').length:0,
+    open:()=>HB_ON?rooms.filter(r=>r.st==='wait').length:0,
+    rooms:()=>HB_ON?rooms.filter(r=>r.st==='wait').sort((a,b)=>b.made-a.made).map(r=>({code:r.code,mode:r.mode,q:0,host:r.seats[0].name,hc:r.seats[0].cc,cap:r.cap,n:r.seats.length,seats:r.seats.map(p=>({n:p.name})),ghost:1})):[],
+    live:()=>!!cur&&typeof mode!=='undefined'&&mode==='bot'&&!devMatch&&!pzCur,
+    clear:()=>{cur=null;},
+    delay:()=>{const per=tune();let x=1300+Math.random()*2700;const u=Math.random();
+      if(u<.14)x=650+Math.random()*700;else if(u>.9&&u<=.985)x=5500+Math.random()*6000;else if(u>.985)x=12000+Math.random()*7000;
+      if(per)x*=per.d==='hard'?1.1:per.d==='easy'?.9:1;return Math.round(x*(per?per.spd:1));},
+    join:code=>{
+      if(!HB_ON)return false;const i=rooms.findIndex(r=>r.code===String(code).toUpperCase()&&r.st==='wait');if(i<0)return false;
+      const r=rooms[i];startMatch(r);return true;
+    },
+    dress:dress,
+    /* Global Leaderboard: adds the bots to the real top list. Set HB_LB=false to show real players only. */
+    lb:(top,rank,myPts)=>{
+      if(!HB_ON||!HB_LB)return{top,rank};
+      const bots=people.map(p=>{const dd=Math.floor(Date.now()/864e5);return{n:p.name,p:p.lbp+((dd*(p.id%7+1))%23),g:p.lbg,w:p.lbw,c:p.cc,bot:1};});
+      const all=top.concat(bots).sort((a,b)=>(Number(b.p)||0)-(Number(a.p)||0)),nt=all.slice(0,100),mi=nt.findIndex(x=>x.me);
+      return{top:nt,rank:mi>=0?mi+1:rank+bots.filter(b=>b.p>(myPts||0)).length};
+    }
+  };
+  /* a person's skill changes from game to game: usually their normal level, sometimes one step up or down */
+  function variant(per){
+    let k=LV.indexOf(per.d);const u=Math.random();if(u<.18)k--;else if(u>.82)k++;k=Math.max(0,Math.min(2,k));
+    return Object.assign({},per,{d:LV[k],spd:per.spd*(.8+Math.random()*.4)});
+  }
+  function startMatch(r){
+    const np=capOf(r.mode),i=rooms.indexOf(r);if(i>=0)rooms.splice(i,1);
+    const team=r.seats.slice();while(team.length<np-1){const g=takeIdle();if(!g)break;team.push(g);}
+    team.forEach(p=>p.room={st:'you'});                 /* these bots are busy playing you for a while */
+    setTimeout(()=>team.forEach(p=>{if(p.room&&p.room.st==='you')p.room=null;}),8*60000);
+    const seats={};for(let s=2;s<=np;s++)seats[s]=variant(team[(s-2)%team.length]);
+    cur={sp:seats};
+    try{netClose();}catch(e){}
+    devMatch=false;pz=null;pzCur=null;isQ=false;pubRoom=false;mode='bot';
+    gmode=(typeof CF!=='undefined'&&CF[r.mode])?r.mode:'classic';diff=seats[2].d;
+    menu.classList.add('hidden');reset(false);
+  }
+  /* names, level and looks of the opponents (re-applied on a rematch) */
+  function dress(){
+    if(!cur)return;
+    try{names[1]=myName();}catch(e){}
+    for(let p=2;p<=np;p++){const per=cur.sp[p];if(!per)continue;
+      names[p]=per.name;bd[p]=per.d;
+      try{const sk=Object.keys(SK).filter(k=>k);if(sk.length)skins[p]=sk[Math.floor(Math.random()*sk.length)];}catch(e){}
+      try{const a=Object.keys(AK).filter(k=>k);if(a.length)anims[p]=a[Math.floor(Math.random()*a.length)];}catch(e){}
+      try{const m=Object.keys(MK).filter(k=>k);if(m.length)mvs[p]=m[Math.floor(Math.random()*m.length)];}catch(e){}
+    }
+    try{colors();}catch(e){}try{render();}catch(e){}
+  }
+  /* wall habits like a person: walls are spread over the whole game, not used up at the start */
+  function tune(){
+    const p=turn,per=cur&&cur.sp&&cur.sp[p];if(!per)return null;const B=bq[p];if(!B)return per;
+    const tot=(cfg&&cfg.walls)||10,used=Math.max(0,1-(wl[p]||0)/tot),t=Math.min(1,(tn||0)/per.len),want=per.use*Math.pow(t,per.curve);
+    B.bs=used>want+.06?.1:per.base*(.55+.9*t)*(.85+Math.random()*.3);B.lust=per.lust;if(Math.random()<.15)B.o=Math.random()<.5?'h':'v';
+    return per;
+  }
+  /* hooks into the game's own functions */
+  const _reset=window.reset;window.reset=function(){const r=_reset.apply(this,arguments);try{if(api.live())dress();}catch(e){}return r;};
+  ['start','bmStart','openMenu'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;window[n]=function(){cur=null;return f.apply(this,arguments);};});
+  setTimeout(init,1500);
+  return api;
+})();
 </script>
 </body>
 </html>

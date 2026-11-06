@@ -1,8 +1,10 @@
-/* Blockade Board server (Socket.io relay + rooms + leaderboard)
+/* Blockade Board server (Socket.io relay + rooms + leaderboard + Dev Panel admin API)
    Run on Render:  Build: npm install   Start: npm start
+   Files:  server.js, admin-server.js, index.html, package.json
    Env:   PORT (set by Render), DATA_DIR (default ./data, fallback only)
-          SUPABASE_URL + SUPABASE_ANON_KEY   (verify logged-in users)
-          SUPABASE_SERVICE_KEY               (service_role key: stores the leaderboard permanently; NEVER put it in index.html) */
+          SUPABASE_URL + SUPABASE_ANON_KEY   (verify logged-in users + admins)
+          SUPABASE_SERVICE_KEY               (service_role key: stores the leaderboard permanently; NEVER put it in index.html)
+          ADMIN_EMAILS                       (optional, comma separated; default = the 3 developer e-mails in admin-server.js) */
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -51,12 +53,12 @@ const seatInfo = s => (s ? { n: s.n, c: s.c, s: s.s } : null);
 function makeRoom(mode, pub, q) {
   const code = newCode();
   if (!code) return null;
-  const r = { code, mode, cap: CAP[mode], pub: !!pub, q: !!q, host: -1, seats: Array(CAP[mode]).fill(null), started: false, createdAt: Date.now() };
+  const r = { code, mode, cap: CAP[mode], pub: !!pub, q: !!q, host: -1, seats: Array(CAP[mode]).fill(null), started: false, createdAt: Date.now(), lastMove: Date.now(), bots: [] };
   rooms.set(code, r);
   return r;
 }
 function sit(r, socket, p, i) {
-  r.seats[i] = { id: socket.id, n: clean(p.name, 14) || 'Player', c: clean(p.c, 2).toLowerCase(), s: clean(p.s, 12) };
+  r.seats[i] = { id: socket.id, n: clean(p.name, 14) || 'Player', c: clean(p.c, 2).toLowerCase(), s: clean(p.s, 12), uid: socket.data.uid || '', ip: socket.data.ip || '' };
   if (r.host < 0) r.host = i;
   socket.join(r.code);
   socket.data.room = r.code;
@@ -75,6 +77,8 @@ function startGame(r, fillBots) {
   if (fillBots) r.seats.forEach((s, i) => { if (!s) bots.push(i + 1); });
   else if (count(r) < r.cap) return;
   r.started = true;
+  r.bots = bots;
+  r.lastMove = Date.now();
   const names = r.seats.map(s => (s ? s.n : 'Bot'));
   const cs = r.seats.map(s => (s ? s.c : ''));
   const ss = r.seats.map(s => (s ? s.s : ''));
@@ -89,6 +93,7 @@ function leave(socket) {
   if (!r) return;
   socket.leave(code);
   if (!r.seats[i] || r.seats[i].id !== socket.id) return;
+  if (r.started) admin.noteLeave(r.seats[i]);   /* rage-quit statistics for the Dev Panel AI Guard */
   r.seats[i] = null;
   if (count(r) === 0) { rooms.delete(code); return; }
   if (r.started) {
@@ -111,6 +116,10 @@ setInterval(() => {
   const now = Date.now();
   for (const [c, r] of rooms) if (count(r) === 0 || now - r.createdAt > 6 * 3600 * 1000) rooms.delete(c);
 }, 60000);
+
+/* ---------- Dev Panel admin API (see admin-server.js) ---------- */
+const admin = require('./admin-server')({ app, io, express, rooms, leave, count, clean, verifyUser: (u, t) => verifyUser(u, t), SB_URL, SB_KEY });
+io.use((socket, next) => admin.gate(socket, next));   /* identifies the player + refuses banned players */
 
 /* ---------- Socket events ---------- */
 io.on('connection', socket => {
@@ -175,6 +184,8 @@ io.on('connection', socket => {
 
   /* in-game relay: moves, walls, heartbeats, snapshots, rematch, etc. */
   socket.on('m', d => {
+    const r = rooms.get(socket.data.room);
+    if (r && d && d.k !== 'hb') r.lastMove = Date.now();   /* heartbeats do not count as activity */
     if (socket.data.room) socket.to(socket.data.room).emit('m', d);
   });
 
@@ -189,6 +200,7 @@ io.on('connection', socket => {
   socket.on('report', d => {
     if (!d || reports.length > 20) return;
     reports.push(1);
+    admin.noteReport(socket.data.room, d.p);
     console.log('[report]', JSON.stringify({ p: d.p, n: clean(d.n, 14), t: clean(d.t, 120), room: clean(d.room, 4), by: clean(d.by, 14) }));
   });
 
@@ -325,5 +337,6 @@ async function dbCount() {
 /* The game page itself (only index.html is exposed, never server.js / package.json) */
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/health', (req, res) => res.json({ ok: true, rooms: rooms.size, lbStore: useDB ? 'supabase' : 'file (temporary)' }));
+/* (the richer /api/health used by the Dev Panel is defined in admin-server.js) */
 
 server.listen(PORT, () => console.log('Blockade Board server listening on ' + PORT + ' — leaderboard store: ' + (useDB ? 'supabase' : 'file (temporary)')));
