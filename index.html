@@ -4612,7 +4612,7 @@ function render(){
   else if(gmode==='2v2'){$('gl').textContent='Both teammates reach the far side';$('gr').textContent='Team A vs Team B'+(mode==='online'?' · 40s turns':'');}
   else if(gmode==='3pt'){$('gl').textContent='👑 First team to 2 crowns';$('gr').textContent=`A ${caps[1]} – ${caps[2]} B`;}
   else{$('gl').textContent='👑 Reach the centre crown';$('gr').textContent=`${Object.keys(places).length}/2 places filled`;}
-  st.textContent=over?'Game over':!started?'Syncing players…':mode==='online'?(turn===myP?'Your Turn':`${nameOf(turn)}’s Turn`):mode==='bot'?(devMatch?`${nameOf(turn)}’s Turn`:turn===1?'Your Turn':'Bot thinking…'):`${nameOf(turn)}’s Turn`;
+  st.textContent=over?'Game over':!started?'Syncing players…':mode==='online'?(turn===myP?'Your Turn':`${nameOf(turn)}’s Turn`):mode==='bot'?(devMatch?`${nameOf(turn)}’s Turn`:turn===1?'Your Turn':(typeof HB!=='undefined'&&HB.live()?`${nameOf(turn)} is thinking…`:'Bot thinking…')):`${nameOf(turn)}’s Turn`;
   st.className='pill c'+(pc[turn]&&cu(turn)===1?1:2);
   if(pc[turn]){const k=rgbOf(pc[turn].c);st.style.color=pc[turn].c;st.style.background='rgba('+k+',.1)';st.style.borderColor='rgba('+k+',.3)';}
   st.style.color=pc[turn]?pc[turn].c:'';
@@ -4800,6 +4800,7 @@ const NET={url:'https://blockade-board.onrender.com'},
     if(t==='timeout')return 'The game server did not respond in time. It may still be waking up, so please try again in a moment. Bot and local play still work.';
     return 'Could not connect to the game server ('+NET.url.replace('https://','')+'). It may be down, or blocked by your network, VPN, or firewall. Bot and local modes still work.';
   };
+let qT=0;   /* quick-match fallback timer */
 function netUI(t,m,code,join){
   $('wr').classList.add('hidden');$('ncp').classList.add('hidden');
   $('nt').textContent=t;$('nm').textContent=m;$('nc').textContent=code||'';
@@ -4810,7 +4811,7 @@ function drop(){
   if(sock){const s=sock;sock=null;try{s.removeAllListeners();s.disconnect();}catch(e){}}
   chatSync();
 }
-function netClose(){earlyRdy=[];netTok++;drop();wrD=null;$('wr').classList.add('hidden');chatReset();}
+function netClose(){clearTimeout(qT);earlyRdy=[];netTok++;drop();wrD=null;$('wr').classList.add('hidden');chatReset();}
 function net(d){try{if(sock&&conn)sock.emit('m',d);}catch(e){flash('Connection problem');}}
 function netFail(m){netClose();netUI('Online unavailable',m||msg());}
 function connect(tok,ok,err){
@@ -5062,9 +5063,14 @@ function shareRoom(){
 }
 const myName=()=>pname||'Player';
 function quick(m){
-  const tok=++netTok;
+  const tok=++netTok;clearTimeout(qT);
   netUI('Quick Match','Finding a '+MN[m]+' room…');
   connect(tok,s=>{s.emit('quick',{mode:m,name:myName(),c:cc,s:skin});netUI('Quick Match','Finding a '+MN[m]+' room…');},e=>netFail(msg(e)));
+  /* nobody real joined after a few seconds: take an open room from the Live Lobby (or start one) so Quick Match never hangs */
+  qT=setTimeout(()=>{
+    if(tok!==netTok||mode==='online')return;
+    try{if(typeof HB!=='undefined'&&HB.quick(m)){$('net').classList.add('hidden');}}catch(e){}
+  },3500+Math.random()*2500);
 }
 function create(m='classic',pub=0){
   const tok=netTok;isHost=true;
@@ -5904,9 +5910,10 @@ function openLegal(k){
 function closeLegal(){if($('lgl').classList.contains('hidden'))return;$('lgl').classList.add('hidden');lbpTabs(lbpOn);}
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('lgl').classList.contains('hidden'))closeLegal();},true);
 const MI={classic:'⚔️',race:'🏁',king:'👑','2v2':'🤝','3pt':'👑',ffa:'🎯'};
+const lrAge=m=>{if(!m)return'';const t=Math.max(0,Math.floor((Date.now()-m)/1000));return'⏱ '+Math.floor(t/60)+':'+String(t%60).padStart(2,'0');};
 async function lobbyList(){
   let rooms=null;
-  try{const r=await(await fetch(NET.url+'/api/rooms')).json();rooms=r.rooms||[];ARENA.rooms=rooms.length;}catch(e){ARENA.rooms=null;}
+  try{const r=await(await fetch(NET.url+'/api/rooms')).json();rooms=(r.rooms||[]).map(x=>Object.assign(x,{made:Date.now()-(+x.age||0)*1000}));ARENA.rooms=rooms.length;}catch(e){ARENA.rooms=null;}
   let hb=[];try{if(typeof HB!=='undefined')hb=HB.rooms();}catch(e){}
   try{arenaPaint();}catch(e){}
   if(rooms===null&&!hb.length){$('rl').innerHTML='<div class="rr rlempty">Lobby unavailable</div>';return;}
@@ -5915,13 +5922,14 @@ async function lobbyList(){
     $('rl').innerHTML=rooms.length?rooms.map(x=>{
       const team=x.cap===4&&x.mode!=='ffa',
         pips=Array.from({length:x.cap},(_,i)=>{const c=DEFC[team?i%2:i],s=x.seats&&x.seats[i];return`<span class="pip${s?'':' e'}" style="--sc:${rgbOf(c)}" title="${s?esc(maskBad(s.n)):'Waiting…'}">${s?'<i></i>':''}</span>`;}).join('');
-      return`<div class="lrm"><span class="lric">${MI[x.mode]||'🎮'}</span><div class="lrb"><b>${esc(MN[x.mode]||x.mode)}${x.q?'<span class="tag">QUICK</span>':''}</b><small>${x.hc&&FL[x.hc]?flagS(x.hc):''}${esc(maskBad(x.host))} · Public</small></div><div class="lrp"><div class="pips">${pips}</div><small>${x.n}/${x.cap} joined</small></div><button class="btn yel" data-do="online:j-${x.code}">Join</button></div>`;
+      return`<div class="lrm"><span class="lric">${MI[x.mode]||'🎮'}</span><div class="lrb"><b>${esc(MN[x.mode]||x.mode)}${x.q?'<span class="tag">QUICK</span>':''}</b><small>${x.hc&&FL[x.hc]?flagS(x.hc):''}${esc(maskBad(x.host))} · Public${x.made?` · <span class="lrt" data-m="${x.made}">${lrAge(x.made)}</span>`:''}</small></div><div class="lrp"><div class="pips">${pips}</div><small>${x.n}/${x.cap} joined</small></div><button class="btn yel" data-do="online:j-${x.code}">Join</button></div>`;
     }).join(''):'<div class="rr rlempty">No open public rooms yet. Create one or tap Quick Match!</div>';
   }catch(e){$('rl').innerHTML='<div class="rr rlempty">Lobby unavailable</div>';}
 }
 let lobBusy=false;
 setInterval(async()=>{if(menu.classList.contains('hidden')||document.hidden||lobBusy)return;lobBusy=true;try{await lobbyList();}finally{lobBusy=false;}},2000);   /* live room list */
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!menu.classList.contains('hidden'))lobbyList();});
+setInterval(()=>{if(document.hidden)return;document.querySelectorAll('.lrt').forEach(e=>{e.textContent=lrAge(+e.dataset.m);});},1000);   /* room timers tick every second */
 /* ---------- Daily missions (PC lobby) ---------- */
 /* Daily missions: ONLY Computer, Bot Modes and Ads quests (no online / pass&play progress) */
 const BMODES=['puzzle','fog','obs','blitz'];                 /* the Bot Modes page */
@@ -7487,18 +7495,53 @@ const HB=(function(){
     setInterval(tick,3000);
   }
   /* ---------- what the rest of the game reads ---------- */
+  /* ---------- shared lobby: the SERVER runs one simulation (hb-server.js), every device just shows it ----------
+     If the server is asleep / unreachable we fall back to this device's own simulation above. */
+  let srv=null,pb=false;const taken=new Set();
+  const sv=()=>srv&&Date.now()-srv.at<15000?srv:null;
+  async function pull(){
+    if(pb||!HB_ON||typeof NET==='undefined')return;pb=true;
+    try{
+      const ac=new AbortController(),to=setTimeout(()=>ac.abort(),9000),t0=Date.now();
+      const r=await fetch(NET.url+'/api/hb',{cache:'no-store',signal:ac.signal});clearTimeout(to);
+      if(r.ok){const d=await r.json();if(d&&Array.isArray(d.rooms)){srv={at:Date.now(),off:(+d.t||Date.now())-Math.round((t0+Date.now())/2),d};taken.clear();}}
+    }catch(e){}
+    pb=false;
+  }
+  setInterval(()=>{if(!document.hidden)pull();},4000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull();});
+  const srvRooms=()=>{const s=sv();return s?s.d.rooms.filter(r=>!taken.has(r.code)&&r.seats.every(i=>people[i])):null;};
+  function srvJoin(c){try{fetch(NET.url+'/api/hb/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:c})}).catch(()=>{});}catch(e){}}
   const api={
-    players:()=>HB_ON?online().length:0,
-    games:()=>HB_ON?rooms.filter(r=>r.st==='play').length:0,
-    open:()=>HB_ON?rooms.filter(r=>r.st==='wait').length:0,
-    rooms:()=>HB_ON?rooms.filter(r=>r.st==='wait').sort((a,b)=>b.made-a.made).map(r=>({code:r.code,mode:r.mode,q:0,host:r.seats[0].name,hc:r.seats[0].cc,cap:r.cap,n:r.seats.length,seats:r.seats.map(p=>({n:p.name})),ghost:1})):[],
+    players:()=>HB_ON?(sv()?sv().d.players:online().length):0,
+    games:()=>HB_ON?(sv()?sv().d.games:rooms.filter(r=>r.st==='play').length):0,
+    open:()=>HB_ON?(srvRooms()?srvRooms().length:rooms.filter(r=>r.st==='wait').length):0,
+    rooms:()=>{
+      if(!HB_ON)return[];
+      const sr=srvRooms();
+      if(sr)return sr.map(r=>{const h=people[r.seats[0]];return{code:r.code,mode:r.mode,q:0,host:h.name,hc:h.cc,cap:r.cap,n:r.seats.length,seats:r.seats.map(i=>({n:people[i].name})),made:r.made-sv().off,ghost:1};});
+      return rooms.filter(r=>r.st==='wait').sort((a,b)=>b.made-a.made).map(r=>({code:r.code,mode:r.mode,q:0,host:r.seats[0].name,hc:r.seats[0].cc,cap:r.cap,n:r.seats.length,seats:r.seats.map(p=>({n:p.name})),made:r.made,ghost:1}));
+    },
+    /* Quick Match: take an open live room of this mode, or start one with an idle player */
+    quick:m=>{
+      if(!HB_ON)return false;
+      const sr=srvRooms(),r=sr&&sr.find(x=>x.mode===m);
+      if(r)return api.join(r.code);
+      const lr=!sr&&rooms.find(x=>x.st==='wait'&&x.mode===m);
+      if(lr){startMatch(lr);return true;}
+      const host=takeIdle();if(!host)return false;
+      startMatch({mode:m,seats:[host]});return true;
+    },
     live:()=>!!cur&&typeof mode!=='undefined'&&mode==='bot'&&!devMatch&&!pzCur,
     clear:()=>{cur=null;},
     delay:()=>{const per=tune();let x=1300+Math.random()*2700;const u=Math.random();
       if(u<.14)x=650+Math.random()*700;else if(u>.9&&u<=.985)x=5500+Math.random()*6000;else if(u>.985)x=12000+Math.random()*7000;
       if(per)x*=per.d==='hard'?1.1:per.d==='easy'?.9:1;return Math.round(x*(per?per.spd:1));},
     join:code=>{
-      if(!HB_ON)return false;const i=rooms.findIndex(r=>r.code===String(code).toUpperCase()&&r.st==='wait');if(i<0)return false;
+      if(!HB_ON)return false;
+      {const c=String(code).toUpperCase(),sr=srvRooms(),r=sr&&sr.find(x=>x.code===c);
+       if(r){taken.add(c);srvJoin(c);startMatch({mode:r.mode,seats:r.seats.map(i=>people[i])});return true;}}
+      const i=rooms.findIndex(r=>r.code===String(code).toUpperCase()&&r.st==='wait');if(i<0)return false;
       const r=rooms[i];startMatch(r);return true;
     },
     dress:dress,
@@ -7549,7 +7592,7 @@ const HB=(function(){
   /* hooks into the game's own functions */
   const _reset=window.reset;window.reset=function(){const r=_reset.apply(this,arguments);try{if(api.live())dress();}catch(e){}return r;};
   ['start','bmStart','openMenu'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;window[n]=function(){cur=null;return f.apply(this,arguments);};});
-  setTimeout(init,1500);
+  setTimeout(init,1500);setTimeout(pull,600);
   return api;
 })();
 </script>

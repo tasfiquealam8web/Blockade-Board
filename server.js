@@ -1,6 +1,6 @@
 /* Blockade Board server (Socket.io relay + rooms + leaderboard + Dev Panel admin API)
    Run on Render:  Build: npm install   Start: npm start
-   Files:  server.js, admin-server.js, index.html, package.json
+   Files:  server.js, admin-server.js, hb-server.js, index.html, package.json
    Env:   PORT (set by Render), DATA_DIR (default ./data, fallback only)
           SUPABASE_URL + SUPABASE_ANON_KEY   (verify logged-in users + admins)
           SUPABASE_SERVICE_KEY               (service_role key: stores the leaderboard permanently; NEVER put it in index.html)
@@ -120,6 +120,7 @@ setInterval(() => {
 /* ---------- Dev Panel admin API (see admin-server.js) ---------- */
 const admin = require('./admin-server')({ app, io, express, rooms, leave, count, clean, verifyUser: (u, t) => verifyUser(u, t), SB_URL, SB_KEY });
 io.use((socket, next) => admin.gate(socket, next));   /* identifies the player + refuses banned players */
+require('./hb-server')({ app });   /* shared human-bot Live Lobby: every device sees the same rooms */
 
 /* ---------- Socket events ---------- */
 io.on('connection', socket => {
@@ -214,7 +215,7 @@ app.get('/api/rooms', (req, res) => {
     if (!r.pub && !r.q) continue;
     if (r.started || count(r) === 0 || count(r) >= r.cap) continue;
     const h = r.seats[r.host];
-    list.push({ code: r.code, mode: r.mode, q: r.q, cap: r.cap, n: count(r), host: h ? h.n : 'Player', hc: h ? h.c : '', seats: r.seats.map(s => (s ? { n: s.n } : null)) });
+    list.push({ code: r.code, mode: r.mode, q: r.q, cap: r.cap, age: Math.round((Date.now() - r.createdAt) / 1000), n: count(r), host: h ? h.n : 'Player', hc: h ? h.c : '', seats: r.seats.map(s => (s ? { n: s.n } : null)) });
   }
   res.json({ rooms: list.slice(0, 30) });
 });
