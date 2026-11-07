@@ -64,11 +64,11 @@ module.exports = function initAdmin(ctx) {
   async function adminOf(req) {
     const h = String(req.headers.authorization || '');
     const tok = h.startsWith('Bearer ') ? h.slice(7).trim() : '';
-    if (!tok) { console.warn('[admin] 403: request had no Bearer token'); return null; }
-    if (!SB_URL || !SB_KEY) { console.warn('[admin] 403: SB_URL / SB_KEY are empty (set SUPABASE_URL and SUPABASE_ANON_KEY on Render)'); return null; }
-    if (typeof fetch !== 'function') { console.warn('[admin] 403: global fetch missing - Node 18+ is required (set NODE_VERSION=20 on Render)'); return null; }
+    if (!tok) { req.adminWhy = 'request had no login token (sign in again)'; console.warn('[admin] 403: request had no Bearer token'); return null; }
+    if (!SB_URL || !SB_KEY) { req.adminWhy = 'server has no SUPABASE_URL / SUPABASE_ANON_KEY (SB_URL=' + (SB_URL ? 'set' : 'EMPTY') + ', SB_KEY=' + (SB_KEY ? 'set' : 'EMPTY') + ')'; console.warn('[admin] 403: SB_URL / SB_KEY are empty (set SUPABASE_URL and SUPABASE_ANON_KEY on Render)'); return null; }
+    if (typeof fetch !== 'function') { req.adminWhy = 'server Node version too old (no fetch)'; console.warn('[admin] 403: global fetch missing - Node 18+ is required (set NODE_VERSION=20 on Render)'); return null; }
     const c = adminCache.get(tok);
-    if (c && c.exp > now()) return c.ok ? c : null;
+    if (c && c.exp > now()) { if (!c.ok) req.adminWhy = c.why || 'not an admin'; return c.ok ? c : null; }
     let rec = { ok: false, email: '', uid: '', exp: now() + 5 * 60 * 1000 };
     try {
       const r = await fetch(SB_URL + '/auth/v1/user', { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + tok } });
@@ -77,17 +77,18 @@ module.exports = function initAdmin(ctx) {
         const email = String(u.email || '').toLowerCase();
         const confirmed = !!(u.email_confirmed_at || u.confirmed_at);
         rec = { ok: confirmed && (ADMIN_EMAILS.has(email) || ADMIN_IDS.has(String(u.id).toLowerCase())), email, uid: u.id, exp: now() + 5 * 60 * 1000 };
-        if (!rec.ok) console.warn('[admin] 403: ' + (email || '(no email)') + (confirmed ? ' is not in the admin list' : ' has not confirmed its e-mail'));
-      } else { rec.exp = now() + 15 * 1000; console.warn('[admin] 403: Supabase rejected the token (HTTP ' + r.status + ') - check SUPABASE_URL / SUPABASE_ANON_KEY belong to the same project as the game'); }
-    } catch (e) { rec.exp = now() + 5 * 1000; console.warn('[admin] 403: could not reach Supabase: ' + (e && e.message)); }
+        if (!rec.ok) { rec.why = (email || '(no email)') + (confirmed ? ' is signed in but is NOT in the server admin list' : ' has NOT confirmed its e-mail in Supabase'); console.warn('[admin] 403: ' + rec.why); }
+      } else { rec.exp = now() + 15 * 1000; rec.why = 'Supabase rejected the login token (HTTP ' + r.status + ') - the server SUPABASE_URL / SUPABASE_ANON_KEY are not from the same project as the game'; console.warn('[admin] 403: Supabase rejected the token (HTTP ' + r.status + ') - check SUPABASE_URL / SUPABASE_ANON_KEY belong to the same project as the game'); }
+    } catch (e) { rec.exp = now() + 5 * 1000; rec.why = 'server could not reach Supabase: ' + (e && e.message); console.warn('[admin] 403: could not reach Supabase: ' + (e && e.message)); }
     adminCache.set(tok, rec);
+    if (!rec.ok) req.adminWhy = rec.why || 'not an admin';
     if (adminCache.size > 500) adminCache.clear();
     return rec.ok ? rec : null;
   }
   const guard = handler => async (req, res) => {
     if (rate('adm:' + ipOf(req), 600)) return res.status(429).json({ ok: false, error: 'Too many requests' });
     const a = await adminOf(req);
-    if (!a) return res.status(403).json({ ok: false, error: 'Not an admin' });
+    if (!a) return res.status(403).json({ ok: false, error: 'Not an admin: ' + (req.adminWhy || 'unknown reason') });
     try { await handler(req, res, a); }
     catch (e) { console.warn('[admin]', req.path, e && e.message); res.status(500).json({ ok: false, error: 'Server error' }); }
   };
