@@ -26,7 +26,8 @@ module.exports = function initAdmin(ctx) {
   const { app, io, express, rooms, leave, count, clean, verifyUser, SB_URL, SB_KEY } = ctx;
   const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
   const list = s => String(s || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
-  const ADMIN_EMAILS = new Set(process.env.ADMIN_EMAILS ? list(process.env.ADMIN_EMAILS) : DEFAULT_ADMINS);
+  /* the built-in developer e-mails are ALWAYS admins; ADMIN_EMAILS on Render only ADDS more (so a stale env value can no longer lock the developers out) */
+  const ADMIN_EMAILS = new Set(DEFAULT_ADMINS.concat(list(process.env.ADMIN_EMAILS)));
   const ADMIN_IDS = new Set(list(process.env.ADMIN_USER_IDS));
   const SALT = process.env.IP_SALT || 'bb-salt-v1';
   const now = () => Date.now();
@@ -63,7 +64,9 @@ module.exports = function initAdmin(ctx) {
   async function adminOf(req) {
     const h = String(req.headers.authorization || '');
     const tok = h.startsWith('Bearer ') ? h.slice(7).trim() : '';
-    if (!tok || !SB_URL || !SB_KEY) return null;
+    if (!tok) { console.warn('[admin] 403: request had no Bearer token'); return null; }
+    if (!SB_URL || !SB_KEY) { console.warn('[admin] 403: SB_URL / SB_KEY are empty (set SUPABASE_URL and SUPABASE_ANON_KEY on Render)'); return null; }
+    if (typeof fetch !== 'function') { console.warn('[admin] 403: global fetch missing - Node 18+ is required (set NODE_VERSION=20 on Render)'); return null; }
     const c = adminCache.get(tok);
     if (c && c.exp > now()) return c.ok ? c : null;
     let rec = { ok: false, email: '', uid: '', exp: now() + 5 * 60 * 1000 };
@@ -74,8 +77,9 @@ module.exports = function initAdmin(ctx) {
         const email = String(u.email || '').toLowerCase();
         const confirmed = !!(u.email_confirmed_at || u.confirmed_at);
         rec = { ok: confirmed && (ADMIN_EMAILS.has(email) || ADMIN_IDS.has(String(u.id).toLowerCase())), email, uid: u.id, exp: now() + 5 * 60 * 1000 };
-      } else rec.exp = now() + 15 * 1000;
-    } catch (e) { rec.exp = now() + 5 * 1000; }
+        if (!rec.ok) console.warn('[admin] 403: ' + (email || '(no email)') + (confirmed ? ' is not in the admin list' : ' has not confirmed its e-mail'));
+      } else { rec.exp = now() + 15 * 1000; console.warn('[admin] 403: Supabase rejected the token (HTTP ' + r.status + ') - check SUPABASE_URL / SUPABASE_ANON_KEY belong to the same project as the game'); }
+    } catch (e) { rec.exp = now() + 5 * 1000; console.warn('[admin] 403: could not reach Supabase: ' + (e && e.message)); }
     adminCache.set(tok, rec);
     if (adminCache.size > 500) adminCache.clear();
     return rec.ok ? rec : null;
