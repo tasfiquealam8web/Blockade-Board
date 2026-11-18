@@ -349,6 +349,10 @@ const STATIC_FILES = {
   'favicon-96.png': ['image/png', 'public, max-age=86400'],
   'favicon-192.png': ['image/png', 'public, max-age=86400'],
   'apple-touch-icon.png': ['image/png', 'public, max-age=86400'],
+  'ads.txt': ['text/plain; charset=utf-8', 'public, max-age=3600'],
+  'robots.txt': ['text/plain; charset=utf-8', 'public, max-age=3600'],
+  'sitemap.xml': ['application/xml; charset=utf-8', 'public, max-age=3600'],
+  'google95a272f49c1335db.html': ['text/html; charset=utf-8', 'public, max-age=3600'],
   'blockade-board.apk': ['application/vnd.android.package-archive', 'no-cache', 'attachment'],
   'blockade-board-setup.exe': ['application/octet-stream', 'no-cache', 'attachment'],
   'blockade-board.dmg': ['application/octet-stream', 'no-cache', 'attachment']
