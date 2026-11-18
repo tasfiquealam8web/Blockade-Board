@@ -24,6 +24,7 @@ const DEFAULT_ADMINS = ['ffmacro79@gmail.com', 'shayon.shayonee16@gmail.com', 't
 
 module.exports = function initAdmin(ctx) {
   const { app, io, express, rooms, leave, count, clean, verifyUser, SB_URL, SB_KEY } = ctx;
+  const SBS = ctx.sb || { ok: false };
   const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
   const list = s => String(s || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
   /* the built-in developer e-mails are ALWAYS admins; ADMIN_EMAILS on Render only ADDS more (so a stale env value can no longer lock the developers out) */
@@ -154,6 +155,7 @@ module.exports = function initAdmin(ctx) {
     const key = clean(d.k || d.sid || d.uid, 40);
     if (!key) return res.status(400).end();
     if (d.x) { live.delete(key); return res.status(204).end(); }
+    try { touch(d); } catch (e) {}
     const g = Math.max(0, Math.min(1e9, Math.round(+d.g) || 0));
     const old = live.get(key);
     const jump = old && g > old.g ? g - old.g : 0;
@@ -215,6 +217,130 @@ module.exports = function initAdmin(ctx) {
   /* ---------- admin: health / live ---------- */
   A('get', '/health', (req, res) => res.json({ ok: true, cur, hist, meta: { host: os.hostname(), node: process.version } }));
   A('get', '/live', (req, res) => res.json({ ok: true, players: livePlayers(), rooms: roomList(), hist: pop }));
+
+
+  /* ---------- Growth & per-user stats (Dev Panel > Growth & Users) ----------
+     One record per device id (d.did). Saved permanently in Supabase table public.bb_users (see growth.sql)
+     when SUPABASE_SERVICE_KEY is set, otherwise in DATA_DIR/users.json (temporary on Render free). */
+  const U = new Map();            // device id -> record
+  const dirtyU = new Set();
+  const dayOf = t => new Date(t).toISOString().slice(0, 10);
+  const U_FILE = path.join(DATA_DIR, 'users.json');
+  const newU = id => ({ id, uid: '', n: '', c: '', pl: '', first: now(), last: 0, days: [], visits: 0, sec: 0, appSec: 0, app: 0, inst: 0, instAt: 0, ic: 0, games: 0, modes: {}, adC: 0, adD: 0, logins: 0, signup: 0, lastLogin: 0 });
+  const uOf = id => { let u = U.get(id); if (!u) { u = newU(id); U.set(id, u); } return u; };
+  const didOf = d => clean(d && d.did, 40);
+  function stamp(u) {
+    const t = now(), dd = dayOf(t);
+    if (!u.last || t - u.last > 30 * 60000) u.visits++;
+    if (u.days[u.days.length - 1] !== dd) { u.days.push(dd); if (u.days.length > 90) u.days.shift(); }
+  }
+  function touch(d) {
+    const id = didOf(d); if (!id) return;
+    const u = uOf(id), t = now(), dt = u.last ? t - u.last : 0;
+    stamp(u);
+    if (u.last && dt > 0 && dt <= 45000) { u.sec += Math.round(dt / 1000); if (d.app) u.appSec += Math.round(dt / 1000); }
+    u.last = t;
+    if (/^[0-9a-f-]{36}$/i.test(String(d.uid || ''))) u.uid = String(d.uid);
+    if (d.n) u.n = clean(d.n, 24);
+    if (d.c) u.c = clean(d.c, 2).toLowerCase();
+    u.pl = d.pl === 'm' ? 'm' : 'd';
+    if (d.app) { u.app = 1; if (!u.inst) { u.inst = 1; u.instAt = t; } }
+    if (d.ins && !u.inst) { u.inst = 1; u.instAt = t; }
+    dirtyU.add(id);
+  }
+  const EVS = ['install_click', 'installed', 'ad_click', 'ad_done', 'signup', 'login', 'game'];
+  app.post('/api/track', (req, res) => {
+    if (rate('trk:' + ipOf(req), 120)) return res.status(429).end();
+    let d = req.body;
+    if (typeof d === 'string') { try { d = JSON.parse(d); } catch (e) { d = null; } }
+    if (!d || typeof d !== 'object') return res.status(400).end();
+    const id = didOf(d), ev = String(d.ev || '');
+    if (!id || !EVS.includes(ev)) return res.status(400).end();
+    const u = uOf(id), t = now();
+    stamp(u); u.last = Math.max(u.last, t);
+    if (/^[0-9a-f-]{36}$/i.test(String(d.uid || ''))) u.uid = String(d.uid);
+    if (d.n) u.n = clean(d.n, 24);
+    if (d.c) u.c = clean(d.c, 2).toLowerCase();
+    if (d.pl) u.pl = d.pl === 'm' ? 'm' : 'd';
+    if (ev === 'install_click') u.ic++;
+    else if (ev === 'installed') { u.inst = 1; if (!u.instAt) u.instAt = t; }
+    else if (ev === 'ad_click') u.adC++;
+    else if (ev === 'ad_done') u.adD++;
+    else if (ev === 'signup') u.signup = u.signup || t;
+    else if (ev === 'login') { u.logins++; u.lastLogin = t; }
+    else if (ev === 'game') { u.games++; const m = clean(d.m, 10) || 'other'; u.modes[m] = (u.modes[m] || 0) + 1; }
+    dirtyU.add(id);
+    res.status(204).end();
+  });
+
+  async function loadU() {
+    try {
+      if (SBS.ok) {
+        const rows = await (await SBS.rest('GET', 'bb_users?select=id,data&order=updated_at.desc&limit=20000')).json();
+        rows.forEach(r => { if (r && r.id && r.data && !U.has(r.id)) U.set(r.id, Object.assign(newU(r.id), r.data)); });
+      } else {
+        const j = JSON.parse(fs.readFileSync(U_FILE, 'utf8'));
+        Object.keys(j).forEach(k => { if (!U.has(k)) U.set(k, Object.assign(newU(k), j[k])); });
+      }
+      console.log('[growth] loaded ' + U.size + ' users (' + (SBS.ok ? 'supabase' : 'file') + ')');
+    } catch (e) { console.warn('[growth] load failed:', e && e.message, SBS.ok ? '(did you run growth.sql in Supabase?)' : ''); }
+  }
+  async function saveU() {
+    if (!dirtyU.size) return;
+    const ids = Array.from(dirtyU).slice(0, 300); ids.forEach(i => dirtyU.delete(i));
+    try {
+      if (SBS.ok) {
+        await SBS.rest('POST', 'bb_users?on_conflict=id', ids.map(i => ({ id: i, data: U.get(i), updated_at: new Date().toISOString() })), { Prefer: 'resolution=merge-duplicates,return=minimal' });
+      } else {
+        const o = {}; U.forEach((v, k) => { o[k] = v; });
+        fs.mkdirSync(DATA_DIR, { recursive: true }); fs.writeFile(U_FILE, JSON.stringify(o), () => {});
+      }
+    } catch (e) { ids.forEach(i => dirtyU.add(i)); console.warn('[growth] save failed:', e && e.message); }
+  }
+  loadU();
+  setInterval(saveU, 60000).unref();
+  process.on('SIGTERM', () => { saveU().finally(() => {}); });
+
+  /* merge device records of the same account into one person */
+  function people() {
+    const m = new Map();
+    U.forEach(u => {
+      const k = u.uid ? 'u:' + u.uid : 'd:' + u.id;
+      let p = m.get(k);
+      if (!p) { p = { id: k, uid: u.uid || '', n: u.n || '', c: u.c || '', pl: u.pl, first: u.first, last: u.last, days: new Set(), visits: 0, sec: 0, appSec: 0, inst: 0, instAt: 0, ic: 0, games: 0, modes: {}, adC: 0, adD: 0, logins: 0, signup: 0, lastLogin: 0, devices: 0 }; m.set(k, p); }
+      p.devices++; p.first = Math.min(p.first, u.first || p.first); p.last = Math.max(p.last, u.last || 0);
+      if (u.n) p.n = u.n; if (u.c) p.c = u.c;
+      (u.days || []).forEach(x => p.days.add(x));
+      p.visits += u.visits; p.sec += u.sec; p.appSec += u.appSec; p.ic += u.ic; p.games += u.games; p.adC += u.adC; p.adD += u.adD; p.logins += u.logins;
+      if (u.inst) { p.inst = 1; p.instAt = p.instAt ? Math.min(p.instAt, u.instAt || p.instAt) : u.instAt; }
+      if (u.signup) p.signup = p.signup ? Math.min(p.signup, u.signup) : u.signup;
+      p.lastLogin = Math.max(p.lastLogin, u.lastLogin);
+      Object.keys(u.modes || {}).forEach(k2 => { p.modes[k2] = (p.modes[k2] || 0) + u.modes[k2]; });
+    });
+    return Array.from(m.values());
+  }
+  A('get', '/growth', (req, res) => {
+    const t = now(), today = dayOf(t), d7 = dayOf(t - 6 * 864e5), P = people(), DAY = 864e5;
+    const days7 = p => Array.from(p.days).filter(x => x >= d7).length;
+    const out = P.map(p => {
+      const d7n = days7(p);
+      const status = t - p.first < 2 * DAY ? 'new' : (d7n >= 3 ? 'regular' : (t - p.last > 7 * DAY ? 'inactive' : 'casual'));
+      return { id: p.id, uid: p.uid, n: p.n, c: p.c, pl: p.pl, acct: !!p.uid, first: p.first, last: p.last, days: p.days.size, days7: d7n, visits: p.visits, sec: p.sec, appSec: p.appSec,
+        inst: p.inst, instAt: p.instAt, ic: p.ic, games: p.games, modes: p.modes, adC: p.adC, adD: p.adD, logins: p.logins, signup: p.signup, lastLogin: p.lastLogin, devices: p.devices, status };
+    });
+    const sum = f => out.reduce((a, x) => a + f(x), 0), cnt = f => out.filter(f).length;
+    const dmap = new Map(P.map(p => [p.id, p.days]));
+    const coh = n => { const el = out.filter(p => t - p.first >= n * DAY), want = p => dayOf(p.first + n * DAY); return { n: el.length, back: el.filter(p => Array.from(dmap.get(p.id)).some(x => x >= want(p))).length }; };
+    const modes = {}; out.forEach(p => Object.keys(p.modes).forEach(k => { modes[k] = (modes[k] || 0) + p.modes[k]; }));
+    const newByDay = {}; out.forEach(p => { const k = dayOf(p.first); newByDay[k] = (newByDay[k] || 0) + 1; });
+    const series = []; for (let i = 13; i >= 0; i--) { const k = dayOf(t - i * DAY); let act = 0; dmap.forEach(ds => { if (ds.has(k)) act++; }); series.push({ d: k, n: newByDay[k] || 0, a: act }); }
+    out.sort((a, b) => b.last - a.last);
+    res.json({ ok: true, now: t, store: SBS.ok ? 'supabase' : 'file (temporary)',
+      tot: { people: out.length, accounts: cnt(x => x.acct), guests: cnt(x => !x.acct), installed: cnt(x => x.inst), appUsers: cnt(x => x.appSec > 0), dau: cnt(x => dayOf(x.last) === today), wau: cnt(x => t - x.last <= 7 * DAY),
+        regular: cnt(x => x.status === 'regular'), installClicks: sum(x => x.ic), adClicks: sum(x => x.adC), adDone: sum(x => x.adD), logins: sum(x => x.logins), signups: cnt(x => x.signup), games: sum(x => x.games), sec: sum(x => x.sec), appSec: sum(x => x.appSec),
+        d1: coh(1), d7: coh(7) },
+      modes, series, users: out.slice(0, 500) });
+  });
 
   /* ---------- admin: rooms ---------- */
   function roomList() {
