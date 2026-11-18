@@ -118,7 +118,7 @@ setInterval(() => {
 }, 60000);
 
 /* ---------- Dev Panel admin API (see admin-server.js) ---------- */
-const admin = require('./admin-server')({ app, io, express, rooms, leave, count, clean, verifyUser: (u, t) => verifyUser(u, t), SB_URL, SB_KEY });
+const admin = require('./admin-server')({ app, io, express, rooms, leave, count, clean, verifyUser: (u, t) => verifyUser(u, t), SB_URL, SB_KEY, sb: { ok: useDB, rest: (...a) => sbRest(...a) } });
 io.use((socket, next) => admin.gate(socket, next));   /* identifies the player + refuses banned players */
 require('./hb-server')({ app });   /* shared human-bot Live Lobby: every device sees the same rooms */
 
@@ -333,6 +333,37 @@ async function dbCount() {
   const r = await sbRest('GET', 'leaderboard?select=key&limit=1', null, { Prefer: 'count=exact' });
   return +(String(r.headers.get('content-range') || '').split('/')[1]) || 0;
 }
+
+/* ---------- App install files (manifest, service worker, icons, downloads) ----------
+   Strict whitelist: only these exact names are served, from ./public/ (or next to server.js).
+   Put blockade-board.apk / blockade-board-setup.exe / blockade-board.dmg in the same place to enable real downloads. */
+const STATIC_FILES = {
+  'manifest.webmanifest': ['application/manifest+json', 'no-cache'],
+  'sw.js': ['application/javascript', 'no-cache'],
+  'icon-192.png': ['image/png', 'public, max-age=86400'],
+  'icon-512.png': ['image/png', 'public, max-age=86400'],
+  'icon-maskable-512.png': ['image/png', 'public, max-age=86400'],
+  'favicon.svg': ['image/svg+xml', 'public, max-age=86400'],
+  'favicon.ico': ['image/x-icon', 'public, max-age=86400'],
+  'favicon-48.png': ['image/png', 'public, max-age=86400'],
+  'favicon-96.png': ['image/png', 'public, max-age=86400'],
+  'favicon-192.png': ['image/png', 'public, max-age=86400'],
+  'apple-touch-icon.png': ['image/png', 'public, max-age=86400'],
+  'blockade-board.apk': ['application/vnd.android.package-archive', 'no-cache', 'attachment'],
+  'blockade-board-setup.exe': ['application/octet-stream', 'no-cache', 'attachment'],
+  'blockade-board.dmg': ['application/octet-stream', 'no-cache', 'attachment']
+};
+Object.keys(STATIC_FILES).forEach(name => {
+  app.get('/' + name, (req, res) => {
+    const [type, cache, disp] = STATIC_FILES[name];
+    const f = [path.join(__dirname, 'public', name), path.join(__dirname, name)].find(p => fs.existsSync(p));
+    if (!f) return res.status(404).end();
+    res.set('Content-Type', type);
+    res.set('Cache-Control', cache);
+    if (disp) res.set('Content-Disposition', 'attachment; filename="' + name + '"');
+    res.sendFile(f);
+  });
+});
 
 /* ---------- Game page + Health ---------- */
 /* The game page itself (only index.html is exposed, never server.js / package.json) */
